@@ -1,1 +1,1 @@
-console.log("Hello Three.js!");
+console.log("Hello Three.js!", THREE);
