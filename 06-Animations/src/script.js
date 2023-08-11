@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import gsap from "gsap";
 
 /**
  * requestAnimationFrame is to call the function provided on the next frame.
@@ -10,6 +11,19 @@ import * as THREE from "three";
  * * differ based on the refresh rate of the device.
  *
  * If you want to have more control, create tweens, create timelines, etc., you can use a library like GSAP.
+ *
+ * * GreenSock Animation Platform
+ * ? https://github.com/greensock/GSAP
+ *
+ * GSAP is a robust JavaScript toolset that turns developers into
+ * animation superheroes. Build high-performance animations that work in every major browser.
+ * Animate CSS, SVG, canvas, React, Vue, WebGL, colors, strings, motion paths, generic objects...
+ * anything JavaScript can touch!
+ *
+ * GSAP figures out the current values automatically (you don't need to define starting values,
+ * though you can in a fromTo() tween). Since GSAP can animate any property of any object, you are
+ * NOT limited to CSS properties or DOM objects. Go crazy. You may be surprised by how many things
+ * can be animated with GSAP and it "just works".
  */
 
 // Canvas
@@ -45,7 +59,15 @@ renderer.setSize(sizes.width, sizes.height);
 // let time = Date.now();
 
 // Clock
-const clock = new THREE.Clock();
+// const clock = new THREE.Clock();
+
+/**
+ * Tweens
+ *
+ * To simply fire off animations and let them run, there's no need to use variables. Tweens play
+ * immediately by default and when the finish, they automatically dispose of themselves.
+ */
+gsap.to(mesh.position, { duration: 1, delay: 1, x: 2 });
 
 // Animations
 const tick = () => {
@@ -61,7 +83,7 @@ const tick = () => {
     // time = currentTime;
 
     // Clock
-    const elapsedTime = clock.getElapsedTime();
+    // const elapsedTime = clock.getElapsedTime();
 
     // Update Objects
     // mesh.position.x += 0.01;
@@ -70,9 +92,9 @@ const tick = () => {
     // mesh.rotation.x = elapsedTime;
     // The following gives you 1 full rotation per second. Try using other Math methods! Math.sin()
     // mesh.rotation.y = elapsedTime * Math.PI() * 2;
-    camera.position.y = Math.sin(elapsedTime);
-    camera.position.x = Math.cos(elapsedTime);
-    camera.lookAt(mesh.position);
+    // camera.position.y = Math.sin(elapsedTime);
+    // camera.position.x = Math.cos(elapsedTime);
+    // camera.lookAt(mesh.position);
 
     // Render
     renderer.render(scene, camera);
