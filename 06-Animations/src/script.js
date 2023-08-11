@@ -4,8 +4,12 @@ import * as THREE from "three";
  * requestAnimationFrame is to call the function provided on the next frame.
  * This will be called on each frame.
  *
+ * ! Do NOT use the getDelta method (might need fixing).
+ *
  * * Need to adapt to the framerate or else the speed of the animations will
  * * differ based on the refresh rate of the device.
+ *
+ * If you want to have more control, create tweens, create timelines, etc., you can use a library like GSAP.
  */
 
 // Canvas
@@ -38,7 +42,10 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 
 // Time
-let time = Date.now();
+// let time = Date.now();
+
+// Clock
+const clock = new THREE.Clock();
 
 // Animations
 const tick = () => {
@@ -49,13 +56,23 @@ const tick = () => {
      * you ensure that the speed is the same regardless
      * of the framerate.
      */
-    const currentTime = Date.now();
-    const deltaTime = currentTime - time;
-    time = currentTime;
+    // const currentTime = Date.now();
+    // const deltaTime = currentTime - time;
+    // time = currentTime;
+
+    // Clock
+    const elapsedTime = clock.getElapsedTime();
 
     // Update Objects
     // mesh.position.x += 0.01;
-    mesh.rotation.y += 0.001 * deltaTime;
+    // mesh.rotation.y += 0.001 * deltaTime;
+    // Unlike with using time, the translation is set to the elapsed time.
+    // mesh.rotation.x = elapsedTime;
+    // The following gives you 1 full rotation per second. Try using other Math methods! Math.sin()
+    // mesh.rotation.y = elapsedTime * Math.PI() * 2;
+    camera.position.y = Math.sin(elapsedTime);
+    camera.position.x = Math.cos(elapsedTime);
+    camera.lookAt(mesh.position);
 
     // Render
     renderer.render(scene, camera);
