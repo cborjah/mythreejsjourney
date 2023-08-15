@@ -1,6 +1,30 @@
 import * as THREE from "three";
 
 /**
+ * Cursor
+ *
+ * To get the cursor values to start from 1 and increase, divide by the canvas/viewport
+ * height and width.
+ */
+const cursor = {
+    x: 0,
+    y: 0
+};
+
+window.addEventListener("mousemove", event => {
+    // To have the values start at 0, divide the value by window height or width.
+    // cursor.x = event.clientX / sizes.width;
+    // cursor.y = event.clientY / sizes.height;
+
+    // Subtract 0.5 from in addition to have negative and positive values.
+    cursor.x = event.clientX / sizes.width - 0.5;
+    cursor.y = event.clientY / sizes.height - 0.5;
+
+    // console.log("x", cursor.x);
+    // console.log("y", cursor.y);
+});
+
+/**
  * Camera
  *
  * Camera is an abstract class. You're not supposed to use it directly.
@@ -67,9 +91,9 @@ const camera = new THREE.PerspectiveCamera(
 //     0.1,
 //     100
 // );
-camera.position.x = 2;
-camera.position.y = 2;
-camera.position.z = 2;
+// camera.position.x = 2;
+// camera.position.y = 2;
+camera.position.z = 3;
 camera.lookAt(mesh.position);
 scene.add(camera);
 
@@ -86,7 +110,29 @@ const tick = () => {
     const elapsedTime = clock.getElapsedTime();
 
     // Update objects
-    mesh.rotation.y = elapsedTime;
+    // mesh.rotation.y = elapsedTime;
+
+    // Update Camera
+    // camera.position.x = cursor.x * 10; // x values increase when mouse moves RIGHT
+    // camera.position.y = cursor.y * -10; // y values increase when mouse moves DOWN
+    // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3;
+    // camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3;
+    // camera.position.y = cursor.y * 5;
+
+    // camera.lookAt(new THREE.Vector3()); // Vector3 is a point in 3D space in this case.
+    // camera.lookAt(mesh.position); // Instead of creating a new Vector3 every tick, use the cube which is also at the center.
+
+    /**
+     * Built-in Controls
+     * https://threejs.org/docs/index.html?q=controls#examples/en/controls/
+     *
+     * Instead of manually setting the camera position using the cursor, utilize the controls
+     * provided by Three.js.
+     *
+     * * TransformControls works differently than the other cameras. It can be used to make
+     * * an editor for example.
+     * * DragControls is the same. It is used to move objects.
+     */
 
     // Render
     renderer.render(scene, camera);
