@@ -1,5 +1,9 @@
 import * as THREE from "three";
 
+// * In the latest versions of Three.js, you can use /addons/ instead of /examples/jsm/
+// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "three/addons/controls/OrbitControls";
+
 /**
  * Cursor
  *
@@ -97,6 +101,13 @@ camera.position.z = 3;
 camera.lookAt(mesh.position);
 scene.add(camera);
 
+// Controls
+// OrbitControls( object : Camera, domElement : HTMLDOMElement )
+// object: (required) The camera to be controlled. The camera must not be a child of another object, unless that object is the scene itself.
+// domElement: The HTML element used for event listeners.
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+
 // Renderer
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
@@ -133,6 +144,9 @@ const tick = () => {
      * * an editor for example.
      * * DragControls is the same. It is used to move objects.
      */
+
+    // Update Controls
+    controls.update(); // ! If you are using damping, you need to update the camera on each frame.
 
     // Render
     renderer.render(scene, camera);
