@@ -13,9 +13,17 @@ const scene = new THREE.Scene();
 // Object
 // const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
 
-const positionsArray = new Float32Array([0, 0, 0, 0, 1, 0, 1, 0, 0]);
-const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3);
 const geometry = new THREE.BufferGeometry();
+const count = 50; // Set how many triangles to render
+const positionsArray = new Float32Array(count * 3 * 3); // Each triangle will be composed of 3 vertices, each vertex will be composed of 3 values.
+
+// Fill positionsArray with random values
+for (let i = 0; i < count * 3 * 3; i++) {
+    // positionsArray[i] = Math.random(); // 0 - 1
+    positionsArray[i] = Math.random() - 0.5; // -0.5 - 0.5 (Centered)
+}
+
+const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3); // Don't forget to provide how many values to take per vertex. In this case it's 3.
 geometry.setAttribute("position", positionsAttribute);
 
 const material = new THREE.MeshBasicMaterial({
