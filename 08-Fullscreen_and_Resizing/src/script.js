@@ -30,6 +30,22 @@ const sizes = {
     height: window.innerHeight
 };
 
+// Handles Window Resizing
+window.addEventListener("resize", () => {
+    // Update sizes
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
+
+    // ! Make sure to update the renderer...
+    renderer.setSize(sizes.width, sizes.height);
+
+    // Update camera
+    camera.aspect = sizes.width / sizes.height;
+
+    // ! When changing properties like aspect, you need to call the following...
+    camera.updateProjectionMatrix();
+});
+
 /**
  * Camera
  */

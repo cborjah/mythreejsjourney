@@ -1,9 +1,17 @@
 * {
     margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    /* Setting overflow to hidden ensures the page is impossible to scroll */
+    overflow: hidden;
 }
 
 .webgl {
     position: fixed;
     top: 0;
     left: 0;
+    outline: none; /* Removes blue outline at edges */
 }
