@@ -1,23 +1,50 @@
-import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import gsap from 'gsap'
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import gsap from "gsap";
+import GUI from "lil-gui";
+
+/**
+ * Debug GUI
+ *
+ * * The GUI tweaks an object's properties.
+ */
+const gui = new GUI();
+const parameters = {
+    color: "0xff0000"
+};
 
 /**
  * Base
  */
 // Canvas
-const canvas = document.querySelector('canvas.webgl')
+const canvas = document.querySelector("canvas.webgl");
 
 // Scene
-const scene = new THREE.Scene()
+const scene = new THREE.Scene();
 
 /**
  * Object
  */
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({ color: parameters.color });
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+
+// ! Debug START
+gui.add(mesh.position, "y").min(-3).max(3).step(0.01).name("elevation");
+
+// * Can also pass in min, max, precision, name, ...etc. as additional parameters.
+// gui.add(mesh.position, "y", -3, 3, 0.01);
+
+gui.add(mesh, "visible");
+
+// gui.add(mesh.material, "wireframe");
+gui.add(material, "wireframe");
+
+gui.addColor(parameters, "color").onChange(() => {
+    material.color.set(parameters.color);
+});
+// ! Debug END
 
 /**
  * Sizes
@@ -25,61 +52,64 @@ scene.add(mesh)
 const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
-}
+};
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener("resize", () => {
     // Update sizes
-    sizes.width = window.innerWidth
-    sizes.height = window.innerHeight
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
 
     // Update camera
-    camera.aspect = sizes.width / sizes.height
-    camera.updateProjectionMatrix()
+    camera.aspect = sizes.width / sizes.height;
+    camera.updateProjectionMatrix();
 
     // Update renderer
-    renderer.setSize(sizes.width, sizes.height)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-})
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
 
 /**
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.z = 3
-scene.add(camera)
+const camera = new THREE.PerspectiveCamera(
+    75,
+    sizes.width / sizes.height,
+    0.1,
+    100
+);
+camera.position.z = 3;
+scene.add(camera);
 
 // Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
 
 /**
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
-})
-renderer.setSize(sizes.width, sizes.height)
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+});
+renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 /**
  * Animate
  */
-const clock = new THREE.Clock()
+const clock = new THREE.Clock();
 
-const tick = () =>
-{
-    const elapsedTime = clock.getElapsedTime()
+const tick = () => {
+    const elapsedTime = clock.getElapsedTime();
 
     // Update controls
-    controls.update()
+    controls.update();
 
     // Render
-    renderer.render(scene, camera)
+    renderer.render(scene, camera);
 
     // Call tick again on the next frame
-    window.requestAnimationFrame(tick)
-}
+    window.requestAnimationFrame(tick);
+};
 
-tick()
+tick();
