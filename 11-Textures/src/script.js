@@ -17,11 +17,34 @@ THREE.ColorManagement.enabled = false;
 // };
 // image.src = "/textures/door/color.jpg";
 
-// * TextureLoader method
-const textureLoader = new THREE.TextureLoader();
+const loadingManager = new THREE.LoadingManager(); // Use a LoadingManager to mutualize events (load multiple textures)
 
-// You can use 3 callbacks after the path (load, progress, error)
-const texture = textureLoader.load("/textures/door/color.jpg");
+loadingManager.onStart = () => {
+    console.log("onStart");
+};
+loadingManager.onLoad = () => {
+    console.log("onLoad");
+};
+loadingManager.onProgress = () => {
+    console.log("onProgress");
+};
+loadingManager.onError = () => {
+    console.log("onError");
+};
+
+// * TextureLoader method
+const textureLoader = new THREE.TextureLoader(loadingManager);
+
+// You can use 3 callbacks after the path (load, progress, error). Can use a LoadingManager instead of the callbacks.
+const colorTexture = textureLoader.load("/textures/door/color.jpg");
+const alphaTexture = textureLoader.load("/textures/door/alpha.jpg");
+const heightTexture = textureLoader.load("/textures/door/height.jpg");
+const normalTexture = textureLoader.load("/textures/door/normal.jpg");
+const ambientOcclusionTexture = textureLoader.load(
+    "/textures/door/ambientOcclusion.jpg"
+);
+const metalnessTexture = textureLoader.load("/textures/door/metalness.jpg");
+const roughnessTexture = textureLoader.load("/textures/door/roughness.jpg");
 
 /**
  * Base
@@ -36,7 +59,7 @@ const scene = new THREE.Scene();
  * Object
  */
 const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ map: texture });
+const material = new THREE.MeshBasicMaterial({ map: colorTexture });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
