@@ -6,14 +6,22 @@ THREE.ColorManagement.enabled = false;
 /**
  * Textures
  */
-const image = new Image();
-const texture = new THREE.Texture(image);
 
-image.onload = () => {
-    // Create the texture outside of the function and update it once the image is loaded
-    texture.needsUpdate = true;
-};
-image.src = "/textures/door/color.jpg";
+// * Manual method
+// const image = new Image();
+// const texture = new THREE.Texture(image);
+
+// image.onload = () => {
+//     // Create the texture outside of the function and update it once the image is loaded
+//     texture.needsUpdate = true;
+// };
+// image.src = "/textures/door/color.jpg";
+
+// * TextureLoader method
+const textureLoader = new THREE.TextureLoader();
+
+// You can use 3 callbacks after the path (load, progress, error)
+const texture = textureLoader.load("/textures/door/color.jpg");
 
 /**
  * Base
