@@ -47,6 +47,60 @@ const metalnessTexture = textureLoader.load("/textures/door/metalness.jpg");
 const roughnessTexture = textureLoader.load("/textures/door/roughness.jpg");
 
 /**
+ * Mipmapping
+ *
+ * Mipmapping (or "mip mapping" with a space) is a technique that consists of creating half a
+ * smaller version of a texture again and again until you get a 1x1 texture. All those texture
+ * variations are sent to the GPU, and the GPU will choose the most appropriate version of the
+ * texture.
+ *
+ * Since mipmapping produces a half smaller version of the texture repeatedly until a 1x1
+ * iteration is reached, the texture's width and height must be a power of 2. Otherwise, the
+ * texture will be resized which will cause unintended changes and worse performance.
+ *
+ * There are two types of filter algorithms: the minification filter and the magnification filter.
+ *
+ * The minification filter happens when the pixels of texture are smaller than the pixels of the
+ * render. In other words, the texture is too big for the surface, it covers.
+ *
+ * The magnification filter works just like the minification filter, but when the pixels of the
+ * texture are bigger than the render's pixels. In other words, the texture too small for the
+ * surface it covers.
+ *
+ * The default is THREE.LinearMipmapLinearFilter. If you are not satisfied with how your texture
+ * looks, you should try the other filters.
+ *
+ * THREE.NearestFilter is cheaper than the other ones, and you should get better performances
+ * when using it.
+ *
+ *
+ * Size
+ *
+ * * Try to keep the texture files as light as possible.
+ * You can use compression websites and softwares like TinyPNG.
+ *
+ * Each pixel of the textures will have to be stored on the GPU regardless of the image weight.
+ *
+ * The color and alpha files can be combined into one if using a PNG, otherwise you will require
+ * two separate JPGs.
+ *
+ * It is hard to find the right combination of texture formats and resolutions. It takes time to
+ * address perfomance issues.
+ *
+ * ? Where to find textures ?
+ * poliigon.com
+ * 3dtextures.me
+ * arroway-textures.ch
+ *
+ * You can also create your own using photos and 2D software like Photoshop or even procedural
+ * textures with software like Substance Designer.
+ */
+
+colorTexture.generateMipmaps = false; // When using NearestFilter, you can disable mipmaps
+colorTexture.minFilter = THREE.NearestFilter;
+colorTexture.magFilter = THREE.NearestFilter;
+
+/**
  * Base
  */
 // Canvas
