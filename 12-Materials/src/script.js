@@ -33,11 +33,17 @@ const scene = new THREE.Scene();
 /**
  * Objects
  */
-const material = new THREE.MeshBasicMaterial({ map: doorColorTexture });
+// const material = new THREE.MeshBasicMaterial({ map: doorColorTexture });
+const material = new THREE.MeshBasicMaterial({ color: "red" });
+// ! material.color = "red"; // You CAN'T do this since it's expecting a Color instance.
+// * You need to reinstantiate a new Color OR use the set method.
+// material.color = new THREE.Color("pink");
+// material.color.set("yellow");
 
 // * Another way to apply materials
 // const material = new THREE.MeshBasicMaterial();
-// material.map = doorColorTexture;
+// * You can combine colors and textures (tinted textures)!
+material.map = doorColorTexture;
 
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), material);
 sphere.position.x = -1.5;
