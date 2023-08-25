@@ -18,7 +18,7 @@ const doorHeightTexture = textureLoader.load("/textures/door/height.jpg");
 const doorNormalTexture = textureLoader.load("/textures/door/normal.jpg");
 const doorMetalnessTexture = textureLoader.load("/textures/door/metalness.jpg");
 const doorRoughnessTexture = textureLoader.load("/textures/door/roughness.jpg");
-const matcapTexture = textureLoader.load("/textures/matcaps/1.png");
+const matcapTexture = textureLoader.load("/textures/matcaps/8.png");
 const gradientTexture = textureLoader.load("/textures/gradients/3.png");
 
 /**
@@ -62,6 +62,22 @@ const scene = new THREE.Scene();
 // const material = new THREE.MeshNormalMaterial();
 // material.wireframe = true;
 // material.flatShading = true;
+
+/**
+ * Matcap
+ *
+ * Can find more matcaps online:
+ * https://github.com/nidorx/matcaps
+ *
+ * Or create some using 3D software, or 2D (Photoshop).
+ *
+ * Can give the illusion that objects are being illuminated.
+ *
+ * * MeshMatcapMaterial will display a color by using the normals as a reference to pick the right
+ * * color on a texture that looks like a sphere.
+ */
+const material = new THREE.MeshMatcapMaterial();
+material.matcap = matcapTexture;
 
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), material);
 sphere.position.x = -1.5;
