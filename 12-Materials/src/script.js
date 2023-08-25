@@ -76,8 +76,18 @@ const scene = new THREE.Scene();
  * * MeshMatcapMaterial will display a color by using the normals as a reference to pick the right
  * * color on a texture that looks like a sphere.
  */
-const material = new THREE.MeshMatcapMaterial();
-material.matcap = matcapTexture;
+// const material = new THREE.MeshMatcapMaterial();
+// material.matcap = matcapTexture;
+
+/**
+ * MeshDepthMaterial
+ *
+ * This will simply color the geometry in white if it's close to the near, and in black if it's
+ * close to the far value of the camera.
+ *
+ * * Good for creating fog, pre-processing, etc.
+ */
+const material = new THREE.MeshDepthMaterial();
 
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), material);
 sphere.position.x = -1.5;
