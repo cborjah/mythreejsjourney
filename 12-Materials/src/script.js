@@ -13,6 +13,7 @@ THREE.ColorManagement.enabled = false;
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
+const cubeTextureLoader = new THREE.CubeTextureLoader(); // Used for the environment map.
 
 // Path starts from within the static folder
 const doorColorTexture = textureLoader.load("/textures/door/color.jpg");
@@ -30,6 +31,16 @@ const gradientTexture = textureLoader.load("/textures/gradients/3.jpg");
 gradientTexture.minFilter = THREE.NearestFilter;
 gradientTexture.magFilter = THREE.NearestFilter;
 gradientTexture.generateMipmaps = false;
+
+// ! There is a specific order that needs to be followed !
+const environmentMapTexture = cubeTextureLoader.load([
+    "/textures/environmentMaps/0/px.jpg",
+    "/textures/environmentMaps/0/nx.jpg",
+    "/textures/environmentMaps/0/py.jpg",
+    "/textures/environmentMaps/0/ny.jpg",
+    "/textures/environmentMaps/0/pz.jpg",
+    "/textures/environmentMaps/0/nz.jpg"
+]);
 
 /**
  * Base
@@ -119,19 +130,33 @@ const scene = new THREE.Scene();
  *
  * Like MeshLambertMaterial and MeshPhoneMaterial, it supports lights but with a more realistic
  * algorithm and better parameters like roughness and metalness.
+ *
+ * * MeshPhysicalMaterial
+ *
+ * * The same as MeshStandardMaterial, but with a support of a clear coat effect.
  */
 const material = new THREE.MeshStandardMaterial();
-// material.metalness = 0.45;
-// material.roughness = 0.65;
-material.map = doorColorTexture;
+material.metalness = 0.7;
+material.roughness = 0.2;
+
+/**
+ * Environment Maps
+ *
+ * https://hdrihaven.com/ has hundreds of HDRIs (High Dynamic Range Imaging)
+ * ! Not cube maps, need to convert to use with cube maps.
+ * Use https://matheowis.github.io/HDRI-to-CubeMap/ for conversion.
+ *
+ */
+material.envMap = environmentMapTexture;
+// material.map = doorColorTexture;
 
 /**
  * AmbientOcclusion
  *
  * Adds shadows where the texture is dark.
  */
-material.aoMap = doorAmbientOcclusionTexture;
-material.aoMapIntensity = 1;
+// material.aoMap = doorAmbientOcclusionTexture;
+// material.aoMapIntensity = 1;
 
 /**
  * DisplacementMap
@@ -142,12 +167,12 @@ material.aoMapIntensity = 1;
  *
  * It looks terrible in this case because it lacks vertices and the displacement is way too strong.
  */
-material.displacementMap = doorHeightTexture;
-material.displacementScale = 0.05;
+// material.displacementMap = doorHeightTexture;
+// material.displacementScale = 0.05;
 
 // If you set the following, make sure not to set the same values elsewhere.
-material.metalnessMap = doorMetalnessTexture;
-material.roughnessMap = doorRoughnessTexture;
+// material.metalnessMap = doorMetalnessTexture;
+// material.roughnessMap = doorRoughnessTexture;
 
 /**
  * NormalMap
@@ -156,12 +181,12 @@ material.roughnessMap = doorRoughnessTexture;
  *
  * * Try to use when possible.
  */
-material.normalMap = doorNormalTexture;
-material.normalScale.set(0.5, 0.5);
+// material.normalMap = doorNormalTexture;
+// material.normalScale.set(0.5, 0.5);
 
 // * When setting the alpha map, make sure to set the material to transparent!
-material.transparent = true;
-material.alphaMap = doorAlphaTexture;
+// material.transparent = true;
+// material.alphaMap = doorAlphaTexture;
 
 gui.add(material, "metalness").min(0).max(1).step(0.0001);
 gui.add(material, "roughness").min(0).max(1).step(0.0001);
