@@ -10,3 +10,4 @@ three.min.js
 # !.yarn/versions
 
 node_modules/
+/**/static/
