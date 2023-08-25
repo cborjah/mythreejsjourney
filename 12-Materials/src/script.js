@@ -34,11 +34,19 @@ const scene = new THREE.Scene();
  * Objects
  */
 // const material = new THREE.MeshBasicMaterial({ map: doorColorTexture });
-const material = new THREE.MeshBasicMaterial({ color: "red" });
-// ! material.color = "red"; // You CAN'T do this since it's expecting a Color instance.
-// * You need to reinstantiate a new Color OR use the set method.
+const material = new THREE.MeshBasicMaterial();
+// const material = new THREE.MeshBasicMaterial({ color: "red" });
+// ! material.color = "red"; // You CAN'T do this since it's expecting a Color instance
+// * You need to reinstantiate a new Color OR use the set method
 // material.color = new THREE.Color("pink");
 // material.color.set("yellow");
+// material.wireframe = true;
+// material.opacity = 0.5;
+material.transparent = true;
+material.alphaMap = doorAlphaTexture;
+// material.side = THREE.FrontSide; // side lets you decide which side of a face is visible
+material.side = THREE.DoubleSide; // ! Try to avoid using DoubleSide due to decreased performance
+// material.side = THREE.BackSide;
 
 // * Another way to apply materials
 // const material = new THREE.MeshBasicMaterial();
@@ -118,13 +126,13 @@ const tick = () => {
     const elapsedTime = clock.getElapsedTime();
 
     // Update objects
-    sphere.rotation.y = 0.5 * elapsedTime;
-    plane.rotation.y = 0.2 * elapsedTime;
-    torus.rotation.y = 0.3 * elapsedTime;
+    // sphere.rotation.y = 0.5 * elapsedTime;
+    // plane.rotation.y = 0.2 * elapsedTime;
+    // torus.rotation.y = 0.3 * elapsedTime;
 
-    sphere.rotation.x = 0.2 * elapsedTime;
-    plane.rotation.x = 0.2 * elapsedTime;
-    torus.rotation.x = 0.2 * elapsedTime;
+    // sphere.rotation.x = 0.2 * elapsedTime;
+    // plane.rotation.x = 0.2 * elapsedTime;
+    // torus.rotation.x = 0.2 * elapsedTime;
 
     // Update controls
     controls.update();
