@@ -19,7 +19,11 @@ const doorNormalTexture = textureLoader.load("/textures/door/normal.jpg");
 const doorMetalnessTexture = textureLoader.load("/textures/door/metalness.jpg");
 const doorRoughnessTexture = textureLoader.load("/textures/door/roughness.jpg");
 const matcapTexture = textureLoader.load("/textures/matcaps/8.png");
-const gradientTexture = textureLoader.load("/textures/gradients/3.png");
+const gradientTexture = textureLoader.load("/textures/gradients/3.jpg");
+// Set the min/mag filters to NearestFilter, otherwise the mipmapping will cause loss of detail.
+gradientTexture.minFilter = THREE.NearestFilter;
+gradientTexture.magFilter = THREE.NearestFilter;
+gradientTexture.generateMipmaps = false;
 
 /**
  * Base
@@ -87,7 +91,20 @@ const scene = new THREE.Scene();
  *
  * * Good for creating fog, pre-processing, etc.
  */
-const material = new THREE.MeshDepthMaterial();
+// const material = new THREE.MeshDepthMaterial();
+
+/**
+ * MeshLambertMaterial
+ *
+ * Reacts to light.
+ */
+// const material = new THREE.MeshLambertMaterial(); // Strange artifacts (lines) may show on the objects.
+// const material = new THREE.MeshPhongMaterial(); // This does not have those artifacts. Has light that bounces back to the camera. Less performant than MeshLambertMaterial.
+// material.shininess = 100;
+// material.specular = new THREE.Color(0xff0000);
+
+const material = new THREE.MeshToonMaterial(); // Adds cell shaded look.
+material.gradientMap = gradientTexture;
 
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), material);
 sphere.position.x = -1.5;
@@ -123,6 +140,18 @@ window.addEventListener("resize", () => {
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
+
+/**
+ * Lights
+ */
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+const pointLight = new THREE.PointLight(0xffffff, 0.5);
+pointLight.position.x = 2;
+pointLight.position.y = 3;
+pointLight.position.z = 4;
+scene.add(pointLight);
 
 /**
  * Camera
