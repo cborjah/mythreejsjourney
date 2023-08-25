@@ -1,5 +1,11 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import GUI from "lil-gui";
+
+/**
+ * Debug
+ */
+const gui = new GUI();
 
 THREE.ColorManagement.enabled = false;
 
@@ -103,16 +109,72 @@ const scene = new THREE.Scene();
 // material.shininess = 100;
 // material.specular = new THREE.Color(0xff0000);
 
-const material = new THREE.MeshToonMaterial(); // Adds cell shaded look.
-material.gradientMap = gradientTexture;
+// const material = new THREE.MeshToonMaterial(); // Adds cell shaded look.
+// material.gradientMap = gradientTexture;
 
-const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), material);
+/**
+ * * MeshStandardMaterial (the standard)
+ *
+ * Uses physically based rendering principles (PBR).
+ *
+ * Like MeshLambertMaterial and MeshPhoneMaterial, it supports lights but with a more realistic
+ * algorithm and better parameters like roughness and metalness.
+ */
+const material = new THREE.MeshStandardMaterial();
+// material.metalness = 0.45;
+// material.roughness = 0.65;
+material.map = doorColorTexture;
+
+/**
+ * AmbientOcclusion
+ *
+ * Adds shadows where the texture is dark.
+ */
+material.aoMap = doorAmbientOcclusionTexture;
+material.aoMapIntensity = 1;
+
+/**
+ * DisplacementMap
+ *
+ * Moves the vertices to create relief.
+ *
+ * * Add more vertices to objects to show more detail.
+ *
+ * It looks terrible in this case because it lacks vertices and the displacement is way too strong.
+ */
+material.displacementMap = doorHeightTexture;
+material.displacementScale = 0.05;
+
+// If you set the following, make sure not to set the same values elsewhere.
+material.metalnessMap = doorMetalnessTexture;
+material.roughnessMap = doorRoughnessTexture;
+
+/**
+ * NormalMap
+ *
+ * Will fake the normals orientation and add details on the surface regardless of the subdivision.
+ *
+ * * Try to use when possible.
+ */
+material.normalMap = doorNormalTexture;
+material.normalScale.set(0.5, 0.5);
+
+// * When setting the alpha map, make sure to set the material to transparent!
+material.transparent = true;
+material.alphaMap = doorAlphaTexture;
+
+gui.add(material, "metalness").min(0).max(1).step(0.0001);
+gui.add(material, "roughness").min(0).max(1).step(0.0001);
+gui.add(material, "aoMapIntensity").min(0).max(10).step(0.0001);
+gui.add(material, "displacementScale").min(0).max(1).step(0.0001);
+
+const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 64, 64), material);
 sphere.position.x = -1.5;
 
-const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material);
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1, 100, 100), material);
 
 const torus = new THREE.Mesh(
-    new THREE.TorusGeometry(0.3, 0.2, 16, 32),
+    new THREE.TorusGeometry(0.3, 0.2, 64, 128),
     material
 );
 torus.position.x = 1.5;
