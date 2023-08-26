@@ -14,6 +14,10 @@ THREE.ColorManagement.enabled = false;
 
 /**
  * Fonts
+ *
+ * Make sure to optimize performance since 3D text can require a lot of processing power.
+ * Start with the curveSegments and bevelSegments.
+ * Get these as low as possible while still maintaining a level of detail you are happy with.
  */
 const fontLoader = new FontLoader();
 fontLoader.load("/fonts/helvetiker_regular.typeface.json", font => {
@@ -21,12 +25,12 @@ fontLoader.load("/fonts/helvetiker_regular.typeface.json", font => {
         font,
         size: 0.5,
         height: 0.2,
-        curveSegments: 12,
+        curveSegments: 5,
         bevelEnabled: true,
         bevelThickness: 0.03,
         bevelSize: 0.02,
         bevelOffset: 0,
-        bevelSegments: 5
+        bevelSegments: 3
     });
     const textMaterial = new THREE.MeshBasicMaterial();
     textMaterial.wireframe = true;
