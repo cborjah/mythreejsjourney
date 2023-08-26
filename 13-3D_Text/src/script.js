@@ -12,8 +12,19 @@ THREE.ColorManagement.enabled = false;
  * * Typeface Converter
  * https://gero3.github.io/facetype.js/
  *
+ * * Matcaps resource
+ * https://github.com/nidorx/matcaps
+ * ! Make sure to check licenses !
+ * A high-resolution texture is not necessary, 256x256 should be more than enough.
+ *
  * Bounding is used to help calculate if an object is on screen (frustum culling).
  */
+
+/**
+ * Textures
+ */
+const textureLoader = new THREE.TextureLoader();
+const matcapTexture = textureLoader.load("/textures/matcaps/1.png");
 
 /**
  * Fonts
@@ -46,8 +57,10 @@ fontLoader.load("/fonts/helvetiker_regular.typeface.json", font => {
 
     textGeometry.center();
 
-    const textMaterial = new THREE.MeshBasicMaterial();
-    textMaterial.wireframe = true;
+    const textMaterial = new THREE.MeshMatcapMaterial({
+        matcap: matcapTexture
+    });
+    // textMaterial.wireframe = true;
     const text = new THREE.Mesh(textGeometry, textMaterial);
     scene.add(text);
 });
@@ -67,11 +80,6 @@ const scene = new THREE.Scene();
 // Axes Helper
 const axesHelper = new THREE.AxesHelper();
 scene.add(axesHelper);
-
-/**
- * Textures
- */
-const textureLoader = new THREE.TextureLoader();
 
 /**
  * Object
