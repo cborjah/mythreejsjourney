@@ -63,6 +63,30 @@ fontLoader.load("/fonts/helvetiker_regular.typeface.json", font => {
     // textMaterial.wireframe = true;
     const text = new THREE.Mesh(textGeometry, textMaterial);
     scene.add(text);
+
+    for (let i = 0; i < 100; i++) {
+        const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45);
+        const donutMaterial = new THREE.MeshMatcapMaterial({
+            matcap: matcapTexture
+        });
+        const donut = new THREE.Mesh(donutGeometry, donutMaterial);
+
+        // Subtracting 0.5 sets the range to -0.5 to 0.5
+        donut.position.x = (Math.random() - 0.5) * 10;
+        donut.position.y = (Math.random() - 0.5) * 10;
+        donut.position.z = (Math.random() - 0.5) * 10;
+
+        donut.rotation.x = Math.random() * Math.PI;
+        donut.rotation.y = Math.random() * Math.PI;
+
+        const scale = Math.random();
+        // donut.scale.x = scale;
+        // donut.scale.y = scale;
+        // donut.scale.z = scale;
+        donut.scale.set(scale, scale, scale); // Shorthand
+
+        scene.add(donut);
+    }
 });
 
 /**
