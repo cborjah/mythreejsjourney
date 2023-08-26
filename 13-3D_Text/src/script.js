@@ -18,6 +18,13 @@ THREE.ColorManagement.enabled = false;
  * A high-resolution texture is not necessary, 256x256 should be more than enough.
  *
  * Bounding is used to help calculate if an object is on screen (frustum culling).
+ *
+ * * Continuous Integration
+ * A modern hosting solution that employs automatisation of testing, deployment, etc.
+ *
+ * Vercel
+ * Netlify
+ * GitHub Pages
  */
 
 /**
