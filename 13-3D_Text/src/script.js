@@ -7,9 +7,12 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 THREE.ColorManagement.enabled = false;
 
 /**
- * * Typeface Converter
+ * Notes
  *
+ * * Typeface Converter
  * https://gero3.github.io/facetype.js/
+ *
+ * Bounding is used to help calculate if an object is on screen (frustum culling).
  */
 
 /**
@@ -32,6 +35,15 @@ fontLoader.load("/fonts/helvetiker_regular.typeface.json", font => {
         bevelOffset: 0,
         bevelSegments: 3
     });
+
+    textGeometry.computeBoundingBox(); // Get Bounding Box
+    textGeometry.translate(
+        // * Make sure to substract the bevelSize and bevelThickness
+        -(textGeometry.boundingBox.max.x - 0.02) * 0.5,
+        -(textGeometry.boundingBox.max.y - 0.02) * 0.5,
+        -(textGeometry.boundingBox.max.z - 0.03) * 0.5
+    );
+
     const textMaterial = new THREE.MeshBasicMaterial();
     textMaterial.wireframe = true;
     const text = new THREE.Mesh(textGeometry, textMaterial);
@@ -49,6 +61,10 @@ const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
+
+// Axes Helper
+const axesHelper = new THREE.AxesHelper();
+scene.add(axesHelper);
 
 /**
  * Textures
