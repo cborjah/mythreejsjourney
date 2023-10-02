@@ -55,6 +55,16 @@ const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
 spotLightCameraHelper.visible = false;
 scene.add(spotLightCameraHelper);
 
+// Point Light
+const pointLight = new THREE.PointLight(0xffffff, 0.3);
+
+pointLight.castShadow = true;
+pointLight.position.set(-1, 1, 0);
+scene.add(pointLight);
+
+const pointLightCameraHelper = new THREE.CameraHelper(pointLight.shadow.camera);
+scene.add(pointLightCameraHelper);
+
 // Shadow optimzations
 directionalLight.shadow.mapSize.width = 1024;
 directionalLight.shadow.mapSize.height = 1024;
