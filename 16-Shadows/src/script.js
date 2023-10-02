@@ -39,11 +39,20 @@ directionalLight.castShadow = true;
 const spotLight = new THREE.SpotLight(0xffffff, 0.4, 10, Math.PI * 0.3);
 
 spotLight.castShadow = true;
+spotLight.shadow.mapSize.width = 1024;
+spotLight.shadow.mapSize.height = 1024;
+spotLight.shadow.camera.near = 1;
+spotLight.shadow.camera.far = 6;
+
+// Since a SpotLight uses a PerspectiveCamera, you must change the fov property to adapt the amplitude.
+spotLight.shadow.camera.fov = 30;
+
 spotLight.position.set(0, 2, 2);
 scene.add(spotLight);
 scene.add(spotLight.target); // Not mandatory, but if you want to set the spot light to look somewhere else.
 
 const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
+spotLightCameraHelper.visible = false;
 scene.add(spotLightCameraHelper);
 
 // Shadow optimzations
