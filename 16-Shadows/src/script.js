@@ -34,8 +34,24 @@ gui.add(directionalLight.position, "z").min(-5).max(5).step(0.001);
 scene.add(directionalLight);
 
 directionalLight.castShadow = true;
+
+// Shadow optimzations
 directionalLight.shadow.mapSize.width = 1024;
 directionalLight.shadow.mapSize.height = 1024;
+directionalLight.shadow.camera.near = 1;
+directionalLight.shadow.camera.far = 6;
+
+/**
+ * Camera Helper
+ *
+ * Good for debugging.
+ * Can be used to check the Near and Far properties.
+ */
+const directionalLightCameraHelper = new THREE.CameraHelper(
+    directionalLight.shadow.camera
+);
+
+scene.add(directionalLightCameraHelper);
 
 /**
  * Materials
