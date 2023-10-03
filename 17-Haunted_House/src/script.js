@@ -34,7 +34,7 @@ scene.add(house);
 
 // Walls
 const walls = new THREE.Mesh(
-    new THREE.BoxBufferGeometry(4, 2.5, 4),
+    new THREE.BoxGeometry(4, 2.5, 4),
     new THREE.MeshStandardMaterial({ color: "#ac8e82" })
 );
 walls.position.y = 2.5 / 2;
@@ -42,7 +42,7 @@ house.add(walls);
 
 // Roof
 const roof = new THREE.Mesh(
-    new THREE.ConeBufferGeometry(3.5, 1, 4),
+    new THREE.ConeGeometry(3.5, 1, 4),
     new THREE.MeshStandardMaterial({ color: "#b35f45" })
 );
 roof.position.y = 2.5 + 0.5;
@@ -51,7 +51,7 @@ house.add(roof);
 
 // Door
 const door = new THREE.Mesh(
-    new THREE.PlaneBufferGeometry(2, 2),
+    new THREE.PlaneGeometry(2, 2),
     new THREE.MeshStandardMaterial({ color: "#aa7b7b" })
 );
 door.position.y = 1;
@@ -59,7 +59,7 @@ door.position.z = 2 + 0.01;
 house.add(door);
 
 // Bushes
-const bushGeometry = new THREE.SphereBufferGeometry(1, 16, 16);
+const bushGeometry = new THREE.SphereGeometry(1, 16, 16);
 const bushMaterial = new THREE.MeshStandardMaterial({ color: "#89c854" });
 
 const bush1 = new THREE.Mesh(bushGeometry, bushMaterial);
@@ -84,7 +84,7 @@ house.add(bush1, bush2, bush3, bush4);
 const graves = new THREE.Group();
 scene.add(graves);
 
-const graveGeometry = new THREE.BoxBufferGeometry(0.6, 0.8, 0.2);
+const graveGeometry = new THREE.BoxGeometry(0.6, 0.8, 0.2);
 const graveMaterial = new THREE.MeshStandardMaterial({ color: "#b2b6b1" });
 
 for (let i = 0; i < 50; i++) {
