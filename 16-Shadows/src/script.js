@@ -6,7 +6,8 @@ import * as dat from "lil-gui";
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
-const bakedShadow = textureLoader.load("/textures/bakedShadow.jpg");
+// const bakedShadow = textureLoader.load("/textures/bakedShadow.jpg");
+const simpleShadow = textureLoader.load("/textures/simpleShadow.jpg");
 
 THREE.ColorManagement.enabled = false;
 
@@ -121,16 +122,29 @@ const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), material);
 
 sphere.castShadow = true;
 
-const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(5, 5),
-    new THREE.MeshBasicMaterial({ map: bakedShadow })
-);
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), material);
 plane.rotation.x = -Math.PI * 0.5;
 plane.position.y = -0.5;
 
 plane.receiveShadow = true;
 
 scene.add(sphere, plane);
+
+const sphereShadow = new THREE.Mesh(
+    new THREE.PlaneBufferGeometry(1.5, 1.5),
+    new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        transparent: true, // When using alpha or opacity on a material, transparent must be set to true.
+        alphaMap: simpleShadow
+    })
+);
+sphereShadow.rotation.x = -Math.PI * 0.5;
+
+// ! Don't do this. This will case z fighting.
+// sphereShadow.position.y = plane.position.y;
+sphereShadow.position.y = plane.position.y + 0.01;
+
+scene.add(sphereShadow);
 
 /**
  * Sizes
