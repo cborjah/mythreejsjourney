@@ -17,7 +17,7 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 // Fog
-const fog = new THREE.Fog("#262837", 1, 15);
+const fog = new THREE.Fog("#262837", 1, 20);
 scene.fog = fog;
 
 /**
@@ -196,6 +196,18 @@ doorLight.position.set(0, 2.2, 2.7);
 house.add(doorLight);
 
 /**
+ * Ghosts
+ */
+const ghost1 = new THREE.PointLight("#ff00ff", 2, 3);
+scene.add(ghost1);
+
+const ghost2 = new THREE.PointLight("#00ffff", 2, 3);
+scene.add(ghost2);
+
+const ghost3 = new THREE.PointLight("#ffff00", 2, 3);
+scene.add(ghost3);
+
+/**
  * Sizes
  */
 const sizes = {
@@ -254,6 +266,24 @@ const clock = new THREE.Clock();
 
 const tick = () => {
     const elapsedTime = clock.getElapsedTime();
+
+    // Update ghosts
+    const ghost1Angle = elapsedTime;
+    ghost1.position.x = Math.cos(ghost1Angle * 0.5) * 4;
+    ghost1.position.z = Math.sin(ghost1Angle * 0.5) * 4;
+    ghost1.position.y = Math.sin(elapsedTime * 3);
+
+    const ghost2Angle = -elapsedTime * 0.32;
+    ghost2.position.x = Math.cos(ghost2Angle) * 5;
+    ghost2.position.z = Math.sin(ghost2Angle) * 5;
+    ghost2.position.y = Math.sin(elapsedTime * 4) + Math.sin(elapsedTime * 2.5); // Adds more randomness to the wave pattern
+
+    const ghost3Angle = -elapsedTime * 0.18;
+    ghost3.position.x =
+        Math.cos(ghost3Angle) * (10 + Math.sin(elapsedTime * 0.32));
+    ghost3.position.z =
+        Math.sin(ghost3Angle) * (10 + Math.sin(elapsedTime * 0.5));
+    ghost3.position.y = Math.sin(elapsedTime * 5) + Math.sin(elapsedTime * 2);
 
     // Update controls
     controls.update();
