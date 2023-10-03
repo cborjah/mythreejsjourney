@@ -268,6 +268,7 @@ renderer.setClearColor("#262837"); // Sets the background to the same color as t
  * 3) Enable castShadow/receiveShadow for objects
  */
 renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFShadowMap;
 
 moonLight.castShadow = true;
 doorLight.castShadow = true;
@@ -282,6 +283,18 @@ bush2.castShadow = true;
 bush3.castShadow = true;
 
 floor.receiveShadow = true;
+
+ghost1.shadow.mapSize.width = 256;
+ghost1.shadow.mapSize.height = 256;
+ghost1.shadow.camera.far = 7;
+
+ghost2.shadow.mapSize.width = 256;
+ghost2.shadow.mapSize.height = 256;
+ghost2.shadow.camera.far = 7;
+
+ghost3.shadow.mapSize.width = 256;
+ghost3.shadow.mapSize.height = 256;
+ghost3.shadow.camera.far = 7;
 
 /**
  * Animate
