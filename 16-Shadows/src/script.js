@@ -58,11 +58,23 @@ scene.add(spotLightCameraHelper);
 // Point Light
 const pointLight = new THREE.PointLight(0xffffff, 0.3);
 
+// * You cannot adjust fov for point lights.
 pointLight.castShadow = true;
+pointLight.shadow.mapSize.width = 1024;
+pointLight.shadow.mapSize.height = 1024;
+pointLight.shadow.camera.near = 0.1;
+pointLight.shadow.camera.far = 5;
+
 pointLight.position.set(-1, 1, 0);
 scene.add(pointLight);
 
+/**
+ * The camera helper seems to be facing downward.
+ * This is normal. Three.js uses a PerspectiveCamera, but in all 6 directions and finishes downward.
+ * 6 renders is expensive, rethink using shadows with this type of light.
+ */
 const pointLightCameraHelper = new THREE.CameraHelper(pointLight.shadow.camera);
+pointLightCameraHelper.visible = false;
 scene.add(pointLightCameraHelper);
 
 // Shadow optimzations
