@@ -18,6 +18,7 @@ const scene = new THREE.Scene();
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
+const particleTexture = textureLoader.load("/textures/particles/2.png");
 
 /**
  * Particles
@@ -41,6 +42,8 @@ particlesGeometry.setAttribute(
 const particlesMaterial = new THREE.PointsMaterial();
 particlesMaterial.size = 0.02;
 particlesMaterial.sizeAttenuation = true; // If particle is far from the camera, it will be small, and vice versa.
+particlesMaterial.map = particleTexture;
+// particlesMaterial.color = new THREE.Color("#ff88cc");
 
 // Points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial);
