@@ -42,8 +42,18 @@ particlesGeometry.setAttribute(
 const particlesMaterial = new THREE.PointsMaterial();
 particlesMaterial.size = 0.02;
 particlesMaterial.sizeAttenuation = true; // If particle is far from the camera, it will be small, and vice versa.
-particlesMaterial.map = particleTexture;
 // particlesMaterial.color = new THREE.Color("#ff88cc");
+particlesMaterial.transparent = true;
+particlesMaterial.alphaMap = particleTexture;
+
+// The alphaTest is a value between 0 and 1 that enables the WebGL to know when not to render the
+// pixel according to that pixel's transparency.
+// By default, the value is 0 meaning that the pixel will be rendered anyways.
+// Use 0.001
+// Without this, you will still be able to see the edges of the particles.
+// This is because the particles are drawn in the same order as they are created,
+// and WebGL doesn't know which one is in front of the other.
+particlesMaterial.alphaTest = 0.001;
 
 // Points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial);
