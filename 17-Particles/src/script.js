@@ -40,7 +40,7 @@ particlesGeometry.setAttribute(
 
 // Material
 const particlesMaterial = new THREE.PointsMaterial();
-particlesMaterial.size = 0.02;
+particlesMaterial.size = 0.1;
 particlesMaterial.sizeAttenuation = true; // If particle is far from the camera, it will be small, and vice versa.
 // particlesMaterial.color = new THREE.Color("#ff88cc");
 particlesMaterial.transparent = true;
@@ -54,6 +54,18 @@ particlesMaterial.alphaMap = particleTexture;
 // This is because the particles are drawn in the same order as they are created,
 // and WebGL doesn't know which one is in front of the other.
 particlesMaterial.alphaTest = 0.001;
+
+/**
+ * Depth Testing
+ *
+ * When drawing, WebGL tests if what's being drawn is closer than what's already drawn.
+ * This can be deactivated with alphaTest.
+ * Deactivating this will allow WebGL to draw everything, regardless whether it's in front or not.
+ *
+ * ! Deactivating the depth testing might create bugs if you have other objects in your scene or
+ * ! particles with different colors.
+ */
+particlesMaterial.depthTest = false;
 
 // Points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial);
