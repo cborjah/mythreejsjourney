@@ -42,7 +42,7 @@ particlesGeometry.setAttribute(
 const particlesMaterial = new THREE.PointsMaterial();
 particlesMaterial.size = 0.1;
 particlesMaterial.sizeAttenuation = true; // If particle is far from the camera, it will be small, and vice versa.
-// particlesMaterial.color = new THREE.Color("#ff88cc");
+particlesMaterial.color = new THREE.Color("#ff88cc");
 particlesMaterial.transparent = true;
 particlesMaterial.alphaMap = particleTexture;
 
@@ -53,7 +53,7 @@ particlesMaterial.alphaMap = particleTexture;
 // Without this, you will still be able to see the edges of the particles.
 // This is because the particles are drawn in the same order as they are created,
 // and WebGL doesn't know which one is in front of the other.
-particlesMaterial.alphaTest = 0.001;
+// particlesMaterial.alphaTest = 0.001;
 
 /**
  * Depth Testing
@@ -65,7 +65,31 @@ particlesMaterial.alphaTest = 0.001;
  * ! Deactivating the depth testing might create bugs if you have other objects in your scene or
  * ! particles with different colors.
  */
-particlesMaterial.depthTest = false;
+// particlesMaterial.depthTest = false;
+
+/**
+ * Depth Buffer
+ *
+ * This is where the depth of what's being drawn is stored.
+ *
+ * Instead of not testing if the particle is closer than what's in this depth buffer,
+ * you can tell WebGL not to write particles in that depth buffer.
+ *
+ ** Uncomment cube to see effect.
+ */
+particlesMaterial.depthWrite = false;
+
+/**
+ * The three technics can be used in conjunction as well, as there is no perfect solution.
+ * You must adapt and find the best combination according to the project.
+ */
+
+// Cube
+const cube = new THREE.Mesh(
+    new THREE.BoxGeometry(),
+    new THREE.MeshBasicMaterial()
+);
+scene.add(cube);
 
 // Points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial);
