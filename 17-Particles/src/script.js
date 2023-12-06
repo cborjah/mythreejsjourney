@@ -167,6 +167,12 @@ const clock = new THREE.Clock();
 const tick = () => {
     const elapsedTime = clock.getElapsedTime();
 
+    /**
+     *! Updating each particle this way is inefficient and can cause performance issues.
+     ** The best way to animate particles is to create your own shader.
+     *  This will be taught in a future lesson
+     */
+
     // Update particles
     // particles.rotation.y = elapsedTime * 0.05;
 
