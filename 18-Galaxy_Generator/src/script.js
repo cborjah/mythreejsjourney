@@ -23,11 +23,28 @@ const parameters = {};
 parameters.count = 1000;
 parameters.size = 0.02;
 
+let geometry = null;
+let material = null;
+let points = null;
+
 const generateGalaxy = () => {
+    /**
+     * Destroy old galaxy to free memory
+     */
+    if (points !== null) {
+        console.log("CLEANIN UP");
+        geometry.dispose();
+        material.dispose();
+
+        // You can't dispose of points as they are a combination of geometry and material.
+        // Remove them from the scene.
+        scene.remove(points);
+    }
+
     /**
      * Geometry
      */
-    const geometry = new THREE.BufferGeometry();
+    geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(parameters.count * 3); // [x,y,z,x,y,z,...]
 
     for (let i = 0; i < parameters.count; i++) {
@@ -48,7 +65,7 @@ const generateGalaxy = () => {
         /**
          * Material
          */
-        const material = new THREE.PointsMaterial({
+        material = new THREE.PointsMaterial({
             size: parameters.size,
             sizeAttenuation: true,
             depthWrite: false,
@@ -58,7 +75,7 @@ const generateGalaxy = () => {
         /**
          * Points
          */
-        const points = new THREE.Points(geometry, material);
+        points = new THREE.Points(geometry, material);
         scene.add(points);
     }
 };
