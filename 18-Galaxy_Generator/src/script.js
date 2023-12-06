@@ -13,6 +13,42 @@ const canvas = document.querySelector("canvas.webgl");
 
 // Scene
 const scene = new THREE.Scene();
+
+/**
+ * Galaxy
+ */
+const parameters = {};
+parameters.count = 1000;
+
+const generateGalaxy = () => {
+    /**
+     * Geometry
+     */
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(parameters.count * 3); // [x,y,z,x,y,z,...]
+
+    for (let i = 0; i < parameters.count; i++) {
+        // Access in increments of 3
+        const i3 = i * 3;
+
+        positions[i3] = Math.random();
+        positions[i3 + 1] = Math.random();
+        positions[i3 + 2] = Math.random();
+
+        // Use setAttribute for BufferGeometries
+        geometry.setAttribute(
+            "position",
+            new THREE.BufferAttribute(positions, 3) // Need to specify how many values per vertex (3 in this case)
+        );
+
+        /**
+         * Material
+         */
+    }
+};
+
+generateGalaxy();
+
 /**
  * Sizes
  */
