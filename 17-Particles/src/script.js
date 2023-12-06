@@ -28,9 +28,11 @@ const particlesGeometry = new THREE.BufferGeometry();
 const count = 20000;
 
 const positions = new Float32Array(count * 3);
+const colors = new Float32Array(count * 3);
 
 for (let i = 0; i < count * 3; i++) {
-    positions[i] = (Math.random() - 0.5) * 10; // Values from -5 to 5
+    positions[i] = (Math.random() - 0.5) * 10; // -5 - 5
+    colors[i] = Math.random(); // 0 - 1
 }
 
 particlesGeometry.setAttribute(
@@ -38,13 +40,16 @@ particlesGeometry.setAttribute(
     new THREE.BufferAttribute(positions, 3)
 );
 
+particlesGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
 // Material
 const particlesMaterial = new THREE.PointsMaterial();
 particlesMaterial.size = 0.1;
 particlesMaterial.sizeAttenuation = true; // If particle is far from the camera, it will be small, and vice versa.
-particlesMaterial.color = new THREE.Color("#ff88cc");
+// particlesMaterial.color = new THREE.Color("#ff88cc");
 particlesMaterial.transparent = true;
 particlesMaterial.alphaMap = particleTexture;
+particlesMaterial.vertexColors = true;
 
 // The alphaTest is a value between 0 and 1 that enables the WebGL to know when not to render the
 // pixel according to that pixel's transparency.
