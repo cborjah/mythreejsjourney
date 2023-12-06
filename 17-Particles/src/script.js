@@ -25,7 +25,7 @@ const particleTexture = textureLoader.load("/textures/particles/2.png");
  */
 // Geometry
 const particlesGeometry = new THREE.BufferGeometry();
-const count = 5000;
+const count = 20000;
 
 const positions = new Float32Array(count * 3);
 
@@ -84,12 +84,23 @@ particlesMaterial.depthWrite = false;
  * You must adapt and find the best combination according to the project.
  */
 
+/**
+ * Blending
+ *
+ * WebGL currently draws pixels one on top of the other.
+ * With the blending property, you can tell WebGL to ADD the color of the pixel to the
+ * color of the pixel already drawn.
+ *
+ ** This can impact performance.
+ */
+particlesMaterial.blending = THREE.AdditiveBlending;
+
 // Cube
-const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(),
-    new THREE.MeshBasicMaterial()
-);
-scene.add(cube);
+// const cube = new THREE.Mesh(
+//     new THREE.BoxGeometry(),
+//     new THREE.MeshBasicMaterial()
+// );
+// scene.add(cube);
 
 // Points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial);
