@@ -6,7 +6,9 @@ import GUI from "lil-gui";
  * Base
  */
 // Debug
-const gui = new GUI();
+const gui = new GUI({
+    width: 500 // Width of control panel
+});
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -62,6 +64,17 @@ const generateGalaxy = () => {
 };
 
 generateGalaxy();
+
+gui.add(parameters, "count")
+    .min(100)
+    .max(1000000)
+    .step(100)
+    .onFinishChange(generateGalaxy);
+gui.add(parameters, "size")
+    .min(0.001)
+    .max(0.1)
+    .step(0.001)
+    .onFinishChange(generateGalaxy);
 
 /**
  * Sizes
