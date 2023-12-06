@@ -19,6 +19,7 @@ const scene = new THREE.Scene();
  */
 const parameters = {};
 parameters.count = 1000;
+parameters.size = 0.02;
 
 const generateGalaxy = () => {
     /**
@@ -31,9 +32,10 @@ const generateGalaxy = () => {
         // Access in increments of 3
         const i3 = i * 3;
 
-        positions[i3] = Math.random();
-        positions[i3 + 1] = Math.random();
-        positions[i3 + 2] = Math.random();
+        // Subtract 0.5 to center
+        positions[i3] = (Math.random() - 0.5) * 3;
+        positions[i3 + 1] = (Math.random() - 0.5) * 3;
+        positions[i3 + 2] = (Math.random() - 0.5) * 3;
 
         // Use setAttribute for BufferGeometries
         geometry.setAttribute(
@@ -44,6 +46,18 @@ const generateGalaxy = () => {
         /**
          * Material
          */
+        const material = new THREE.PointsMaterial({
+            size: parameters.size,
+            sizeAttenuation: true,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        });
+
+        /**
+         * Points
+         */
+        const points = new THREE.Points(geometry, material);
+        scene.add(points);
     }
 };
 
