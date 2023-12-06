@@ -55,29 +55,29 @@ const generateGalaxy = () => {
         positions[i3] = (Math.random() - 0.5) * 3;
         positions[i3 + 1] = (Math.random() - 0.5) * 3;
         positions[i3 + 2] = (Math.random() - 0.5) * 3;
-
-        // Use setAttribute for BufferGeometries
-        geometry.setAttribute(
-            "position",
-            new THREE.BufferAttribute(positions, 3) // Need to specify how many values per vertex (3 in this case)
-        );
-
-        /**
-         * Material
-         */
-        material = new THREE.PointsMaterial({
-            size: parameters.size,
-            sizeAttenuation: true,
-            depthWrite: false,
-            blending: THREE.AdditiveBlending
-        });
-
-        /**
-         * Points
-         */
-        points = new THREE.Points(geometry, material);
-        scene.add(points);
     }
+
+    // Use setAttribute for BufferGeometries
+    geometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(positions, 3) // Need to specify how many values per vertex (3 in this case)
+    );
+
+    /**
+     * Material
+     */
+    material = new THREE.PointsMaterial({
+        size: parameters.size,
+        sizeAttenuation: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
+    });
+
+    /**
+     * Points
+     */
+    points = new THREE.Points(geometry, material);
+    scene.add(points);
 };
 
 generateGalaxy();
