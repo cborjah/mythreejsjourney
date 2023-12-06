@@ -167,6 +167,23 @@ const clock = new THREE.Clock();
 const tick = () => {
     const elapsedTime = clock.getElapsedTime();
 
+    // Update particles
+    // particles.rotation.y = elapsedTime * 0.05;
+
+    for (let i = 0; i < count; i++) {
+        // The following allows access to items in increments of 3.
+        // [x,y,z] --> i + 0 = x; i + 1 = y; i + 2 = z
+        const i3 = i * 3;
+
+        const x = particlesGeometry.attributes.position.array[i3];
+        particlesGeometry.attributes.position.array[i3 + 1] = Math.sin(
+            elapsedTime + x // Adding x to elapsedTime introduces an offset.
+        );
+    }
+
+    //! Three.js needs to be notified when a geometry attribute changes.
+    particlesGeometry.attributes.position.needsUpdate = true;
+
     // Update controls
     controls.update();
 
