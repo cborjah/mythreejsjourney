@@ -26,6 +26,8 @@ parameters.radius = 5;
 parameters.branches = 3;
 parameters.spin = 1;
 parameters.randomness = 0.2;
+parameters.insideColor = "#ff6030";
+parameters.outsideColor = "#1b3984";
 
 // To add an exponential spread to point positions, use Math.pow()
 // The greater randomnessPower is, the more condensed on the inside and spread out on the outside
@@ -54,10 +56,16 @@ const generateGalaxy = () => {
      */
     geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(parameters.count * 3); // [x,y,z,x,y,z,...]
+    const colors = new Float32Array(parameters.count * 3);
+
+    const colorInside = new THREE.Color(parameters.insideColor);
+    const colorOutside = new THREE.Color(parameters.outsideColor);
 
     for (let i = 0; i < parameters.count; i++) {
         // Access in increments of 3
         const i3 = i * 3;
+
+        // Position
         const radius = Math.random() * parameters.radius;
         const spinAngle = radius * parameters.spin;
         const branchAngle =
@@ -80,12 +88,26 @@ const generateGalaxy = () => {
         positions[i3 + 1] = randomY;
         positions[i3 + 2] =
             Math.sin(branchAngle + spinAngle) * radius + randomZ;
+
+        // Color
+        // Make sure to clone the value as lerp will mutate the original value
+        const mixedColor = colorInside.clone();
+        // lerp linearly interpolates one value to another. First argument is the color to converge on, the second is the interpolation factor (0 - 1)
+        mixedColor.lerp(colorOutside, radius / parameters.radius);
+
+        colors[i3] = mixedColor.r;
+        colors[i3 + 1] = mixedColor.g;
+        colors[i3 + 2] = mixedColor.b;
     }
 
     // Use setAttribute for BufferGeometries
     geometry.setAttribute(
         "position",
         new THREE.BufferAttribute(positions, 3) // Need to specify how many values per vertex (3 in this case)
+    );
+    geometry.setAttribute(
+        "color",
+        new THREE.BufferAttribute(colors, 3) // Need to specify how many values per vertex (3 in this case)
     );
 
     /**
@@ -95,7 +117,8 @@ const generateGalaxy = () => {
         size: parameters.size,
         sizeAttenuation: true,
         depthWrite: false,
-        blending: THREE.AdditiveBlending
+        blending: THREE.AdditiveBlending,
+        vertexColors: true
     });
 
     /**
@@ -142,6 +165,8 @@ gui.add(parameters, "randomnessPower")
     .max(10)
     .step(0.001)
     .onFinishChange(generateGalaxy);
+gui.addColor(parameters, "insideColor").onFinishChange(generateGalaxy);
+gui.addColor(parameters, "outsideColor").onFinishChange(generateGalaxy);
 
 /**
  * Sizes
