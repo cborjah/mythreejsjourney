@@ -150,9 +150,12 @@ window.addEventListener("mousemove", event => {
  * Animate
  */
 const clock = new THREE.Clock();
+let previousTime = 0;
 
 const tick = () => {
     const elapsedTime = clock.getElapsedTime();
+    const deltaTime = elapsedTime - previousTime; // time elapsed between each frame (framerate)
+    previousTime = elapsedTime;
 
     // Animate camera
     camera.position.y = (-scrollY / sizes.height) * objectsDistance;
@@ -168,8 +171,12 @@ const tick = () => {
     // parallaxX and parallaxY is the destination. Subtract the cameraGroup positions to get the
     // distance of the actual position to the destination.
     // To move a tenth of the delta, multiply by 0.1
-    cameraGroup.position.x += (parallaxX - cameraGroup.position.x) * 0.02;
-    cameraGroup.position.y += (parallaxY - cameraGroup.position.y) * 0.02;
+    // To make animation consistant regardless of monitor framerate, make the animation
+    // based on the framerate.
+    cameraGroup.position.x +=
+        (parallaxX - cameraGroup.position.x) * 2 * deltaTime;
+    cameraGroup.position.y +=
+        (parallaxY - cameraGroup.position.y) * 2 * deltaTime;
 
     // Animate meshes
     for (const mesh of sectionMeshes) {
