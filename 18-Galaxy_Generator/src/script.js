@@ -27,6 +27,10 @@ parameters.branches = 3;
 parameters.spin = 1;
 parameters.randomness = 0.2;
 
+// To add an exponential spread to point positions, use Math.pow()
+// The greater randomnessPower is, the more condensed on the inside and spread out on the outside
+parameters.randomnessPower = 3;
+
 let geometry = null;
 let material = null;
 let points = null;
@@ -61,9 +65,15 @@ const generateGalaxy = () => {
 
         // Subtract 0.5 to change range from 0 - 1 to -0.5 to 0.5.
         // This allows randomness in both negative and positive directions.
-        const randomX = (Math.random() - 0.5) * parameters.randomness;
-        const randomY = (Math.random() - 0.5) * parameters.randomness;
-        const randomZ = (Math.random() - 0.5) * parameters.randomness;
+        const randomX =
+            Math.pow(Math.random(), parameters.randomnessPower) *
+            (Math.random() < 0.5 ? 1 : -1);
+        const randomY =
+            Math.pow(Math.random(), parameters.randomnessPower) *
+            (Math.random() < 0.5 ? 1 : -1);
+        const randomZ =
+            Math.pow(Math.random(), parameters.randomnessPower) *
+            (Math.random() < 0.5 ? 1 : -1);
 
         // Subtract 0.5 to center
         positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomX;
@@ -125,6 +135,11 @@ gui.add(parameters, "spin")
 gui.add(parameters, "randomness")
     .min(0)
     .max(2)
+    .step(0.001)
+    .onFinishChange(generateGalaxy);
+gui.add(parameters, "randomnessPower")
+    .min(1)
+    .max(10)
     .step(0.001)
     .onFinishChange(generateGalaxy);
 
