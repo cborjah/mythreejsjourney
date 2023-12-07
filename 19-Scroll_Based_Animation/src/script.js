@@ -94,6 +94,10 @@ window.addEventListener("resize", () => {
 /**
  * Camera
  */
+// Group
+const cameraGroup = new THREE.Group();
+scene.add(cameraGroup);
+
 // Base camera
 const camera = new THREE.PerspectiveCamera(
     35,
@@ -101,8 +105,8 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     100
 );
-camera.position.z = 6;
-scene.add(camera);
+camera.position.z = 8;
+cameraGroup.add(camera);
 
 /**
  * Renderer
@@ -137,6 +141,12 @@ window.addEventListener("mousemove", event => {
 });
 
 /**
+ * Adding the parallax feature broke the scroll based animations.
+ * To fix that, put the camera in a Group and apply the parallax on the group and
+ * not the camera itself.
+ */
+
+/**
  * Animate
  */
 const clock = new THREE.Clock();
@@ -149,8 +159,10 @@ const tick = () => {
 
     const parallaxX = cursor.x;
     const parallaxY = -cursor.y;
-    camera.position.x = parallaxX;
-    camera.position.y = parallaxY;
+
+    // Instead of apply the parallax on the camera, apply it on cameraGroup
+    cameraGroup.position.x = parallaxX;
+    cameraGroup.position.y = parallaxY;
 
     // Animate meshes
     for (const mesh of sectionMeshes) {
