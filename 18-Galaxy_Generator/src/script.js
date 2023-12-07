@@ -40,9 +40,10 @@ let points = null;
 const generateGalaxy = () => {
     /**
      * Destroy old galaxy to free memory
+     *
+     *! Three.js will NOT automatically dispose of information when removing an object from the scene.
      */
     if (points !== null) {
-        console.log("CLEANIN UP");
         geometry.dispose();
         material.dispose();
 
