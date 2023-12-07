@@ -10,7 +10,9 @@ const parameters = {
     materialColor: "#ffeded"
 };
 
-gui.addColor(parameters, "materialColor");
+gui.addColor(parameters, "materialColor").onChange(() => {
+    material.color.set(parameters.materialColor);
+});
 
 /**
  * Base
