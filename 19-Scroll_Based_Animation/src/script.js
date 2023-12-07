@@ -161,8 +161,15 @@ const tick = () => {
     const parallaxY = -cursor.y;
 
     // Instead of apply the parallax on the camera, apply it on cameraGroup
-    cameraGroup.position.x = parallaxX;
-    cameraGroup.position.y = parallaxY;
+    // cameraGroup.position.x = parallaxX;
+    // cameraGroup.position.y = parallaxY;
+
+    // Easing
+    // parallaxX and parallaxY is the destination. Subtract the cameraGroup positions to get the
+    // distance of the actual position to the destination.
+    // To move a tenth of the delta, multiply by 0.1
+    cameraGroup.position.x += (parallaxX - cameraGroup.position.x) * 0.02;
+    cameraGroup.position.y += (parallaxY - cameraGroup.position.y) * 0.02;
 
     // Animate meshes
     for (const mesh of sectionMeshes) {
