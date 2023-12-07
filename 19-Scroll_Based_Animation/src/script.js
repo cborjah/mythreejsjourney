@@ -26,8 +26,19 @@ const scene = new THREE.Scene();
 /**
  * Objects
  */
+//Texture
+const textureLoader = new THREE.TextureLoader();
+const gradientTexture = textureLoader.load("textures/gradients/3.jpg");
+
+// By default, WebGL will try to merge the pixels of the gradient.
+// NearestFilter will NOT merge pixels. It will pick the pixel that closest matches  light intensity
+gradientTexture.magFilter = THREE.NearestFilter;
+
 //! The MeshToonMaterial is one of the Three.js materials that appears only when there is light
-const material = new THREE.MeshToonMaterial({ color: parameters.color });
+const material = new THREE.MeshToonMaterial({
+    gradientMap: gradientTexture,
+    color: parameters.color
+});
 
 // Meshes
 const mesh1 = new THREE.Mesh(new THREE.TorusGeometry(1, 0.4, 16, 60), material);
