@@ -91,6 +91,18 @@ const world = new CANNON.World();
  *! occur, but it's rare, and it involves doing things like moving Bodies very fast.
  */
 world.broadphase = new CANNON.SAPBroadphase(world);
+
+/**
+ * Sleep
+ *
+ ** Even if using an improved broadphase algo, all Bodies are tested, even those not moving.
+ * When the Body speed gets really slow the Body can fall asleep and won't be tested unless
+ * a sufficient force is applied.
+ *
+ * You can control how likely a Body will fall asleep with the sleepSpeedLimit and sleepTimeLimit
+ * properties.
+ */
+world.allowSleep = true;
 world.gravity.set(0, -9.82, 0);
 
 // Materials
