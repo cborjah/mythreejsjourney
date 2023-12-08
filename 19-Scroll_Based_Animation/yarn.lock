@@ -544,6 +544,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gsap@npm:3.5.1":
+  version: 3.5.1
+  resolution: "gsap@npm:3.5.1"
+  checksum: f7c4029824ccc3a55095ba70bd534d701ebae6130865f430ebdbbdc18486bf5dc4f649c4beeb0970d5587945060c728e3d756dfad21b7968bd0ee4c4c6913e8e
+  languageName: node
+  linkType: hard
+
 "http-cache-semantics@npm:^4.1.1":
   version: 4.1.1
   resolution: "http-cache-semantics@npm:4.1.1"
@@ -1072,6 +1079,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "threejs-journey-exercise@workspace:."
   dependencies:
+    gsap: 3.5.1
     lil-gui: ^0.19.0
     three: ^0.158.0
     vite: ^4.5.0
