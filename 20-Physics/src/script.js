@@ -60,6 +60,14 @@ const sphereBody = new CANNON.Body({
 });
 world.addBody(sphereBody);
 
+// Floor
+const floorShape = new CANNON.Plane();
+const floorBody = new CANNON.Body();
+floorBody.mass = 0; // This object is static and won't move. Default mass is 0, so this line can be omitted.
+floorBody.addShape(floorShape);
+floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2);
+world.addBody(floorBody);
+
 /**
  * Test sphere
  */
@@ -175,9 +183,12 @@ const tick = () => {
     // step: Step the physics world forward in time.
     world.step(1 / 60, deltaTime, 3); // (params - delta time, time elapsed since last call, max num of steps to take per function call)
 
-    sphere.position.x = sphereBody.position.x;
-    sphere.position.y = sphereBody.position.y;
-    sphere.position.z = sphereBody.position.z;
+    // sphere.position.x = sphereBody.position.x;
+    // sphere.position.y = sphereBody.position.y;
+    // sphere.position.z = sphereBody.position.z;
+
+    // Refactored method using copy()
+    sphere.position.copy(sphereBody.position);
 
     // Update controls
     controls.update();
