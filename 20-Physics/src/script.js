@@ -275,6 +275,7 @@ const tick = () => {
     for (const object of objectsToUpdate) {
         //! Update mesh to move with its body
         object.mesh.position.copy(object.body.position);
+        object.mesh.quaternion.copy(object.body.quaternion); // Rotation
     }
 
     // Update controls
