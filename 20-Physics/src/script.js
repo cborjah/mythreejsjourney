@@ -164,9 +164,20 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  * Animate
  */
 const clock = new THREE.Clock();
+let oldElapsedTime = 0;
 
 const tick = () => {
     const elapsedTime = clock.getElapsedTime();
+    const deltaTime = elapsedTime - oldElapsedTime; // How much time elapsed since last tick
+    oldElapsedTime = elapsedTime;
+
+    // Update physics world
+    // step: Step the physics world forward in time.
+    world.step(1 / 60, deltaTime, 3); // (params - delta time, time elapsed since last call, max num of steps to take per function call)
+
+    sphere.position.x = sphereBody.position.x;
+    sphere.position.y = sphereBody.position.y;
+    sphere.position.z = sphereBody.position.z;
 
     // Update controls
     controls.update();
