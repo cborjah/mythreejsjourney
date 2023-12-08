@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "lil-gui";
+import CANNON from "cannon";
 
 /**
  *? Popular physics libraries
@@ -39,6 +40,25 @@ const environmentMapTexture = cubeTextureLoader.load([
     "/textures/environmentMaps/0/pz.png",
     "/textures/environmentMaps/0/nz.png"
 ]);
+
+/**
+ * Physics
+ *
+ * In Three.js you create Meshes, in Cannon you create Bodies.
+ * But first you need to create a shape.
+ */
+// World
+const world = new CANNON.World();
+world.gravity.set(0, -9.82, 0);
+
+// Sphere
+const sphereShape = new CANNON.Sphere(0.5); // (param - radius)
+const sphereBody = new CANNON.Body({
+    mass: 1,
+    position: new CANNON.Vec3(0, 3),
+    shape: sphereShape
+});
+world.addBody(sphereBody);
 
 /**
  * Test sphere
