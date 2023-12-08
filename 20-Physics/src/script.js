@@ -68,6 +68,29 @@ const environmentMapTexture = cubeTextureLoader.load([
  */
 // World
 const world = new CANNON.World();
+
+/**
+ * Broadphase
+ *
+ * When testing the collisions between objects, a naive approach is testing every Body against
+ * every other Body. While this is easy to do, it's costly in terms of performance.
+ *
+ * That is where broadphase comes up. The broadphase is doing a rough sorting of the Bodies before
+ * testing them. Imagine having two piles of boxes far from each other. Why would you test the boxes
+ * from one pile against the boxes in the other pile? They are too far to be colliding.
+ *
+ * There are 3 broadphase algorithms available in Cannon.js:
+ *
+ * NaiveBroadphase (Default): Tests every Bodies against every other Bodies
+ * GridBroadphase: Quadrilles the world and only tests Bodies against other Bodies in the same grid
+ * box or the neighbors' grid boxes.
+ * SAPBroadphase (Recommended) (Sweep and prune broadphase): Tests Bodies on arbitrary axes during
+ * multiples steps.
+ *
+ *! Using SAPBroadphase can eventually generate bugs where a collision doesn't
+ *! occur, but it's rare, and it involves doing things like moving Bodies very fast.
+ */
+world.broadphase = new CANNON.SAPBroadphase(world);
 world.gravity.set(0, -9.82, 0);
 
 // Materials
