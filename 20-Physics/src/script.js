@@ -46,6 +46,23 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 /**
+ * Sounds
+ */
+const hitSound = new Audio("/sounds/hit.mp3");
+
+const playHitSound = collision => {
+    // console.log(collision.contact.getImpactVelocityAlongNormal());
+    const impactStrength = collision.contact.getImpactVelocityAlongNormal();
+
+    // Should not play sound if impact is not strong enough
+    if (impactStrength > 1.5) {
+        hitSound.currentTime = 0; // Allow sound to replay faster
+        hitSound.volume = Math.random(); // Add variety to sounds
+        hitSound.play();
+    }
+};
+
+/**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
@@ -245,6 +262,7 @@ const createSphere = (radius, position) => {
         material: defaultMaterial
     });
     body.position.copy(position);
+    body.addEventListener("collide", playHitSound);
     world.addBody(body);
 
     // Save in objects to update array
@@ -283,6 +301,7 @@ const createBox = (width, height, depth, position) => {
         material: defaultMaterial
     });
     body.position.copy(position);
+    body.addEventListener("collide", playHitSound);
     world.addBody(body);
 
     // Save in objects to update array
