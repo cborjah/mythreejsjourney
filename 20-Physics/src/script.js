@@ -13,6 +13,15 @@ import CANNON from "cannon";
  */
 
 /**
+ * The CPU handles the physics calculations.
+ * Currently everything is done by the same thread in the CPI which can quickly overload.
+ *
+ ** ********************* Use workers to solve this problem. *********************
+ * Workers let you put a part of your code in a different thread to spread the load.
+ * You can then send and receive data from that code and considerably improve performances.
+ */
+
+/**
  * Debug
  */
 const gui = new GUI();
