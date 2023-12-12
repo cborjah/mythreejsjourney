@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "lil-gui";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 
 /**
  * Three.js lets you create many primitive geometries, but when it comes to more complex shapes,
@@ -29,31 +30,52 @@ const scene = new THREE.Scene();
 /**
  * Models
  */
+
+/**
+ ** Draco Loader
+ *
+ * Uncompressed GLTF files will work as well. The Draco decoder is only loaded when needed.
+ *
+ * Draco compression is not a win-win situation.
+ * Geometries are light but the user has to load the DRACOLoader class and the decoder.
+ * It takes time and resources for the computer to decode a compresed file.
+ * It is mostly worth it when loading large files. (This tool is situational!)
+ */
+
+const dracoLoader = new DRACOLoader(); //! Must be BEFORE instantiating GLTF loader
+dracoLoader.setDecoderPath("/draco/");
+
 const gltfLoader = new GLTFLoader();
+gltfLoader.setDRACOLoader(dracoLoader);
 
 // gltfLoader.load("/models/Duck/glTF/Duck.gltf", gltf => {
 //     console.log(gltf);
 //     scene.add(gltf.scene.children[0]);
 // });
 
-gltfLoader.load("/models/FlightHelmet/glTF/FlightHelmet.gltf", gltf => {
-    console.log(gltf);
-    // scene.add(gltf.scene.children[0]); // Causes issue where part of children is added to scene. Once it is added to our scene, it is removed from it's original scene, therefore the array is shortened. This causes the for loop to end before loading every item.
-
-    // Use a while loop to load everything
-    // while (gltf.scene.children.length) {
-    //     scene.add(gltf.scene.children[0]);
-    // }
-
-    //* Another solution is to duplicate the children array
-    // const children = [...gltf.scene.children];
-    // for (const child of children) {
-    //     scene.add(child);
-    // }
-
-    //* Best solution is to add the scene property to your scene
+//! Need DRACOLoader instance
+gltfLoader.load("/models/Duck/glTF-Draco/Duck.gltf", gltf => {
     scene.add(gltf.scene);
 });
+
+// gltfLoader.load("/models/FlightHelmet/glTF/FlightHelmet.gltf", gltf => {
+//     console.log(gltf);
+//     // scene.add(gltf.scene.children[0]); // Causes issue where part of children is added to scene. Once it is added to our scene, it is removed from it's original scene, therefore the array is shortened. This causes the for loop to end before loading every item.
+
+//     // Use a while loop to load everything
+//     // while (gltf.scene.children.length) {
+//     //     scene.add(gltf.scene.children[0]);
+//     // }
+
+//     //* Another solution is to duplicate the children array
+//     // const children = [...gltf.scene.children];
+//     // for (const child of children) {
+//     //     scene.add(child);
+//     // }
+
+//     //* Best solution is to add the scene property to your scene
+//     scene.add(gltf.scene);
+// });
 
 /**
  * Floor
