@@ -58,7 +58,19 @@ const rayOrigin = new THREE.Vector3(-3, 0, 0);
 const rayDirection = new THREE.Vector3(10, 0, 0);
 rayDirection.normalize(); // Reduce vector size to 1, but maintain its direction
 
+//* Three.js updates the objects' coordinates (matrices) right before rendering them. Since ray
+//* casting is immediate, none of the objects have been rendered.
+//* Fix this by updating the matrices manually before any ray casting.
+object1.updateMatrixWorld();
+object2.updateMatrixWorld();
+object3.updateMatrixWorld();
+
 raycaster.set(rayOrigin, rayDirection);
+
+const intersect = raycaster.intersectObject(object2); // Returns an array because a ray can pass through an object multiple times
+console.log("🚀 ~ file: script.js:64 ~ intersect:", intersect);
+const intersects = raycaster.intersectObjects([object1, object2, object3]);
+console.log("🚀 ~ file: script.js:66 ~ intersects:", intersects);
 
 /**
  * Sizes
