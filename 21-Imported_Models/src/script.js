@@ -54,9 +54,9 @@ gltfLoader.setDRACOLoader(dracoLoader);
 // });
 
 //! Need DRACOLoader instance
-gltfLoader.load("/models/Duck/glTF-Draco/Duck.gltf", gltf => {
-    scene.add(gltf.scene);
-});
+// gltfLoader.load("/models/Duck/glTF-Draco/Duck.gltf", gltf => {
+//     scene.add(gltf.scene);
+// });
 
 // gltfLoader.load("/models/FlightHelmet/glTF/FlightHelmet.gltf", gltf => {
 //     console.log(gltf);
@@ -76,6 +76,21 @@ gltfLoader.load("/models/Duck/glTF-Draco/Duck.gltf", gltf => {
 //     //* Best solution is to add the scene property to your scene
 //     scene.add(gltf.scene);
 // });
+
+let mixer = null;
+
+gltfLoader.load("/models/Fox/glTF/Fox.gltf", gltf => {
+    mixer = new THREE.AnimationMixer(gltf.scene);
+    const action = mixer.clipAction(gltf.animations[0]);
+    // const action = mixer.clipAction(gltf.animations[1]);
+    // const action = mixer.clipAction(gltf.animations[2]);
+
+    action.play();
+
+    //* It is not good practice to mess with the scale of the children, scale the loaded scene instead
+    gltf.scene.scale.set(0.025, 0.025, 0.025);
+    scene.add(gltf.scene);
+});
 
 /**
  * Floor
@@ -170,6 +185,11 @@ const tick = () => {
     const elapsedTime = clock.getElapsedTime();
     const deltaTime = elapsedTime - previousTime;
     previousTime = elapsedTime;
+
+    // Update mixer
+    if (mixer != null) {
+        mixer.update(deltaTime);
+    }
 
     // Update controls
     controls.update();
