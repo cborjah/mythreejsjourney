@@ -22,6 +22,22 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 /**
+ * Update all materials
+ */
+// Call this function when a model is loaded and added to the scene
+const updateAllMaterials = () => {
+    // console.log("Traverse the scene and update all materials.");
+
+    scene.traverse(child => {
+        // You only want to apply the environment map to the Meshes that have a MeshStandardMaterial
+        if (child.isMesh && child.material.isMeshStandardMaterial) {
+            // console.log(child);
+            child.material.envMapIntensity = 3;
+        }
+    });
+};
+
+/**
  * Environment Map
  */
 // Low Dynamic Range (LDR) cube texture
@@ -41,9 +57,20 @@ scene.background = environmentMap;
  */
 const torusKnot = new THREE.Mesh(
     new THREE.TorusKnotGeometry(1, 0.4, 100, 16),
-    new THREE.MeshBasicMaterial()
+    new THREE.MeshStandardMaterial({
+        roughness: 0.3,
+        metalness: 1,
+        color: 0xaaaaaa
+    })
 );
+
 torusKnot.position.y = 4;
+torusKnot.position.x = -4;
+
+//* Instead of setting the envMap manually on every mesh, set the environment property of the scene to the environment map.
+// torusKnot.material.envMap = environmentMap;
+scene.environment = environmentMap;
+
 scene.add(torusKnot);
 
 /**
@@ -52,6 +79,8 @@ scene.add(torusKnot);
 gltfLoader.load("/models/FlightHelmet/glTF/FlightHelmet.gltf", gltf => {
     gltf.scene.scale.set(10, 10, 10);
     scene.add(gltf.scene);
+
+    updateAllMaterials();
 });
 
 /**
