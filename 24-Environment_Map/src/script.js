@@ -115,6 +115,7 @@ const holyDonut = new THREE.Mesh(
     new THREE.MeshBasicMaterial({ color: new THREE.Color(10, 4, 2) })
 );
 holyDonut.position.y = 3.5;
+holyDonut.layers.enable(1);
 scene.add(holyDonut);
 
 // Cube render target
@@ -141,12 +142,30 @@ scene.environment = cubeRenderTarget.texture;
 const cubeCamera = new THREE.CubeCamera(0.1, 100, cubeRenderTarget);
 
 /**
+ *! Bug
+ *
+ * All objects in the scene are now part of the environment map.
+ * This is not necessarily a big deal, but the helmet and the torus knot are blocking the light.
+ *
+ ** You want the cube camera to only see the DONUT.
+ */
+
+cubeCamera.layers.set(1);
+
+/**
+ * Layers
+ *
+ * By setting layers on a camera, the camera will only see objects matching the same layers.
+ * If a camera has its layers set to 1 and 2, it'll only see objects that have layers set to 1 or 2.
+ */
+
+/**
  * Torus Knot
  */
 const torusKnot = new THREE.Mesh(
     new THREE.TorusKnotGeometry(1, 0.4, 100, 16),
     new THREE.MeshStandardMaterial({
-        roughness: 0.3,
+        roughness: 0,
         metalness: 1,
         color: 0xaaaaaa
     })
