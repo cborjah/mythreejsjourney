@@ -3,6 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "lil-gui";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
+import { GroundProjectedSkybox } from "three/addons/objects/GroundProjectedSkybox.js";
 
 /**
  * Loaders
@@ -72,11 +73,27 @@ gui.add(global, "envMapIntensity")
 //* It's recommended to only use HDR environment mapping for lighting since they are usually
 //* heavier to lead and render. This can be mitigated with a lower resolution and blurred background.
 // HDR (RGBE) equirectangular
-rgbeLoader.load("/environmentMaps/0/2k.hdr", environmentMap => {
-    // console.log(environmentMap);
+// rgbeLoader.load("/environmentMaps/blender-2k.hdr", environmentMap => {
+//     // console.log(environmentMap);
+//     environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+//     // scene.background = environmentMap;
+//     scene.environment = environmentMap;
+// });
+
+// Ground projected skybox
+rgbeLoader.load("/environmentMaps/2/2k.hdr", environmentMap => {
     environmentMap.mapping = THREE.EquirectangularReflectionMapping;
-    scene.background = environmentMap;
     scene.environment = environmentMap;
+
+    // Skybox
+    const skybox = new GroundProjectedSkybox(environmentMap);
+    skybox.radius = 120;
+    skybox.height = 11;
+    skybox.scale.setScalar(50);
+    scene.add(skybox);
+
+    gui.add(skybox, "radius", 1, 200, 0.1).name("skyboxRadius");
+    gui.add(skybox, "height", 1, 200, 0.1).name("skyboxHeight");
 });
 
 /**
