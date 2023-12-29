@@ -112,7 +112,7 @@ scene.background = environmentMap;
 // Holy donut
 const holyDonut = new THREE.Mesh(
     new THREE.TorusGeometry(8, 0.5),
-    new THREE.MeshBasicMaterial({ color: "white" })
+    new THREE.MeshBasicMaterial({ color: new THREE.Color(10, 4, 2) })
 );
 holyDonut.position.y = 3.5;
 scene.add(holyDonut);
@@ -120,7 +120,7 @@ scene.add(holyDonut);
 // Cube render target
 const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
     // Set type to match same behaviour as an HDR with a high range of data
-    type: THREE.HalfFloatType
+    type: THREE.HalfFloatType // Half float type is used for performance purposes
 });
 
 // For lighting, we add our custom generated environment map to scene
