@@ -11,6 +11,7 @@ import { GroundProjectedSkybox } from "three/addons/objects/GroundProjectedSkybo
 const gltfLoader = new GLTFLoader();
 const cubeTextureLoader = new THREE.CubeTextureLoader();
 const rgbeLoader = new RGBELoader();
+const textureLoader = new THREE.TextureLoader();
 
 /**
  * Base
@@ -81,17 +82,40 @@ gui.add(global, "envMapIntensity")
 // });
 
 // Ground projected skybox
-rgbeLoader.load("/environmentMaps/2/2k.hdr", environmentMap => {
-    environmentMap.mapping = THREE.EquirectangularReflectionMapping;
-    scene.environment = environmentMap;
+// rgbeLoader.load("/environmentMaps/2/2k.hdr", environmentMap => {
+//     environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+//     scene.environment = environmentMap;
 
-    // Skybox
-    const skybox = new GroundProjectedSkybox(environmentMap);
-    skybox.radius = 120;
-    skybox.height = 11;
-    skybox.scale.setScalar(50);
-    scene.add(skybox);
+//     // Skybox
+//     const skybox = new GroundProjectedSkybox(environmentMap);
+//     skybox.radius = 120;
+//     skybox.height = 11;
+//     skybox.scale.setScalar(50);
+//     scene.add(skybox);
 
+//     gui.add(skybox, "radius", 1, 200, 0.1).name("skyboxRadius");
+//     gui.add(skybox, "height", 1, 200, 0.1).name("skyboxHeight");
+// });
+
+/**
+ * Real time environment map
+ */
+// LDR equirectanglar
+const environmentMap = textureLoader.load(
+    "environmentMaps/blockadesLabsSkybox/interior_views_cozy_wood_cabin_with_cauldron_and_p.jpg"
+);
+environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+environmentMap.colorSpace = THREE.SRGBColorSpace;
+
+scene.background = environmentMap;
+
+// Holy donut
+const holyDonut = new THREE.Mesh(
+    new THREE.TorusGeometry(8, 0.5),
+    new THREE.MeshBasicMaterial({ color: "white" })
+);
+holyDonut.position.y = 3.5;
+scene.add(holyDonut);
     gui.add(skybox, "radius", 1, 200, 0.1).name("skyboxRadius");
     gui.add(skybox, "height", 1, 200, 0.1).name("skyboxHeight");
 });
@@ -183,6 +207,11 @@ const clock = new THREE.Clock();
 const tick = () => {
     // Time
     const elapsedTime = clock.getElapsedTime();
+
+    // Real-time environment map
+    if (holyDonut) {
+        holyDonut.rotation.x = Math.sin(elapsedTime) * 2;
+    }
 
     // Update controls
     controls.update();
