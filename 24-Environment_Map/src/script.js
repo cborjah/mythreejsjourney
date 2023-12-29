@@ -116,9 +116,15 @@ const holyDonut = new THREE.Mesh(
 );
 holyDonut.position.y = 3.5;
 scene.add(holyDonut);
-    gui.add(skybox, "radius", 1, 200, 0.1).name("skyboxRadius");
-    gui.add(skybox, "height", 1, 200, 0.1).name("skyboxHeight");
+
+// Cube render target
+const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
+    // Set type to match same behaviour as an HDR with a high range of data
+    type: THREE.HalfFloatType
 });
+
+// For lighting, we add our custom generated environment map to scene
+scene.environment = cubeRenderTarget.texture;
 
 /**
  * Torus Knot
