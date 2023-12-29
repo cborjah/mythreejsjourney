@@ -119,6 +119,7 @@ holyDonut.layers.enable(1);
 scene.add(holyDonut);
 
 // Cube render target
+//* Try to use the smallest possible resolution (the size param) to increase performance
 const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
     // Set type to match same behaviour as an HDR with a high range of data
     type: THREE.HalfFloatType // Half float type is used for performance purposes
@@ -136,7 +137,15 @@ scene.environment = cubeRenderTarget.texture;
  * for us.
  *
  * The first parameter is the near, the second parameter is the far, and the third parameter is the
- * WebGLCubeRenderTarget in which to save the renders:
+ * WebGLCubeRenderTarget in which to save the renders.
+ *
+ * Be careful with real-time environment maps. Doing 6 renders on each frame can be quite a lot in
+ * terms of performance. This is why you should keep an eye on the frame rate, try to use the
+ * smallest possible resolution on the WebGLCubeRenderTarget, and keep the scene that is being
+ * rendered in the environment map simple.
+ *
+ * Also, be careful with layers. It’s easy to get lost in what is being rendered. In addition, note
+ * that lights aren’t affected by layers.
  */
 // Render the scene in the cubeCamera by using its update method and sending it the renderer and the scene inside the tick function
 const cubeCamera = new THREE.CubeCamera(0.1, 100, cubeRenderTarget);
@@ -157,6 +166,8 @@ cubeCamera.layers.set(1);
  *
  * By setting layers on a camera, the camera will only see objects matching the same layers.
  * If a camera has its layers set to 1 and 2, it'll only see objects that have layers set to 1 or 2.
+ *
+ ** Lights are NOT affected by layers!
  */
 
 /**
