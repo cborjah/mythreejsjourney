@@ -127,6 +127,20 @@ const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256, {
 scene.environment = cubeRenderTarget.texture;
 
 /**
+ * Cube Camera
+ *
+ * Since we need to render one texture for each face of a cube, we need to render 6 square textures.
+ * We could use a PerspectiveCamera, do some maths, make sure the field of view fills one side
+ * perfectly, do the 6 renders, and combine them. Or we can use the CubeCamera which will do that
+ * for us.
+ *
+ * The first parameter is the near, the second parameter is the far, and the third parameter is the
+ * WebGLCubeRenderTarget in which to save the renders:
+ */
+// Render the scene in the cubeCamera by using its update method and sending it the renderer and the scene inside the tick function
+const cubeCamera = new THREE.CubeCamera(0.1, 100, cubeRenderTarget);
+
+/**
  * Torus Knot
  */
 const torusKnot = new THREE.Mesh(
@@ -217,6 +231,8 @@ const tick = () => {
     // Real-time environment map
     if (holyDonut) {
         holyDonut.rotation.x = Math.sin(elapsedTime) * 2;
+
+        cubeCamera.update(renderer, scene);
     }
 
     // Update controls
