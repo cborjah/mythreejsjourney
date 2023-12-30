@@ -113,10 +113,29 @@ controls.target.y = 3.5;
 controls.enableDamping = true;
 
 /**
+ * Antialiasing
+ *
+ * This solution is called super sampling (SSAA) or fullscreen sampling (FSAA), and it's the easiest
+ * and more efficient one. Unfortunately, that means 4 times more pixels to render, which can result
+ * in performance issues.
+ *
+ * The other solution is called multi sampling (MSAA). Again, the idea is to render multiple values
+ * per pixel (usually 4) like for the super sampling but only on the geometries' edges. The values
+ * of the pixel are then averaged to get the final pixel value.
+ *
+ * Recent GPUs can perform this multi sampling anti-aliasing, and Three.js handles the setup
+ * automatically. We just need to change the antialias property to true during the
+ * instantiating — and not after.
+ *
+ * Screens with a pixel ratio above 1, AA is not really needed.
+ */
+
+/**
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    antialias: true
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
