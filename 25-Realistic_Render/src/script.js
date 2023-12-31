@@ -68,7 +68,7 @@ rgbeLoader.load("/environmentMaps/0/2k.hdr", environmentMap => {
  * Directional light
  */
 const directionalLight = new THREE.DirectionalLight("#ffffff", 6);
-directionalLight.position.set(3, 7, 6);
+directionalLight.position.set(-4, 6.5, 2.5);
 scene.add(directionalLight);
 
 gui.add(directionalLight, "intensity")
@@ -95,14 +95,14 @@ gui.add(directionalLight.position, "z")
 // Shadows
 directionalLight.castShadow = true;
 directionalLight.shadow.camera.far = 15;
-directionalLight.shadow.mapSize.set(1024, 1024); // Increase shadow map size for a more precise shadow.
+directionalLight.shadow.mapSize.set(512, 512); // Increase shadow map size for a more precise shadow.
 gui.add(directionalLight, "castShadow");
 
 // Helper
-const directionalLightHelper = new THREE.CameraHelper(
-    directionalLight.shadow.camera
-); // Camera of the shadow map. The camera that will render the depth of the shadows.
-scene.add(directionalLightHelper);
+// const directionalLightHelper = new THREE.CameraHelper(
+//     directionalLight.shadow.camera
+// ); // Camera of the shadow map. The camera that will render the depth of the shadows.
+// scene.add(directionalLightHelper);
 
 // Target
 directionalLight.target.position.set(0, 4, 0); // Three.js uses matrices to define object transforms.
@@ -190,7 +190,7 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 // Tone mapping
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMapping = THREE.ReinhardToneMapping;
 renderer.toneMappingExposure = 3;
 
 gui.add(renderer, "toneMapping", {
