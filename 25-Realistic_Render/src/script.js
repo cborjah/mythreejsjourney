@@ -96,8 +96,12 @@ gui.add(directionalLight.position, "z")
 // Shadows
 directionalLight.castShadow = true;
 directionalLight.shadow.camera.far = 15;
+directionalLight.shadow.normalBias = 0.27;
+directionalLight.shadow.bias = -0.004;
 directionalLight.shadow.mapSize.set(512, 512); // Increase shadow map size for a more precise shadow.
 gui.add(directionalLight, "castShadow");
+gui.add(directionalLight.shadow, "normalBias").min(-0.05).max(0.05).step(0.001);
+gui.add(directionalLight.shadow, "bias").min(-0.05).max(0.05).step(0.001);
 
 // Helper
 // const directionalLightHelper = new THREE.CameraHelper(
@@ -115,8 +119,28 @@ directionalLight.target.updateWorldMatrix();
  * Models
  */
 // Helmet
-gltfLoader.load("/models/FlightHelmet/glTF/FlightHelmet.gltf", gltf => {
-    gltf.scene.scale.set(10, 10, 10);
+// gltfLoader.load("/models/FlightHelmet/glTF/FlightHelmet.gltf", gltf => {
+//     gltf.scene.scale.set(10, 10, 10);
+//     scene.add(gltf.scene);
+
+//     updateAllMaterials();
+// });
+
+/**
+ * Shadow Acne
+ *
+ * Shadow acne can occur on both smooth and flat surfaces for precision reasons when calculating if the surface is in the shadow or not.
+ * The hamburger is casting a shadow on its own surface.
+ *
+ * This can be fixed by tweaking the light's shadow bias and nomral bias.
+ * - bias usually helps for flat surfaces
+ * - normalBias usually helps for rounded surfaces
+ */
+
+// Hamburger
+gltfLoader.load("/models/hamburger.glb", gltf => {
+    gltf.scene.scale.set(0.4, 0.4, 0.4);
+    gltf.scene.position.set(0, 2.5, 0);
     scene.add(gltf.scene);
 
     updateAllMaterials();
