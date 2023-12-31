@@ -38,6 +38,9 @@ const updateAllMaterials = () => {
     scene.traverse(child => {
         if (child.isMesh && child.material.isMeshStandardMaterial) {
             child.material.envMapIntensity = global.envMapIntensity;
+
+            child.castShadow = true;
+            child.receiveShadow = true;
         }
     });
 };
