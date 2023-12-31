@@ -91,6 +91,8 @@ gui.add(directionalLight.position, "z")
 
 // Shadows
 directionalLight.castShadow = true;
+directionalLight.shadow.camera.far = 15;
+directionalLight.shadow.mapSize.set(1024, 1024); // Increase shadow map size for a more precise shadow.
 gui.add(directionalLight, "castShadow");
 
 // Helper
@@ -98,6 +100,12 @@ const directionalLightHelper = new THREE.CameraHelper(
     directionalLight.shadow.camera
 ); // Camera of the shadow map. The camera that will render the depth of the shadows.
 scene.add(directionalLightHelper);
+
+// Target
+directionalLight.target.position.set(0, 4, 0); // Three.js uses matrices to define object transforms.
+// scene.add(directionalLight.target);
+//* Instead of adding to the scene, you can update the matrix manually using the updateWorldMatrix method.
+directionalLight.target.updateWorldMatrix();
 
 /**
  * Models
