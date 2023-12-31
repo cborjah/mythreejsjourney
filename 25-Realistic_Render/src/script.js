@@ -89,6 +89,16 @@ gui.add(directionalLight.position, "z")
     .step(0.001)
     .name("lightZ");
 
+// Shadows
+directionalLight.castShadow = true;
+gui.add(directionalLight, "castShadow");
+
+// Helper
+const directionalLightHelper = new THREE.CameraHelper(
+    directionalLight.shadow.camera
+); // Camera of the shadow map. The camera that will render the depth of the shadows.
+scene.add(directionalLightHelper);
+
 /**
  * Models
  */
@@ -180,6 +190,10 @@ gui.add(renderer, "toneMapping", {
     ACESFilmic: THREE.ACESFilmicToneMapping
 });
 gui.add(renderer, "toneMappingExposure").min(0).max(10).step(0.001);
+
+// Shadows
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFShadowMap;
 
 /**
  * Animate
