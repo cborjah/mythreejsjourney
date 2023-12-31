@@ -123,6 +123,20 @@ gltfLoader.load("/models/FlightHelmet/glTF/FlightHelmet.gltf", gltf => {
 });
 
 /**
+ * Textures
+ *
+ *! Make sure the correct color space is being used for each texture!
+ *
+ * The textures look oddly white and this is due to the "color space".
+ * Color space is a way to optimize how colors are being stored according to the human eye sensitivity.
+ *
+ * Linear color space is the default.
+ *
+ ** GLTF files already contain information about which color space to use, which is why the flight helmet
+ ** model didn't need this adjustment.
+ */
+
+/**
  * Floor
  */
 const floorColorTexture = textureLoader.load(
@@ -134,6 +148,8 @@ const floorNormalTexture = textureLoader.load(
 const floorAORoughnessMetalnessTexture = textureLoader.load(
     "/textures/wood_cabinet_worn_long/wood_cabinet_worn_long_arm_1k.jpg"
 );
+
+floorColorTexture.colorSpace = THREE.SRGBColorSpace;
 
 const floor = new THREE.Mesh(
     new THREE.PlaneGeometry(8, 8),
@@ -160,6 +176,8 @@ const wallNormalTexture = textureLoader.load(
 const wallAORoughnessMetalnessTexture = textureLoader.load(
     "/textures/castle_brick_broken_06/castle_brick_broken_06_arm_1k.jpg"
 );
+
+wallColorTexture.colorSpace = THREE.SRGBColorSpace;
 
 const wall = new THREE.Mesh(
     new THREE.PlaneGeometry(8, 8),
