@@ -4,8 +4,6 @@ export default class Sizes extends EventEmitter {
     constructor() {
         super();
 
-        console.log("Sizes mounted");
-
         // Setup
         this.width = window.innerWidth;
         this.height = window.innerHeight;

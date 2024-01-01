@@ -8,8 +8,10 @@ export default class Experience {
         // Setup
         this.sizes = new Sizes();
 
-        this.sizes.asdasdfon("resize", () => {
-            console.log("I heard a resize");
+        this.sizes.on("resize", () => {
+            this.resize();
         });
     }
+
+    resize() {}
 }
