@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import Experience from "../Experience";
 import Environment from "./Environment";
+import Floor from "./Floor";
 
 export default class World {
     constructor() {
@@ -17,6 +18,7 @@ export default class World {
 
         this.resources.on("ready", () => {
             // Setup
+            this.floor = new Floor(); // Place before instantiating the environment in order to properly set environment maps
             this.environmnent = new Environment();
         });
     }

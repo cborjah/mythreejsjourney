@@ -49,6 +49,6 @@ export default class Environment {
             });
         };
 
-        this.setEnvironmentMap.updateMaterials();
+        this.environmentMap.updateMaterials();
     }
 }
