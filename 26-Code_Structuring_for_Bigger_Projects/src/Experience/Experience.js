@@ -50,6 +50,7 @@ export default class Experience {
 
     update() {
         this.camera.update(); // Update camera BEFORE renderer to avoid bugs
+        this.world.update();
         this.renderer.update();
     }
 }
