@@ -18,8 +18,8 @@ export default class Experience {
 
         instance = this;
 
-        // Global access
-        // window.experience = this;
+        // Global access for debugging
+        window.experience = this;
 
         // Options
         this.canvas = canvas;
@@ -54,5 +54,43 @@ export default class Experience {
         this.camera.update(); // Update camera BEFORE renderer to avoid bugs
         this.world.update();
         this.renderer.update();
+    }
+
+    destroy() {
+        this.sizes.off("resize");
+        this.time.off("tick");
+
+        // Traverse the whole scene
+        this.scene.traverse(child => {
+            /**
+             * - Test if its a Mesh.
+             * - Call the dispose() func on the geometry property.
+             * - Loop through every key of the material property.
+             * - If there is a dispose() func available on that key, call it.
+             *
+             * This is a very minimalist way of destroying everything in a scene.
+             * You might find that there will be exceptions within specific classes.
+             *
+             ** Usually each class will have its own destroy method.
+             */
+            if (child instanceof THREE.Mesh) {
+                child.geometry.dispose();
+
+                for (const key in child.material) {
+                    const value = child.material[key];
+
+                    if (value && typeof value.dispose === "function") {
+                        value.dispose();
+                    }
+                }
+            }
+        });
+
+        this.camera.controls.dispose();
+        this.renderer.instance.dispose();
+
+        if (this.debug.active) {
+            this.debug.ui.destroy();
+        }
     }
 }
