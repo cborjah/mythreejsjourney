@@ -204,7 +204,11 @@ Useful for:
 
 Properties likes `map`, `alphaMap`, `opacity`, `color`, etc. won't work and you need to write these features manually.
 
-## Documentation
+## Debugging
+
+Since you cannot use `console.log` in .glsl, .vert, and .frag files, you can use the `gl_FragColor` to test values on the screen. If the values you want to test are in the vertex shader, pass them to the fragment shader using varyings and assign `gl_FragColor` to the values.
+
+## Resources
 
 [Shaderific documentation](https://shaderific.com/glsl.html) - documentation of an iOS application to do shaders
 
@@ -217,3 +221,9 @@ This documentation deals with OpenGL, but most of the standard functions you'll 
 [Book of shaders documentation](https://thebookofshaders.com/) - A great course about fragment shaders!
 
 The book of shaders mainly focus on fragment shaders and has nothing to do with Three.js but it is a great resource to learn and it has its own glossary.
+
+[ShaderToy](https://www.shadertoy.com/)
+
+[The Art of Code Youtube Channel](https://www.youtube.com/channel/UCcAlTqd9zID6aNX3TzwxJXg)
+
+[Lewis Lepton Youtube Channel](https://www.youtube.com/channel/UC8Wzk_R1GoPkPqLo-obU_kQ)
