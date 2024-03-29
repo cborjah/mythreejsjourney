@@ -43,7 +43,8 @@ const material = new THREE.RawShaderMaterial({
     vertexShader: testVertexShader,
     fragmentShader: testFragmentShader,
     uniforms: {
-        uFrequency: { value: new THREE.Vector2(10, 5) }
+        uFrequency: { value: new THREE.Vector2(10, 5) },
+        uTime: { value: 0 }
     }
     // wireframe: true,
     // side: THREE.DoubleSide // Render both sides
@@ -119,6 +120,9 @@ const clock = new THREE.Clock();
 
 const tick = () => {
     const elapsedTime = clock.getElapsedTime();
+
+    // Update material
+    material.uniforms.uTime.value = elapsedTime;
 
     // Update controls
     controls.update();
