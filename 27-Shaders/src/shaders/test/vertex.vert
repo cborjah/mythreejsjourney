@@ -7,6 +7,9 @@ uniform mat4 modelMatrix;
 attribute vec3 position;
 attribute float aRandom; // It is a float because there's only one value per vertex
 
+// Sending attributes to fragment shader
+varying float vRandom;
+
 void main()
 {
    // gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
@@ -21,4 +24,6 @@ void main()
    vec4 projectedPosition = projectionMatrix * viewPosition;
 
    gl_Position = projectedPosition;
+
+   vRandom = aRandom;
 }
