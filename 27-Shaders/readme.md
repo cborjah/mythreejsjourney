@@ -129,6 +129,77 @@ float loremIpsum(float a, float b) { return a + b; }
 float result = loremIpsum(1.0, 2.0);
 ```
 
+#### The main Function
+
+The `main` function is required for `.glsl`, `.vert`, and `.frag` files. It is called automatically an doesn't return anything (returns `void`).
+
+**gl_Position**
+
+-   Already exists, just needs to be assigned.
+-   Contains the position of the vertex on the screen.
+-   MUST be a `vec4`.
+    -   Has 4 values, because coordinates provided are in `clip space`.
+    -   `clip space` is not 2D, it looks more like a 3D box.
+    -   x, y, z axis
+    -   The fourth value is about perspective (homogeneous coordinates)
+
+**Matrices Uniforms**
+
+#### Vertex shader:
+
+Each matrix will transform the `position` until we get the final clip space coordinates.
+
+-   There are currently 3 matrices
+-   `uniforms` because they are all the same for all the vertices
+-   Each matrix will do a part of the transformation
+-   To apply a matrix, you multiply it
+-   The matrix must have the same size as the coordinate (`mat4` for `vec4`)
+
+`modelMatrix` applies transformations relative to the `Mesh` (position, rotation, and scale)<br>
+`viewMatrix` applies transformations relative to the camera (position, roations, FOV, near, far)<br>
+`projectionMatrix` transforms the coordinates into the clip space coordinates
+
+There is a shorter version where the `viewMatrix` and the `modelMatrix` are combined into a `modelViewMatrix`.
+
+#### Fragment shader:
+
+**Precision**
+
+-   Mandatory
+-   Lets you decide how precise a `float` can be.
+    -   highp
+        -   Can have a performance hit and might not work on some devices.
+    -   mediump
+        -   Most commonly used.
+    -   lowp
+        -   Can create bugs by the lack of precision.
+
+**gl_FragColor**
+
+-   Already exists, just needs to be assigned.
+-   Contains the color of the fragment.
+-   `vec4` (r, g, b, and a)
+-   a is for alpha.
+
+    -   Need `transparent` property set to `true` if alpha is below 1.0.
+
+**Attributes**
+
+`position` is already sent and you can add your own attributes to the `BufferGeometry`.
+
+[OpenGL Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems.)
+
+#### Uniforms
+
+Useful for:
+
+-   Having the same shader but with different results.
+-   Being able to tweak values.
+-   Animating the value.
+-   Can be used in both vertex and fragment shaders.
+
+`type` is no longer required to be defined, just the value of the uniform.
+
 ## RawShaderMaterial
 
 Properties likes `map`, `alphaMap`, `opacity`, `color`, etc. won't work and you need to write these features manually.
