@@ -66,6 +66,7 @@ gui.add(material.uniforms.uFrequency.value, "y")
 
 // Mesh
 const mesh = new THREE.Mesh(geometry, material);
+mesh.scale.y = 2 / 3;
 scene.add(mesh);
 
 /**
