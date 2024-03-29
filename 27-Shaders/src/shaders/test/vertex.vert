@@ -1,14 +1,5 @@
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
-uniform mat4 modelMatrix;
 uniform vec2 uFrequency;
 uniform float uTime;
-
-// Retrieves the value of each vertex
-// Contains the x, y, and z coordinates from the attribute
-attribute vec3 position;
-attribute vec2 uv;
-attribute float aRandom; // It is a float because there's only one value per vertex
 
 // Sending attributes to fragment shader
 // varying float vRandom;
@@ -36,7 +27,6 @@ void main()
 
    gl_Position = projectedPosition;
 
-   // vRandom = aRandom;
    vUv = uv; // Pass uv value from geometry to the fragment shader
    vElevation = elevation; // Pass elevation value to the fragment shader
 }

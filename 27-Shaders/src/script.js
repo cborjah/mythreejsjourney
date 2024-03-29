@@ -40,7 +40,20 @@ geometry.setAttribute("aRandom", new THREE.BufferAttribute(randoms, 1)); // The 
 
 // Material
 // const material = new THREE.MeshBasicMaterial()
-const material = new THREE.RawShaderMaterial({
+// const material = new THREE.RawShaderMaterial({
+//     vertexShader: testVertexShader,
+//     fragmentShader: testFragmentShader,
+//     uniforms: {
+//         uFrequency: { value: new THREE.Vector2(10, 5) },
+//         uTime: { value: 0 },
+//         uColor: { value: new THREE.Color("orange") },
+//         uTexture: { value: flagTexture }
+//     }
+//     // wireframe: true,
+//     // side: THREE.DoubleSide // Render both sides
+// });
+
+const material = new THREE.ShaderMaterial({
     vertexShader: testVertexShader,
     fragmentShader: testFragmentShader,
     uniforms: {
