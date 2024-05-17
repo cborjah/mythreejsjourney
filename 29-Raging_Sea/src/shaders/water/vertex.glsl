@@ -3,6 +3,11 @@ uniform float uBigWavesElevation;
 uniform vec2 uBigWavesFrequency;
 uniform float uBigWavesSpeed;
 
+uniform float uSmallWavesElevation;
+uniform float uSmallWavesFrequency;
+uniform float uSmallWavesSpeed;
+uniform float uSmallWavesIterations;
+
 varying float vElevation;
 
 //	Classic Perlin 3D Noise
@@ -95,9 +100,9 @@ void main()
             sin(modelPosition.z * uBigWavesFrequency.y + uTime * uBigWavesSpeed) *
             uBigWavesElevation;
 
-    for (float i = 1.0; i <= 3.0; i++)
+    for (float i = 1.0; i <= uSmallWavesIterations; i++)
     {
-        elevation -= abs(cnoise(vec3(modelPosition.xz * 4.0 * i, uTime * 0.2)) * 0.15 / i);
+        elevation -= abs(cnoise(vec3(modelPosition.xz * uSmallWavesFrequency * i, uTime * uSmallWavesSpeed)) * uSmallWavesElevation / i);
     }
 
     modelPosition.y += elevation;
