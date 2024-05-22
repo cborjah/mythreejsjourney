@@ -104,7 +104,7 @@ const generateGalaxy = () => {
     material = new THREE.ShaderMaterial({
         depthWrite: false,
         blending: THREE.AdditiveBlending,
-        vertexColors: true,
+        vertexColors: true, // Add the attribute vec3 color
         vertexShader: galaxyVertexShader,
         fragmentShader: galaxyFragmentShader,
         uniforms: {
