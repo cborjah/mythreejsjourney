@@ -20,9 +20,7 @@ void main()
     modelPosition.z = sin(angle) * distanceToCenter;
 
     // Randomness
-    modelPosition.x += aRandomness.x;
-    modelPosition.y += aRandomness.y;
-    modelPosition.z += aRandomness.z;
+    modelPosition.xyz += aRandomness;
 
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;
