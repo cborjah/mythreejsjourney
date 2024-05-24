@@ -77,6 +77,7 @@ const customUniforms = {
     uTime: { value: 0 }
 };
 
+// NOTE: When replacing shaders, try to keep them in the same order as in the three module folder
 material.onBeforeCompile = (shader) => {
     shader.uniforms.uTime = customUniforms.uTime;
 
@@ -95,18 +96,29 @@ material.onBeforeCompile = (shader) => {
     );
 
     shader.vertexShader = shader.vertexShader.replace(
-        "#include <begin_vertex>",
+        `#include <beginnormal_vertex>`,
         `
-            #include <begin_vertex>
+            #include <beginnormal_vertex>
 
             float angle = position.y + uTime * 0.9;
             mat2 rotateMatrix = get2dRotateMatrix(angle);
+
+            objectNormal.xz = rotateMatrix * objectNormal.xz;
+        `
+    );
+
+    // NOTE: The angle and rotateMatrix variables are already defined in the <beginnormal_vertex> block.
+    shader.vertexShader = shader.vertexShader.replace(
+        "#include <begin_vertex>",
+        `
+            #include <begin_vertex>
 
             transformed.xz = rotateMatrix * transformed.xz;
         `
     );
 };
 
+// NOTE: The core shadow does NOT affect the depth material
 depthMaterial.onBeforeCompile = (shader) => {
     shader.uniforms.uTime = customUniforms.uTime;
 
