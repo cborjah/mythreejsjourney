@@ -107,8 +107,8 @@ const smokeMaterial = new THREE.ShaderMaterial({
         uPerlinTexture: new THREE.Uniform(perlinTexture)
     },
     side: THREE.DoubleSide,
-    transparent: true
-    // wireframe: true
+    transparent: true,
+    wireframe: true
 });
 
 // Mesh
