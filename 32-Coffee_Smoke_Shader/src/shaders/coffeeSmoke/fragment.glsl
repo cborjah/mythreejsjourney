@@ -14,6 +14,9 @@ void main()
     // Smoke
     float smoke = texture(uPerlinTexture, smokeUv).r; // Since its a greyscale picture, r,g, and b are the same values. Therefore, only retrieve the 'r' channel.
 
+    // Remap
+    smoke = smoothstep(0.4, 1.0, smoke); // smoothstep returns a value from 0 to 1 and it's clamped.
+
     gl_FragColor = vec4(1.0, 1.0, 1.0, smoke);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
