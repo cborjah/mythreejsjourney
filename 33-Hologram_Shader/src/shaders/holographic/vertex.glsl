@@ -14,8 +14,10 @@ void main()
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
 
     // Glitch effect
-    modelPosition.x += random2D(modelPosition.xz + uTime) - 0.5;
-    modelPosition.z += random2D(modelPosition.zx + uTime) - 0.5;
+    float glitchStrength = sin(uTime - modelPosition.y);
+    glitchStrength *= 0.25;
+    modelPosition.x += (random2D(modelPosition.xz + uTime) - 0.5) * glitchStrength;
+    modelPosition.z += (random2D(modelPosition.zx + uTime) - 0.5) * glitchStrength;
 
     gl_Position = projectionMatrix * viewMatrix * modelPosition;
 
