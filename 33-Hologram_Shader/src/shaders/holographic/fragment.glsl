@@ -23,8 +23,12 @@ void main()
     float fresnel = dot(viewDirection, normal) + 1.0; // The dot product returns 1 if the two vectors are parallel to each other, 0 if they're perpendicular, and -1 if they are in opposite directions.
     fresnel = pow(fresnel, 2.0); // Apply a power to the fresnel to make it sharper.
 
+    // Holographic
+    float holographic = stripes * fresnel;
+    holographic += fresnel * 1.25; // Add the fresnel value to the holographic value to make the fresnel effect brighter
+
     // Final color
-    gl_FragColor = vec4(1.0, 1.0, 1.0, fresnel);
+    gl_FragColor = vec4(1.0, 1.0, 1.0, holographic);
 
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
