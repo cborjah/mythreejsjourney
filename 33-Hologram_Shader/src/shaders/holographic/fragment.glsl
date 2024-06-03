@@ -1,9 +1,11 @@
+uniform float uTime;
+
 varying vec3 vPosition;
 
 void main()
 {
     // Stripes
-    float stripes = mod(vPosition.y * 20.0, 1.0);
+    float stripes = mod((vPosition.y - uTime * 0.02) * 20.0, 1.0);
     stripes = pow(stripes, 3.0);
 
     // Final color
