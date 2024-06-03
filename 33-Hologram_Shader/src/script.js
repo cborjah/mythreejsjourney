@@ -85,7 +85,8 @@ const material = new THREE.ShaderMaterial({
     fragmentShader: holographicFragmentShader,
     uniforms: {
         uTime: new THREE.Uniform(0)
-    }
+    },
+    transparent: true
 });
 
 /**
