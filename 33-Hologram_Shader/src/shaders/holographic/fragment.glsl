@@ -28,9 +28,14 @@ void main()
     float fresnel = dot(viewDirection, normal) + 1.0; // The dot product returns 1 if the two vectors are parallel to each other, 0 if they're perpendicular, and -1 if they are in opposite directions.
     fresnel = pow(fresnel, 2.0); // Apply a power to the fresnel to make it sharper.
 
+    // Falloff
+    // Smooth remapping means use the smoothstep fn.
+    float falloff = smoothstep(0.8, 0.0, fresnel); // 0.8 and 0.0 are the limits because we've already applied a 'pow' on the fresnel value and also because the 'AdditiveBlending' is making the edges already quite bright since both sides are rendered.
+
     // Holographic
     float holographic = stripes * fresnel;
     holographic += fresnel * 1.25; // Add the fresnel value to the holographic value to make the fresnel effect brighter
+    holographic *= falloff;
 
     // Final color
     gl_FragColor = vec4(1.0, 1.0, 1.0, holographic);
