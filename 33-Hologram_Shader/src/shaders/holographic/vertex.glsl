@@ -14,7 +14,10 @@ void main()
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
 
     // Glitch effect
-    float glitchStrength = sin(uTime - modelPosition.y);
+    float glitchTime = uTime - modelPosition.y;
+    float glitchStrength = sin(glitchTime) + sin(glitchTime * 3.45) + sin(glitchTime * 8.76);
+    glitchStrength /= 3.0; // Since 3 sine functions are added, the value can get quite high (up to 3.0). Divide by 3.0 to bring it back down to 1.0.
+    glitchStrength = smoothstep(0.3, 1.0, glitchStrength); // When 'glitchStrength' is below 0.3 you get 0. When the value goes above 0.3, you get a value that starts at 0 and goes up to 1.0.
     glitchStrength *= 0.25;
     modelPosition.x += (random2D(modelPosition.xz + uTime) - 0.5) * glitchStrength;
     modelPosition.z += (random2D(modelPosition.zx + uTime) - 0.5) * glitchStrength;
