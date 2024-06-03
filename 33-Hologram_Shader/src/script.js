@@ -88,7 +88,8 @@ const material = new THREE.ShaderMaterial({
     },
     transparent: true,
     side: THREE.DoubleSide, // Tell three.js to render backside
-    depthWrite: false // Turn off depthWrite to prevent the front side occluding the back side becuase it is currently writign on the depth buffer.
+    depthWrite: false, // Turn off depthWrite to prevent the front side occluding the back side becuase it is currently writign on the depth buffer.
+    blending: THREE.AdditiveBlending // Since holograms are supposedly composed of light, change the 'blending' to 'AdditiveBlending'. This will add the color to the previous color of the rendering. (This is useful for anything that is about lighting!)
 });
 
 /**
