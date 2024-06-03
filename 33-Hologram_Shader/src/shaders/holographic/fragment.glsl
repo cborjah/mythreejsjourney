@@ -12,6 +12,11 @@ void main()
     // Use the normalize function to fix this.
     vec3 normal = normalize(vNormal);
 
+    // Invert normals on the backside of the object so that they are visible.
+    if (!gl_FrontFacing) {
+        normal *= -1.0;
+    }
+
     // Stripes
     float stripes = mod((vPosition.y - uTime * 0.02) * 20.0, 1.0);
     stripes = pow(stripes, 3.0);

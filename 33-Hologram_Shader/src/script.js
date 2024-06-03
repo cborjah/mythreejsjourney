@@ -86,7 +86,9 @@ const material = new THREE.ShaderMaterial({
     uniforms: {
         uTime: new THREE.Uniform(0)
     },
-    transparent: true
+    transparent: true,
+    side: THREE.DoubleSide, // Tell three.js to render backside
+    depthWrite: false // Turn off depthWrite to prevent the front side occluding the back side becuase it is currently writign on the depth buffer.
 });
 
 /**
