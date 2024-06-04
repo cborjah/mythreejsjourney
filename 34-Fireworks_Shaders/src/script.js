@@ -119,7 +119,10 @@ const createFirework = (count, position, size, texture) => {
             uSize: new THREE.Uniform(size),
             uResolution: new THREE.Uniform(sizes.resolution),
             uTexture: new THREE.Uniform(texture)
-        }
+        },
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
     });
 
     // Points
