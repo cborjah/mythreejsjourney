@@ -101,7 +101,7 @@ const createFirework = (count, position, size, texture, radius) => {
         const i3 = i * 3;
 
         const spherical = new THREE.Spherical(
-            radius,
+            radius * (0.75 + Math.random() * 0.25),
             Math.random() * Math.PI, // Phi (Angle from bottom to top)
             Math.random() * Math.PI * 2 // Theta (Horizontal angle)
         );
