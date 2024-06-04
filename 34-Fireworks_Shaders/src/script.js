@@ -111,6 +111,7 @@ const createFirework = (count, position, size, texture) => {
     );
 
     // Material
+    texture.flipY = false; // NOTE: Three.js by default flips textures. Invert them to get correct orientation.
     const material = new THREE.ShaderMaterial({
         vertexShader: fireworkVertexShader,
         fragmentShader: fireworkFragmentShader,
