@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import GUI from "lil-gui";
+import gsap from "gsap";
 import fireworkVertexShader from "./shaders/firework/vertex.glsl";
 import fireworkFragmentShader from "./shaders/firework/fragment.glsl";
 
@@ -135,7 +136,8 @@ const createFirework = (count, position, size, texture, radius, color) => {
             uSize: new THREE.Uniform(size),
             uResolution: new THREE.Uniform(sizes.resolution),
             uTexture: new THREE.Uniform(texture),
-            uColor: new THREE.Uniform(color)
+            uColor: new THREE.Uniform(color),
+            uProgress: new THREE.Uniform(0)
         },
         transparent: true,
         depthWrite: false,
@@ -146,6 +148,13 @@ const createFirework = (count, position, size, texture, radius, color) => {
     const firework = new THREE.Points(geometry, material);
     firework.position.copy(position);
     scene.add(firework);
+
+    // Animate
+    gsap.to(material.uniforms.uProgress, {
+        value: 1,
+        duration: 3,
+        ease: "linear"
+    });
 };
 
 createFirework(
