@@ -166,14 +166,16 @@ const createFirework = (count, position, size, texture, radius, color) => {
     });
 };
 
-createFirework(
-    100, // Count
-    new THREE.Vector3(), // Position
-    0.5, // Size
-    textures[7], // Texture
-    1, // Radius
-    new THREE.Color("#8affff") // Color
-);
+window.addEventListener("click", () => {
+    createFirework(
+        100, // Count
+        new THREE.Vector3(), // Position
+        0.5, // Size
+        textures[7], // Texture
+        1, // Radius
+        new THREE.Color("#8affff") // Color
+    );
+});
 
 /**
  * Animate
