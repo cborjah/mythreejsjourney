@@ -149,11 +149,20 @@ const createFirework = (count, position, size, texture, radius, color) => {
     firework.position.copy(position);
     scene.add(firework);
 
+    // Destroy
+    const destroy = () => {
+        // NOTE: No need to dispose textures since it is being reused.
+        scene.remove(firework);
+        geometry.dispose();
+        material.dispose();
+    };
+
     // Animate
     gsap.to(material.uniforms.uProgress, {
         value: 1,
         duration: 3,
-        ease: "linear"
+        ease: "linear",
+        onComplete: destroy
     });
 };
 
