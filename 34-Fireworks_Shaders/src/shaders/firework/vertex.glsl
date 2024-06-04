@@ -1,3 +1,5 @@
+uniform float uSize;
+
 void main()
 {
     // Final position
@@ -6,6 +8,6 @@ void main()
     gl_Position = projectionMatrix * viewPosition;
 
     // Final size
-    gl_PointSize = 50.0;
+    gl_PointSize = uSize;
     gl_PointSize *= 1.0 / -viewPosition.z; // Add perspective to particles. They get bigger the closer the camera gets and vice versa.
 }
