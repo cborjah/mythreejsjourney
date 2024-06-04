@@ -26,11 +26,13 @@ const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
 };
+sizes.resolution = new THREE.Vector2(sizes.width, sizes.height);
 
 window.addEventListener("resize", () => {
     // Update sizes
     sizes.width = window.innerWidth;
     sizes.height = window.innerHeight;
+    sizes.resolution.set(sizes.width, sizes.height);
 
     // Update camera
     camera.aspect = sizes.width / sizes.height;
@@ -94,7 +96,8 @@ const createFirework = (count, position, size) => {
         vertexShader: fireworkVertexShader,
         fragmentShader: fireworkFragmentShader,
         uniforms: {
-            uSize: new THREE.Uniform(size)
+            uSize: new THREE.Uniform(size),
+            uResolution: new THREE.Uniform(sizes.resolution)
         }
     });
 
@@ -107,7 +110,7 @@ const createFirework = (count, position, size) => {
 createFirework(
     100, // Count
     new THREE.Vector3(), // Position
-    50 // Size
+    0.5 // Size
 );
 
 /**
