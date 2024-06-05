@@ -28,12 +28,18 @@ void main()
     fallingProgress = 1.0 - pow(1.0 - fallingProgress, 3.0);
     newPosition.y -= fallingProgress * 0.2;
 
+    // Scaling
+    float sizeOpeningProgress = remap(uProgress, 0.0, 0.125, 0.0, 1.0);
+    float sizeClosingProgress = remap(uProgress, 0.125, 1.0, 1.0, 0.0);
+    float sizeProgress = min(sizeOpeningProgress, sizeClosingProgress);
+    sizeProgress = clamp(sizeProgress, 0.0, 1.0);
+
     // Final position
     vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;
     gl_Position = projectionMatrix * viewPosition;
 
     // Final size
-    gl_PointSize = uSize * uResolution.y * aSize; // The y property is used because the resizing should only occur when changing window height. Field of view changes vertically, not horizontally in MOST cases.
+    gl_PointSize = uSize * uResolution.y * aSize * sizeProgress; // The y property is used because the resizing should only occur when changing window height. Field of view changes vertically, not horizontally in MOST cases.
     gl_PointSize *= 1.0 / -viewPosition.z; // Add perspective to particles. They get bigger the closer the camera gets and vice versa.
 }
