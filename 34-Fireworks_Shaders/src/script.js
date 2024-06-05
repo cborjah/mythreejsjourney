@@ -173,16 +173,25 @@ const createFirework = (count, position, size, texture, radius, color) => {
     });
 };
 
-window.addEventListener("click", () => {
-    createFirework(
-        100, // Count
-        new THREE.Vector3(), // Position
-        0.5, // Size
-        textures[7], // Texture
-        1, // Radius
-        new THREE.Color("#8affff") // Color
+const createRandomFirework = () => {
+    const count = Math.round(400 + Math.random() * 1000); // 400 - 1400
+    const position = new THREE.Vector3(
+        (Math.random() - 0.5) * 2,
+        Math.random(),
+        (Math.random() - 0.5) * 2
     );
-});
+    const size = 0.1 + Math.random() * 0.1;
+    const texture = textures[Math.floor(Math.random() * textures.length)];
+    const radius = 0.5 + Math.random();
+    const color = new THREE.Color();
+    color.setHSL(Math.random(), 1, 0.7); // When using randomize colors, use HSL over RGB to get good results.
+
+    createFirework(count, position, size, texture, radius, color);
+};
+
+createRandomFirework();
+
+window.addEventListener("click", createRandomFirework);
 
 /**
  * Animate
