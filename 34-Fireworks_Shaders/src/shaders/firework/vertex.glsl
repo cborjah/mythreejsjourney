@@ -50,4 +50,9 @@ void main()
     // Final size
     gl_PointSize = uSize * uResolution.y * aSize * sizeProgress * sizeTwinkling; // The y property is used because the resizing should only occur when changing window height. Field of view changes vertically, not horizontally in MOST cases.
     gl_PointSize *= 1.0 / -viewPosition.z; // Add perspective to particles. They get bigger the closer the camera gets and vice versa.
+
+    if (gl_PointSize < 1.0)
+    {
+        gl_Position = vec4(999.9);
+    }
 }
