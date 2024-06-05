@@ -5,13 +5,11 @@ uniform float uProgress;
 attribute float aSize;
 attribute float aTimeMultiplier;
 
+#include ../includes/remap.glsl
+
 // value - The value you want to remap
 // originMin/originMax - The start and end of the original range
 // destinationMin/destinationMax - The start and end of the destination range
-float remap(float value, float originMin, float originMax, float destinationMin, float destinationMax)
-{
-    return destinationMin + (value - originMin) * (destinationMax - destinationMin) / (originMax - originMin);
-}
 
 void main()
 {
