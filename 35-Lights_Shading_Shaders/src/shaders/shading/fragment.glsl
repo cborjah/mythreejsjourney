@@ -13,8 +13,7 @@ vec3 directionalLight(vec3 lightColor, float lightIntensity, vec3 normal, vec3 l
     // Shading
     float shading = dot(normal, lightDirection);
 
-    // return lightColor * lightIntensity;
-    return vec3(shading);
+    return lightColor * lightIntensity * shading;
 }
 
 void main()
@@ -27,9 +26,9 @@ void main()
     // NOTE: You can add lights together to add them to the scene.
 
     /* light += ambientLight(
-        vec3(1.0), // Light color
-        0.03 // Light intensity
-    ); */
+            vec3(1.0), // Light color
+            0.03 // Light intensity
+        ); */
 
     light += directionalLight(
             vec3(0.1, 0.1, 1.0), // Light color
