@@ -34,12 +34,18 @@ void main()
     float sizeProgress = min(sizeOpeningProgress, sizeClosingProgress);
     sizeProgress = clamp(sizeProgress, 0.0, 1.0);
 
+    // Twinkling
+    float twinklingProgress = remap(uProgress, 0.2, 0.8, 0.0, 1.0);
+    twinklingProgress = clamp(twinklingProgress, 0.0, 1.0);
+    float sizeTwinkling = sin(uProgress * 30.0) * 0.5 + 0.5;
+    sizeTwinkling = 1.0 - sizeTwinkling * twinklingProgress;
+
     // Final position
     vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;
     gl_Position = projectionMatrix * viewPosition;
 
     // Final size
-    gl_PointSize = uSize * uResolution.y * aSize * sizeProgress; // The y property is used because the resizing should only occur when changing window height. Field of view changes vertically, not horizontally in MOST cases.
+    gl_PointSize = uSize * uResolution.y * aSize * sizeProgress * sizeTwinkling; // The y property is used because the resizing should only occur when changing window height. Field of view changes vertically, not horizontally in MOST cases.
     gl_PointSize *= 1.0 / -viewPosition.z; // Add perspective to particles. They get bigger the closer the camera gets and vice versa.
 }
