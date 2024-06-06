@@ -5,6 +5,7 @@ varying vec3 vPosition;
 
 #include ../includes/ambientLight.glsl
 #include ../includes/directionalLight.glsl
+#include ../includes/pointLight.glsl
 
 void main()
 {
@@ -28,10 +29,21 @@ void main()
     light += directionalLight(
             vec3(0.1, 0.1, 1.0), // Light color
             1.0, // Light intensity
-            vNormal, // Normal
+            normal, // Normal
             vec3(0.0, 0.0, 3.0), // Light position
             viewDirection,
             20.0 // Specular power
+        );
+
+    light += pointLight(
+            vec3(1.0, 0.1, 0.1), // Light color
+            1.0, // Light intensity
+            normal, // Normal
+            vec3(0.0, 2.5, 0.0), // Light position
+            viewDirection,
+            20.0, // Specular power
+            vPosition, // Position
+            0.25 // Decay
         );
 
     // NOTE: A common mistake is to add the light to the color.
@@ -43,4 +55,3 @@ void main()
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
 }
-
