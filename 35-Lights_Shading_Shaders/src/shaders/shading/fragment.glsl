@@ -40,7 +40,7 @@ vec3 directionalLight(vec3 lightColor, float lightIntensity, vec3 normal, vec3 l
     // NOTE: The specular also depends on the light intensity. If the light is brighter you should see
     // the reflection more clearly. If you don't include light intensity, the specular can be overpowered
     // and 'hidden' by the light. Multiply the specular value by the light intensity!
-    return lightColor * lightIntensity * shading + lightColor * lightIntensity * specular;
+    return lightColor * lightIntensity * (shading + specular);
 }
 
 void main()
