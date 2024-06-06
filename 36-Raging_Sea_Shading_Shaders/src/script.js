@@ -18,9 +18,9 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 // Axes helper
-const axesHelper = new THREE.AxesHelper();
+/* const axesHelper = new THREE.AxesHelper();
 axesHelper.position.y += 0.25;
-scene.add(axesHelper);
+scene.add(axesHelper); */
 
 /**
  * Water
@@ -167,6 +167,7 @@ controls.enableDamping = true;
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
 });
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
