@@ -14,6 +14,7 @@ varying float vElevation;
 
 void main()
 {
+    // Base position
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
 
     // Elevation
@@ -28,10 +29,12 @@ void main()
 
     modelPosition.y += elevation;
 
+    // Final position
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;
     gl_Position = projectedPosition;
 
+    // Varyings
     vElevation = elevation;
 }
 
