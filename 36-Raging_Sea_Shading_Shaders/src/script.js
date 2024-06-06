@@ -27,6 +27,8 @@ scene.add(axesHelper);
  */
 // Geometry
 const waterGeometry = new THREE.PlaneGeometry(2, 2, 512, 512);
+waterGeometry.deleteAttribute("normal");
+waterGeometry.deleteAttribute("uv");
 
 // Colors
 debugObject.depthColor = "#ff4000";
