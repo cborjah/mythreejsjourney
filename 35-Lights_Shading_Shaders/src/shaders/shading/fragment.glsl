@@ -46,6 +46,17 @@ void main()
             0.25 // Decay
         );
 
+    light += pointLight(
+            vec3(0.1, 1.0, 0.5), // Light color
+            1.0, // Light intensity
+            normal, // Normal
+            vec3(2.0, 2.0, 2.0), // Light position
+            viewDirection,
+            20.0, // Specular power
+            vPosition, // Position
+            0.2 // Decay
+        );
+
     // NOTE: A common mistake is to add the light to the color.
     // Instead the object's color needs to be multiplied by the light.
     color *= light;
