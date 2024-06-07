@@ -33,7 +33,8 @@ void main()
     color *= light;
 
     // Halftone
-    float repetitions = 50.0;
+    // float repetitions = 50.0;
+    float repetitions = 10.0;
 
     // NOTE: gl_FragCoord contains the window-relative coordinates of the current fragment.
     // When you divide a vec2 by ONE float, it will divide both the x and the y.
@@ -42,9 +43,13 @@ void main()
     uv *= repetitions; // Controls the amount of cells vertically.
     uv = mod(uv, 1.0);
 
+    float point = distance(uv, vec2(0.5));
+    point = 1.0 - step(0.5, point);
+
     // Final color
     // gl_FragColor = vec4(color, 1.0);
-    gl_FragColor = vec4(uv, 1.0, 1.0);
+    // gl_FragColor = vec4(uv, 1.0, 1.0);
+    gl_FragColor = vec4(point, point, point, 1.0);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
 }
