@@ -33,8 +33,14 @@ void main()
     color *= light;
 
     // Halftone
-    // float repetitions = 50.0;
-    float repetitions = 10.0;
+    float repetitions = 50.0;
+    // float repetitions = 10.0;
+    vec3 direction = vec3(0.0, -1.0, 0.0); // Downward direction
+    float low = -0.8;
+    float high = 1.5;
+
+    float intensity = dot(normal, direction);
+    intensity = smoothstep(low, high, intensity);
 
     // NOTE: gl_FragCoord contains the window-relative coordinates of the current fragment.
     // When you divide a vec2 by ONE float, it will divide both the x and the y.
@@ -44,7 +50,7 @@ void main()
     uv = mod(uv, 1.0);
 
     float point = distance(uv, vec2(0.5));
-    point = 1.0 - step(0.5, point);
+    point = 1.0 - step(0.5 * intensity, point);
 
     // Final color
     // gl_FragColor = vec4(color, 1.0);
