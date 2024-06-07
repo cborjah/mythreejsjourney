@@ -31,10 +31,17 @@ const sizes = {
 
 window.addEventListener('resize', () =>
 {
+window.addEventListener("resize", () => {
     // Update sizes
-    sizes.width = window.innerWidth
-    sizes.height = window.innerHeight
-    sizes.pixelRatio = Math.min(window.devicePixelRatio, 2)
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
+    sizes.pixelRatio = Math.min(window.devicePixelRatio, 2);
+
+    // Update materials
+    material.uniforms.uResolution.value.set(
+        sizes.width * sizes.pixelRatio,
+        sizes.height * sizes.pixelRatio
+    );
 
     // Update camera
     camera.aspect = sizes.width / sizes.height
@@ -89,12 +96,19 @@ materialParameters.color = '#ff794d'
 const material = new THREE.ShaderMaterial({
     vertexShader: halftoneVertexShader,
     fragmentShader: halftoneFragmentShader,
-    uniforms:
-    {
+    uniforms: {
         uColor: new THREE.Uniform(new THREE.Color(materialParameters.color)),
-        uShadeColor: new THREE.Uniform(new THREE.Color(materialParameters.shadeColor)),
+        uShadeColor: new THREE.Uniform(
+            new THREE.Color(materialParameters.shadeColor)
+        ),
+        uResolution: new THREE.Uniform(
+            new THREE.Vector2(
+                sizes.width * sizes.pixelRatio,
+                sizes.height * sizes.pixelRatio
+            )
+        )
     }
-})
+});
 
 gui
     .addColor(materialParameters, 'color')

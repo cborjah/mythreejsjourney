@@ -1,4 +1,5 @@
 uniform vec3 uColor;
+uniform vec2 uResolution;
 
 varying vec3 vNormal;
 varying vec3 vPosition;
@@ -31,8 +32,12 @@ void main()
 
     color *= light;
 
+    // Halftone
+    vec2 uv = gl_FragCoord.xy / uResolution; // gl_FragCoord contains the window-relative coordinates of the current fragment.
+
     // Final color
-    gl_FragColor = vec4(color, 1.0);
+    // gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(uv, 1.0, 1.0);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
 }
