@@ -1,3 +1,7 @@
+uniform sampler2D uDayTexture;
+uniform sampler2D uNightTexture;
+uniform sampler2D uSpecularCloudsTexture;
+
 varying vec2 vUv;
 varying vec3 vNormal;
 varying vec3 vPosition;
@@ -13,3 +17,4 @@ void main()
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
 }
+
