@@ -2,6 +2,8 @@ uniform vec3 uColor;
 uniform vec2 uResolution;
 uniform float uShadowRepetitions;
 uniform vec3 uShadowColor;
+uniform float uLightRepetitions;
+uniform vec3 uLightColor;
 
 varying vec3 vNormal;
 varying vec3 vPosition;
@@ -54,6 +56,7 @@ void main()
 
     // Halftone
     color = halftone(color, uShadowRepetitions, vec3(0.0, -1.0, 0.0), -0.8, 1.5, uShadowColor, normal);
+    color = halftone(color, uLightRepetitions, vec3(1.0, 1.0, 0.0), 0.5, 1.5, uLightColor, normal);
 
     // Final color
     gl_FragColor = vec4(color, 1.0);
