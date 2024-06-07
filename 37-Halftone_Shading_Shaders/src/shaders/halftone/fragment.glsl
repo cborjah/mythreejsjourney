@@ -33,7 +33,14 @@ void main()
     color *= light;
 
     // Halftone
-    vec2 uv = gl_FragCoord.xy / uResolution; // gl_FragCoord contains the window-relative coordinates of the current fragment.
+    float repetitions = 50.0;
+
+    // NOTE: gl_FragCoord contains the window-relative coordinates of the current fragment.
+    // When you divide a vec2 by ONE float, it will divide both the x and the y.
+    // This is done to maintain the square shape of each grid.
+    vec2 uv = gl_FragCoord.xy / uResolution.y; // Dividing by y will only allow resizing of the grid when the window height changes.
+    uv *= repetitions; // Controls the amount of cells vertically.
+    uv = mod(uv, 1.0);
 
     // Final color
     // gl_FragColor = vec4(color, 1.0);
