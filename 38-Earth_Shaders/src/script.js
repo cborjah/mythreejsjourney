@@ -22,15 +22,32 @@ const textureLoader = new THREE.TextureLoader();
 /**
  * Earth
  */
+
+/**
+ * NOTE: Anisotropy
+ *
+ * Anisotropy is a property available on textures that will improve the sharpness of the texture
+ * when seen at a narrow angle by applying different levels of filtering.
+ *
+ * The higher the anisotropy, the sharper the texture.
+ * The default value is 1.
+ */
+
 // Textures
 // NOTE: Encode the textures in sRGB so that the colors are optimized!
 const earthDayTexture = textureLoader.load("./earth/day.jpg");
 earthDayTexture.colorSpace = THREE.SRGBColorSpace;
+earthDayTexture.anisotropy = 8;
+
 const earthNightTexture = textureLoader.load("./earth/night.jpg");
 earthNightTexture.colorSpace = THREE.SRGBColorSpace;
+earthNightTexture.anisotropy = 8;
+
 const earthSpecularCloudsTexture = textureLoader.load(
     "./earth/specularClouds.jpg"
 );
+earthSpecularCloudsTexture.anisotropy = 8;
+
 // NOTE: The earthSpecularCloudsTexture is NOT encoded in sRGB becuase it's DATA!
 
 // Mesh
