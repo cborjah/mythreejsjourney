@@ -17,7 +17,7 @@ void main()
     // Atmosphere
     float atmosphereDayMix = smoothstep(-0.5, 1.0, sunOrientation);
     vec3 atmosphereColor = mix(uAtmosphereTwilightColor, uAtmosphereDayColor, atmosphereDayMix);
-    color = mix(color, atmosphereColor, atmosphereDayMix);
+    color += atmosphereColor;
 
     // Final color
     gl_FragColor = vec4(color, 1.0);
