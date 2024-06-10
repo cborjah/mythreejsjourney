@@ -86,6 +86,16 @@ const earthMaterial = new THREE.ShaderMaterial({
 const earth = new THREE.Mesh(earthGeometry, earthMaterial);
 scene.add(earth);
 
+// Atmosphere
+const atmosphereMaterial = new THREE.ShaderMaterial({
+    side: THREE.BackSide, // Only render the back of the sphere (inner sphere)
+    transparent: true
+});
+
+const atmosphere = new THREE.Mesh(earthGeometry, atmosphereMaterial);
+atmosphere.scale.set(1.04, 1.04, 1.04);
+scene.add(atmosphere);
+
 /**
  * Sun
  */
