@@ -3,6 +3,8 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import GUI from "lil-gui";
 import earthVertexShader from "./shaders/earth/vertex.glsl";
 import earthFragmentShader from "./shaders/earth/fragment.glsl";
+import atmosphereVertexShader from "./shaders/atmosphere/vertex.glsl";
+import atmosphereFragmentShader from "./shaders/atmosphere/fragment.glsl";
 
 /**
  * Base
@@ -88,8 +90,19 @@ scene.add(earth);
 
 // Atmosphere
 const atmosphereMaterial = new THREE.ShaderMaterial({
+    vertexShader: atmosphereVertexShader,
+    fragmentShader: atmosphereFragmentShader,
     side: THREE.BackSide, // Only render the back of the sphere (inner sphere)
-    transparent: true
+    transparent: true,
+    uniforms: {
+        uSunDirection: new THREE.Uniform(new THREE.Vector3(0, 0, 1)),
+        uAtmosphereDayColor: new THREE.Uniform(
+            new THREE.Color(earthParameters.atmosphereDayColor)
+        ),
+        uAtmosphereTwilightColor: new THREE.Uniform(
+            new THREE.Color(earthParameters.atmosphereTwilightColor)
+        )
+    }
 });
 
 const atmosphere = new THREE.Mesh(earthGeometry, atmosphereMaterial);
