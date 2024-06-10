@@ -27,6 +27,7 @@ void main()
 
     // Clouds
     float cloudsMix = smoothstep(0.5, 1.0, specularCloudsColor.g);
+    cloudsMix *= dayMix;
     color = mix(color, vec3(1.0), cloudsMix);
 
     // Final color
