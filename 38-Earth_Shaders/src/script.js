@@ -32,10 +32,16 @@ gui.addColor(earthParameters, "atmosphereDayColor").onChange(() => {
     earthMaterial.uniforms.uAtmosphereDayColor.value.set(
         earthParameters.atmosphereDayColor
     );
+    atmosphereMaterial.uniforms.uAtmosphereDayColor.value.set(
+        earthParameters.atmosphereDayColor
+    );
 });
 
 gui.addColor(earthParameters, "atmosphereTwilightColor").onChange(() => {
     earthMaterial.uniforms.uAtmosphereTwilightColor.value.set(
+        earthParameters.atmosphereTwilightColor
+    );
+    atmosphereMaterial.uniforms.uAtmosphereTwilightColor.value.set(
         earthParameters.atmosphereTwilightColor
     );
 });
@@ -132,6 +138,7 @@ const updateSun = () => {
 
     // Uniforms
     earthMaterial.uniforms.uSunDirection.value.copy(sunDirection);
+    atmosphereMaterial.uniforms.uSunDirection.value.copy(sunDirection);
 };
 updateSun();
 
