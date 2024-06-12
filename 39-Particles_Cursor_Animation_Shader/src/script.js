@@ -98,8 +98,8 @@ displacement.canvas.width = 128;
 displacement.canvas.height = 128;
 
 displacement.canvas.style.position = "fixed";
-displacement.canvas.style.width = "512px"; // Doesn't change the actual width of the canvas. This 'stretches' the canvas.
-displacement.canvas.style.height = "512px";
+displacement.canvas.style.width = "256px"; // Doesn't change the actual width of the canvas. This 'stretches' the canvas.
+displacement.canvas.style.height = "256px";
 displacement.canvas.style.top = 0;
 displacement.canvas.style.left = 0;
 displacement.canvas.style.zIndex = 10;
@@ -114,6 +114,42 @@ displacement.context.fillRect(
     displacement.canvas.width,
     displacement.canvas.height
 );
+
+// NOTE: In this case don't use Three.js to load the texture. Three.js will create the mip mapping, etc. which
+// is unecessary and will decrease performance.
+// Load it in the native JavaScript way.
+
+// Glow image
+displacement.glowImage = new Image();
+displacement.glowImage.src = "./glow.png";
+
+// NOTE: The Raycaster won't work with the particles because it requires a geometry made out of vertices and triangles.
+// Create a plane at the exact same position as the particles (on top), make it invisible, and use the Raycaster on that plane.
+
+// Interactive plane
+displacement.interactivePlane = new THREE.Mesh(
+    new THREE.PlaneGeometry(10, 10), // Limit the number of vertices to help performance.
+    new THREE.MeshBasicMaterial({ color: "red" })
+);
+scene.add(displacement.interactivePlane);
+
+// Raycaster
+displacement.raycaster = new THREE.Raycaster();
+
+// Coordinates
+displacement.screenCursor = new THREE.Vector2(9999, 9999); // Set the default position far away outside of the whole experience.
+displacement.canvasCursor = new THREE.Vector2(9999, 9999); // Set the default position far away outside of the whole experience.
+
+window.addEventListener("pointermove", (event) => {
+    // NOTE: Convert the screen coordinates (which are in pixels) to clip space coordinates (from -1 to +1).
+
+    // TODO:
+    // Divide clientX and clientY so that the values go from 0 to 1.
+    // Multiply by 2 to get 0 to 2.
+    // Subtract/Add one to get -1 to 1.
+    displacement.screenCursor.x = (event.clientX / sizes.width) * 2 - 1;
+    displacement.screenCursor.y = -(event.clientY / sizes.height) * 2 + 1; // Remember that clientY values are inverted. (Starts at 0 at the top, you want the opposite)
+});
 
 /**
  * Particles
@@ -145,6 +181,34 @@ scene.add(particles);
 const tick = () => {
     // Update controls
     controls.update();
+
+    /*
+     * Raycaster
+     */
+    displacement.raycaster.setFromCamera(displacement.screenCursor, camera);
+    const intersections = displacement.raycaster.intersectObject(
+        displacement.interactivePlane
+    );
+
+    if (intersections.length) {
+        const uv = intersections[0].uv;
+
+        // The uv coordinates go from 0 to 1 by default.
+        // In this case you want the range to be 0 to 128.
+        displacement.canvasCursor.x = uv.x * displacement.canvas.width;
+        displacement.canvasCursor.y = uv.y * displacement.canvas.height;
+    }
+
+    /**
+     * Displacement
+     */
+    displacement.context.drawImage(
+        displacement.glowImage,
+        displacement.canvasCursor.x,
+        displacement.canvasCursor.y,
+        32,
+        32
+    );
 
     // Render
     renderer.render(scene, camera);
