@@ -105,6 +105,16 @@ displacement.canvas.style.left = 0;
 displacement.canvas.style.zIndex = 10;
 document.body.append(displacement.canvas);
 
+// Context
+// The canvas' context is required to draw on it.
+displacement.context = displacement.canvas.getContext("2d");
+displacement.context.fillRect(
+    0,
+    0,
+    displacement.canvas.width,
+    displacement.canvas.height
+);
+
 /**
  * Particles
  */
