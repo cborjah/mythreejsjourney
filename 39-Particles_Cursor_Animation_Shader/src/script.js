@@ -74,6 +74,38 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(sizes.pixelRatio);
 
 /**
+ * Displacement
+ */
+const displacement = {};
+
+// 2D canvas
+displacement.canvas = document.createElement("canvas");
+
+// NOTE: When particles are displaced they remain displaced for a set amount of time.
+// Because of this trail effect, you can't just send the cursor coordinate to the
+// shader and use it to move the particles.
+// You need some kind of persistence effect.
+// Use the canvas to do so.
+
+// TODO:
+// Create a 2D canvas filled with black
+// Draw a white glow on each frame where the cursor is
+// Fade out the whole canvas slightly on each frame
+// Use that canvas as a displacement texture for the particles
+
+// NOTE: Don't make the canvas size larger than the amount of particles to maintain performance.
+displacement.canvas.width = 128;
+displacement.canvas.height = 128;
+
+displacement.canvas.style.position = "fixed";
+displacement.canvas.style.width = "512px"; // Doesn't change the actual width of the canvas. This 'stretches' the canvas.
+displacement.canvas.style.height = "512px";
+displacement.canvas.style.top = 0;
+displacement.canvas.style.left = 0;
+displacement.canvas.style.zIndex = 10;
+document.body.append(displacement.canvas);
+
+/**
  * Particles
  */
 const particlesGeometry = new THREE.PlaneGeometry(10, 10, 128, 128);
