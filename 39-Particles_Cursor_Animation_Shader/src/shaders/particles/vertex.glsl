@@ -1,6 +1,8 @@
 uniform vec2 uResolution;
 uniform sampler2D uPictureTexture;
 
+varying vec3 vColor;
+
 void main()
 {
     // Use the texture() function to pick the color from the uPictureTexture at the uv coordinates
@@ -18,5 +20,7 @@ void main()
     // Point size
     gl_PointSize = 0.3 * pictureIntensity * uResolution.y;
     gl_PointSize *= (1.0 / -viewPosition.z);
-}
 
+    // Varyings
+    vColor = vec3(pow(pictureIntensity, 2.0));
+}
