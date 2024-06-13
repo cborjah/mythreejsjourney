@@ -202,9 +202,24 @@ const tick = () => {
     /**
      * Displacement
      */
+
+    /**
+     * Fade out effect when using a canvas
+     * Fill the whole canvas with a black rectangle but with a low opacity.
+     */
+    displacement.context.globalCompositeOperation = "source-over"; // Reset globalCompositeOperation to default value.
+    displacement.context.globalAlpha = 0.02;
+    displacement.context.fillRect(
+        0,
+        0,
+        displacement.canvas.width,
+        displacement.canvas.height
+    );
+
     // Draw glow
     const glowSize = displacement.canvas.width * 0.25; // Set glow size relative to canvas width.
     displacement.context.globalCompositeOperation = "lighten";
+    displacement.context.globalAlpha = 1;
     displacement.context.drawImage(
         displacement.glowImage,
         displacement.canvasCursor.x - glowSize * 0.5, // Center image on cursor.
