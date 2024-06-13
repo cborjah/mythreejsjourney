@@ -6,11 +6,24 @@ varying vec3 vColor;
 
 void main()
 {
+    // Displacement
+    vec3 newPosition = position;
+    float displacementIntensity = texture(uDisplacementTexture, uv).r;
+
+    // Displacement direction
+    vec3 displacement = vec3(
+            0.0, 0.0, 1.0
+        );
+    displacement *= displacementIntensity;
+    displacement *= 3.0;
+
+    newPosition += displacement;
+
     // Use the texture() function to pick the color from the uPictureTexture at the uv coordinates
     // (whole geometry, not individual particles) and swizzle the r channel.
 
     // Final position
-    vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+    vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;
     gl_Position = projectedPosition;
