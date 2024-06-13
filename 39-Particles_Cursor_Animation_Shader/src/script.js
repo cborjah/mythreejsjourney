@@ -160,6 +160,11 @@ displacement.texture = new THREE.CanvasTexture(displacement.canvas); // Create a
  */
 const particlesGeometry = new THREE.PlaneGeometry(10, 10, 128, 128);
 
+// When using a geometry for particles, you may need to get rid of the index to improve performance.
+// Doing this will reduce the number of vertices.
+particlesGeometry.setIndex(null); // Set Three.js to stop using indexes, and tells the GPU to ignore the index.
+particlesGeometry.deleteAttribute("normal"); // The normal is not used, therefore it should not be sent to the GPU.
+
 const intensitiesArray = new Float32Array(
     particlesGeometry.attributes.position.count
 );
