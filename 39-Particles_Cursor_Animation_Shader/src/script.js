@@ -140,6 +140,7 @@ displacement.raycaster = new THREE.Raycaster();
 // Coordinates
 displacement.screenCursor = new THREE.Vector2(9999, 9999); // Set the default position far away outside of the whole experience.
 displacement.canvasCursor = new THREE.Vector2(9999, 9999); // Set the default position far away outside of the whole experience.
+displacement.canvasCursorPrevious = new THREE.Vector2(9999, 9999); // Set the default position far away outside of the whole experience.
 
 window.addEventListener("pointermove", (event) => {
     // NOTE: Convert the screen coordinates (which are in pixels) to clip space coordinates (from -1 to +1).
@@ -248,10 +249,17 @@ const tick = () => {
         displacement.canvas.height
     );
 
+    // Speed alpha
+    const cursorDistance = displacement.canvasCursorPrevious.distanceTo(
+        displacement.canvasCursor
+    );
+    displacement.canvasCursorPrevious.copy(displacement.canvasCursor);
+    const alpha = Math.min(cursorDistance * 0.1, 1);
+
     // Draw glow
     const glowSize = displacement.canvas.width * 0.25; // Set glow size relative to canvas width.
     displacement.context.globalCompositeOperation = "lighten";
-    displacement.context.globalAlpha = 1;
+    displacement.context.globalAlpha = alpha;
     displacement.context.drawImage(
         displacement.glowImage,
         displacement.canvasCursor.x - glowSize * 0.5, // Center image on cursor.
