@@ -13,6 +13,12 @@ void main()
     vec3 newPosition = position;
     float displacementIntensity = texture(uDisplacementTexture, uv).r;
 
+    // Canvas bug fix
+    // Remap displacementIntensity by ignoring anything below 0.1.
+    // This will allow particles to return to their initial positions.
+    // This bug is due to the trail not disappearing from the canvas completely.
+    displacementIntensity = smoothstep(0.1, 1.0, displacementIntensity);
+
     // Displacement direction
     vec3 displacement = vec3(
             cos(aAngle) * 0.2, // Reduce intensity by 20%
