@@ -3,6 +3,7 @@ uniform sampler2D uPictureTexture;
 uniform sampler2D uDisplacementTexture;
 
 attribute float aIntensity;
+attribute float aAngle;
 
 varying vec3 vColor;
 
@@ -14,8 +15,11 @@ void main()
 
     // Displacement direction
     vec3 displacement = vec3(
-            0.0, 0.0, 1.0
+            cos(aAngle) * 0.2, // Reduce intensity by 20%
+            sin(aAngle) * 0.2, // Reduce intensity by 20%
+            1.0
         );
+    displacement = normalize(displacement);
     displacement *= displacementIntensity;
     displacement *= 3.0;
     displacement *= aIntensity;
