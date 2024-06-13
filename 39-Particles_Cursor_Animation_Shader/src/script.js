@@ -131,6 +131,7 @@ displacement.interactivePlane = new THREE.Mesh(
     new THREE.PlaneGeometry(10, 10), // Limit the number of vertices to help performance.
     new THREE.MeshBasicMaterial({ color: "red" })
 );
+displacement.interactivePlane.visible = false;
 scene.add(displacement.interactivePlane);
 
 // Raycaster
