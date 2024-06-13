@@ -196,7 +196,7 @@ const tick = () => {
         // The uv coordinates go from 0 to 1 by default.
         // In this case you want the range to be 0 to 128.
         displacement.canvasCursor.x = uv.x * displacement.canvas.width;
-        displacement.canvasCursor.y = uv.y * displacement.canvas.height;
+        displacement.canvasCursor.y = (1.0 - uv.y) * displacement.canvas.height; // Invert the uv y values so it goes from 1 to 0 (top to bottom).
     }
 
     /**
