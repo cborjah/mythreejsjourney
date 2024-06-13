@@ -129,7 +129,7 @@ displacement.glowImage.src = "./glow.png";
 // Interactive plane
 displacement.interactivePlane = new THREE.Mesh(
     new THREE.PlaneGeometry(10, 10), // Limit the number of vertices to help performance.
-    new THREE.MeshBasicMaterial({ color: "red" })
+    new THREE.MeshBasicMaterial({ color: "red", side: THREE.DoubleSide })
 );
 displacement.interactivePlane.visible = false;
 scene.add(displacement.interactivePlane);
