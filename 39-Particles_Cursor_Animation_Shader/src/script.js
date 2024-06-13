@@ -152,6 +152,9 @@ window.addEventListener("pointermove", (event) => {
     displacement.screenCursor.y = -(event.clientY / sizes.height) * 2 + 1; // Remember that clientY values are inverted. (Starts at 0 at the top, you want the opposite)
 });
 
+// Texture
+displacement.texture = new THREE.CanvasTexture(displacement.canvas); // Create a texture out of the canvas.
+
 /**
  * Particles
  */
@@ -169,7 +172,8 @@ const particlesMaterial = new THREE.ShaderMaterial({
         ),
         uPictureTexture: new THREE.Uniform(
             textureLoader.load("./picture-1.png")
-        )
+        ),
+        uDisplacementTexture: new THREE.Uniform(displacement.texture)
     }
 });
 
@@ -228,6 +232,9 @@ const tick = () => {
         glowSize,
         glowSize
     );
+
+    // Texture
+    displacement.texture.needsUpdate = true;
 
     // Render
     renderer.render(scene, camera);
