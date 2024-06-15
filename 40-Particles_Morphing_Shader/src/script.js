@@ -102,6 +102,11 @@ let particles = null;
 gltfLoader.load("./models.glb", (gltf) => {
     particles = {};
 
+    // Positions
+    const positions = gltf.scene.children.map(
+        (child) => child.geometry.attributes.position
+    );
+
     // Geometry
     particles.geometry = new THREE.SphereGeometry(3);
     particles.geometry.setIndex(null);
