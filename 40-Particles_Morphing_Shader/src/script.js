@@ -107,16 +107,63 @@ gltfLoader.load("./models.glb", (gltf) => {
         (child) => child.geometry.attributes.position
     );
 
+    /**
+     * Harmonizing the positions
+     *
+     * The positions array contains the vertices of the 4 objects, but none of them have the exact same size.
+     * Add values to the smallest ones so that they are all the same size of the biggest one.
+     */
+    particles.maxCount = 0;
+    for (const position of positions) {
+        if (position.count) {
+            // position.count is the number of vertices
+            if (position.count > particles.maxCount) {
+                particles.maxCount = position.count;
+            }
+        }
+    }
+
+    // Create a new Float32Array with the right size
+    particles.positions = []; // Final positions
+    for (const position of positions) {
+        // Retrieve the original array of vertices out of the position and save it as originalArray
+        const originalArray = position.array;
+        const newArray = new Float32Array(particles.maxCount * 3);
+
+        for (let i = 0; i < particles.maxCount; i++) {
+            const i3 = i * 3;
+
+            if (i3 < originalArray.length) {
+                newArray[i3 + 0] = originalArray[i3 + 0];
+                newArray[i3 + 1] = originalArray[i3 + 1];
+                newArray[i3 + 2] = originalArray[i3 + 2];
+            } else {
+                const randomIndex =
+                    Math.floor(position.count * Math.random()) * 3; // Multiply by 3 becuase you need the x,y,z values
+                newArray[i3 + 0] = originalArray[randomIndex + 0];
+                newArray[i3 + 1] = originalArray[randomIndex + 1];
+                newArray[i3 + 2] = originalArray[randomIndex + 2];
+            }
+        }
+
+        particles.positions.push(new THREE.Float32BufferAttribute(newArray, 3)); // 3 is the item size. This tells the GPU that it needs to take values three by three (xyz) for each vertex.
+    }
+
     // Geometry
-    particles.geometry = new THREE.SphereGeometry(3);
-    particles.geometry.setIndex(null);
+    particles.geometry = new THREE.BufferGeometry();
+    particles.geometry.setAttribute("position", particles.positions[1]);
+
+    // NOTE: Setting the index to null is no longer needed because the vertices are unique and the
+    // BufferGeometry doesn't have an index by default.
+    //
+    // particles.geometry.setIndex(null);
 
     // Material
     particles.material = new THREE.ShaderMaterial({
         vertexShader: particlesVertexShader,
         fragmentShader: particlesFragmentShader,
         uniforms: {
-            uSize: new THREE.Uniform(0.4),
+            uSize: new THREE.Uniform(0.2),
             uResolution: new THREE.Uniform(
                 new THREE.Vector2(
                     sizes.width * sizes.pixelRatio,
