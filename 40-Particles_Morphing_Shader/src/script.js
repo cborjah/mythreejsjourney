@@ -227,7 +227,8 @@ gltfLoader.load("./models.glb", (gltf) => {
         .min(0)
         .max(1)
         .step(0.001)
-        .name("uProgress");
+        .name("uProgress")
+        .listen();
 
     gui.add(particles, "morph0");
     gui.add(particles, "morph1");
