@@ -191,6 +191,14 @@ gltfLoader.load("./models.glb", (gltf) => {
 });
 
 /**
+ * NOTE: Simplex Noise
+ *
+ * Use Simplex Noise to control the delay before it starts. This adds randomness to the animation.
+ * This is very similar to the Perlin Noise function.
+ * It look more natural, less grid-ish, and is more performant (especially at higher dimensions)
+ */
+
+/**
  * Animate
  */
 const tick = () => {
