@@ -6,6 +6,7 @@ import { GPUComputationRenderer } from "three/addons/misc/GPUComputationRenderer
 import GUI from "lil-gui";
 import particlesVertexShader from "./shaders/particles/vertex.glsl";
 import particlesFragmentShader from "./shaders/particles/fragment.glsl";
+import gpgpuParticlesShader from "./gpgpu/particles.glsl";
 
 /**
  * NOTE: GPGPU
@@ -152,6 +153,27 @@ gpgpu.computation = new GPUComputationRenderer(
 );
 
 /**
+ * Base Particles
+ */
+const baseParticlesTexture = gpgpu.computation.createTexture();
+
+// Particles Variable
+gpgpu.particlesVariable = gpgpu.computation.addVariable(
+    "uParticles",
+    gpgpuParticlesShader,
+    baseParticlesTexture // This texture will be injected into the gpgpuParticlesShader param above this param
+);
+
+// Re-inject the "variable" into itself
+// The first parameter is the variable, and the second is an array containing the dependencies
+gpgpu.computation.setVariableDependencies(gpgpu.particlesVariable, [
+    gpgpu.particlesVariable //
+]);
+
+// Init
+gpgpu.computation.init(); // Initialize the GPUComputationRenderer
+
+/**
  * Particles
  */
 const particles = {};
@@ -200,6 +222,9 @@ const tick = () => {
 
     // Update controls
     controls.update();
+
+    // GPGPU Update
+    gpgpu.computation.compute();
 
     // Render normal scene
     renderer.render(scene, camera);
