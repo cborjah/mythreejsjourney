@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+import { GPUComputationRenderer } from "three/addons/misc/GPUComputationRenderer.js";
 import GUI from "lil-gui";
 import particlesVertexShader from "./shaders/particles/vertex.glsl";
 import particlesFragmentShader from "./shaders/particles/fragment.glsl";
@@ -23,7 +24,6 @@ import particlesFragmentShader from "./shaders/particles/fragment.glsl";
  * This is how to persist data.
  * This texture is going to be a huge texture with thousands of pixels, and each particle
  * will contain the position of the particle.
- *
  * Each pixel of the texture is used for one particle where the RGB channels correspond to the XYZ coordinates.
  */
 
@@ -38,6 +38,11 @@ import particlesFragmentShader from "./shaders/particles/fragment.glsl";
  * CPU is not possible.
  *
  * This is a job for GPGPU.
+ */
+
+/**
+ * Using pixels as data is difficult because of the various formats and types
+ * a pixel can have.
  */
 
 /**
@@ -121,12 +126,35 @@ debugObject.clearColor = "#29191f";
 renderer.setClearColor(debugObject.clearColor);
 
 /**
+ * Base Geometry
+ */
+const baseGeometry = {};
+baseGeometry.instance = new THREE.SphereGeometry(3); // Create an instance of the sphere geometry
+baseGeometry.count = baseGeometry.instance.attributes.position.count; // Number of vertices
+
+/**
+ * GPU Compute
+ */
+
+// Setup
+const gpgpu = {};
+
+// Each pixel of the FBOs will correspond to one particle.
+// Using the square root, you can calulate its dimensions in order to form a square.
+// Round up to ensure there are always enough pixels to account for each particle while maintaining a square.
+gpgpu.size = Math.ceil(Math.sqrt(baseGeometry.count));
+
+// Instantiate the GPUComputationRenderer
+gpgpu.computation = new GPUComputationRenderer(
+    gpgpu.size,
+    gpgpu.size,
+    renderer
+);
+
+/**
  * Particles
  */
 const particles = {};
-
-// Geometry
-particles.geometry = new THREE.SphereGeometry(3);
 
 // Material
 particles.material = new THREE.ShaderMaterial({
@@ -144,7 +172,7 @@ particles.material = new THREE.ShaderMaterial({
 });
 
 // Points
-particles.points = new THREE.Points(particles.geometry, particles.material);
+particles.points = new THREE.Points(baseGeometry.instance, particles.material);
 scene.add(particles.points);
 
 /**
