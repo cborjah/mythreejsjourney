@@ -210,7 +210,35 @@ scene.add(gpgpu.debug);
 /**
  * Particles
  */
+// Fill with UV coordinates corresponding to the pixels in the uParticlesTexture
 const particles = {};
+
+// Geometry
+const particlesUvArray = new Float32Array(baseGeometry.count * 2);
+console.log(baseGeometry.count);
+
+for (let y = 0; y < gpgpu.size; y++) {
+    for (let x = 0; x < gpgpu.size; x++) {
+        const i = y * gpgpu.size + x; // Index from 0 to the total amount of particles that will be use to fill the particles array.
+        const i2 = i * 2; // Need two values per vertex
+
+        // Get coordinates in the range from 0 to 1 (1 excluded)
+        // The coordinates need to be in the middle of each pixel, so 0.5 is added to the initial x and y coordinates
+        // to ensure that the right color is used. If not, the coordinates will be between 4 different pixels.
+        const uvX = (x + 0.5) / gpgpu.size;
+        const uvY = (y + 0.5) / gpgpu.size;
+
+        particlesUvArray[i2 + 0] = uvX;
+        particlesUvArray[i2 + 1] = uvY;
+    }
+}
+
+particles.geometry = new THREE.BufferGeometry();
+particles.geometry.setDrawRange(0, baseGeometry.count); // Define the range of vertices to draw
+particles.geometry.setAttribute(
+    "aParticlesUv",
+    new THREE.BufferAttribute(particlesUvArray, 2)
+);
 
 // Material
 particles.material = new THREE.ShaderMaterial({
@@ -223,12 +251,13 @@ particles.material = new THREE.ShaderMaterial({
                 sizes.width * sizes.pixelRatio,
                 sizes.height * sizes.pixelRatio
             )
-        )
+        ),
+        uParticlesTexture: new THREE.Uniform()
     }
 });
 
 // Points
-particles.points = new THREE.Points(baseGeometry.instance, particles.material);
+particles.points = new THREE.Points(particles.geometry, particles.material);
 scene.add(particles.points);
 
 /**
@@ -259,6 +288,20 @@ const tick = () => {
 
     // GPGPU Update
     gpgpu.computation.compute();
+
+    /**
+     * The RenderTarget texture is sent on each frame becuase GPUComputationRenderer
+     * is using multiple FBOs for the ping-pong buffers, and the last one (the one
+     * that has just been drawn in) in which the last render has been saved is required.
+     *
+     * The particlesVariable has two buffers, and on each frame, they are swapped.
+     * Updating uParticlesTexture is done AFTER calling compute in order to get the updated texture.
+     * getCurrentRenderTarget will always provide the last one.
+     */
+    particles.material.uniforms.uParticlesTexture.value =
+        gpgpu.computation.getCurrentRenderTarget(
+            gpgpu.particlesVariable
+        ).texture;
 
     // Render normal scene
     renderer.render(scene, camera);
