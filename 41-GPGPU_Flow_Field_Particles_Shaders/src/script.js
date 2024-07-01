@@ -127,10 +127,15 @@ debugObject.clearColor = "#29191f";
 renderer.setClearColor(debugObject.clearColor);
 
 /**
+ * Load Model
+ */
+const gltf = await gltfLoader.loadAsync("./model.glb");
+
+/**
  * Base Geometry
  */
 const baseGeometry = {};
-baseGeometry.instance = new THREE.SphereGeometry(3); // Create an instance of the sphere geometry
+baseGeometry.instance = gltf.scene.children[0].geometry; // Create an instance of the sphere geometry
 baseGeometry.count = baseGeometry.instance.attributes.position.count; // Number of vertices
 
 /**
@@ -215,7 +220,6 @@ const particles = {};
 
 // Geometry
 const particlesUvArray = new Float32Array(baseGeometry.count * 2);
-console.log(baseGeometry.count);
 
 for (let y = 0; y < gpgpu.size; y++) {
     for (let x = 0; x < gpgpu.size; x++) {
@@ -245,7 +249,7 @@ particles.material = new THREE.ShaderMaterial({
     vertexShader: particlesVertexShader,
     fragmentShader: particlesFragmentShader,
     uniforms: {
-        uSize: new THREE.Uniform(0.4),
+        uSize: new THREE.Uniform(0.07),
         uResolution: new THREE.Uniform(
             new THREE.Vector2(
                 sizes.width * sizes.pixelRatio,
