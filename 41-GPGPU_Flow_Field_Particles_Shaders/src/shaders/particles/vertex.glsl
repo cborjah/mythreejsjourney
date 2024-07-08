@@ -19,10 +19,13 @@ void main()
     gl_Position = projectedPosition;
 
     // Point size
-    gl_PointSize = aSize * uSize * uResolution.y;
+    float sizeIn = smoothstep(0.0, 0.1, particle.a);
+    float sizeOut = 1.0 - smoothstep(0.7, 1.0, particle.a);
+    float size = min(sizeIn, sizeOut); // Calculate the minimum between the two. sizeIn is the smallest at the start of the life cycle, then sizeOut becomes the smallest near the end.
+
+    gl_PointSize = size * aSize * uSize * uResolution.y;
     gl_PointSize *= (1.0 / -viewPosition.z);
 
     // Varyings
     vColor = aColor;
 }
-
