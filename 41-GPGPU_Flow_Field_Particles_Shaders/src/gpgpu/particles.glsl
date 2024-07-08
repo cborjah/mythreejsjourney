@@ -4,6 +4,7 @@
 uniform float uTime;
 uniform float uDeltaTime;
 uniform sampler2D uBase;
+uniform float uFlowFieldInfluence;
 
 void main()
 {
@@ -36,7 +37,10 @@ void main()
     else {
         // Strength
         float strength = simplexNoise4d(vec4(base.xyz * 0.2, time + 1.0));
-        strength = smoothstep(0.0, 1.0, strength); // Use smoothstep to convert value from -1.0 to 1.0, to 0.0 to 1.0
+
+        // uFlowFieldInfluence goes from 0 to 1. A range of 1.0 to -1.0 (the range direction is reversed) is needed.
+        float influence = (uFlowFieldInfluence - 0.5) * -2.0;
+        strength = smoothstep(influence, 1.0, strength); // Use smoothstep to convert value from -1.0 to 1.0, to 0.0 to 1.0
 
         // Flow field
         vec3 flowField = vec3(
