@@ -194,6 +194,9 @@ gpgpu.computation.setVariableDependencies(gpgpu.particlesVariable, [
     gpgpu.particlesVariable //
 ]);
 
+// Uniforms
+gpgpu.particlesVariable.material.uniforms.uTime = new THREE.Uniform(0);
+
 // Init
 gpgpu.computation.init(); // Initialize the GPUComputationRenderer
 
@@ -306,6 +309,7 @@ const tick = () => {
     controls.update();
 
     // GPGPU Update
+    gpgpu.particlesVariable.material.uniforms.uTime.value = elapsedTime;
     gpgpu.computation.compute();
 
     /**
