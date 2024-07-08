@@ -178,7 +178,7 @@ for (let i = 0; i < baseGeometry.count; i++) {
         baseGeometry.instance.attributes.position.array[i3 + 1];
     baseParticlesTexture.image.data[i4 + 2] =
         baseGeometry.instance.attributes.position.array[i3 + 2];
-    baseParticlesTexture.image.data[i4 + 3] = 0;
+    baseParticlesTexture.image.data[i4 + 3] = Math.random(); // Randomize the starting life of each particle in order to offset the reset effect
 }
 
 // Particles Variable
@@ -196,6 +196,10 @@ gpgpu.computation.setVariableDependencies(gpgpu.particlesVariable, [
 
 // Uniforms
 gpgpu.particlesVariable.material.uniforms.uTime = new THREE.Uniform(0);
+gpgpu.particlesVariable.material.uniforms.uDeltaTime = new THREE.Uniform(0);
+gpgpu.particlesVariable.material.uniforms.uBase = new THREE.Uniform(
+    baseParticlesTexture
+); // Base particle initial positions
 
 // Init
 gpgpu.computation.init(); // Initialize the GPUComputationRenderer
@@ -310,6 +314,7 @@ const tick = () => {
 
     // GPGPU Update
     gpgpu.particlesVariable.material.uniforms.uTime.value = elapsedTime;
+    gpgpu.particlesVariable.material.uniforms.uDeltaTime.value = deltaTime;
     gpgpu.computation.compute();
 
     /**

@@ -2,6 +2,8 @@
 #include ../shaders/includes/simplexNoise4d.glsl
 
 uniform float uTime;
+uniform float uDeltaTime;
+uniform sampler2D uBase;
 
 void main()
 {
@@ -16,16 +18,35 @@ void main()
     // Each square of the plane corresponds to one pixel of the uParticles texture, which, itself, corresponds to the coordinates of each pixel.
     // Data is persisting meaning if particle is updated, the updated version will be provided in the next frame allow constant updates.
     vec4 particle = texture(uParticles, uv); // uParticles is the texture that was automatically injected by the GPUComputationRenderer
+    vec4 base = texture(uBase, uv);
 
-    // Flow field
-    vec3 flowField = vec3(
-            // The fourth value of the vec4 can be used to make the Simplex noise vary in time
-            simplexNoise4d(vec4(particle.xyz + 0.0, time)),
-            simplexNoise4d(vec4(particle.xyz + 1.0, time)),
-            simplexNoise4d(vec4(particle.xyz + 2.0, time))
-        );
-    flowField = normalize(flowField); // Normalize directions (most of the time)
-    particle.xyz += flowField * 0.01;
+    // Dead particles
+    if (particle.a >= 1.0) {
+        particle.a = 0.0;
+        particle.xyz = base.xyz;
+    }
+    // Living particles
+    else {
+        // Flow field
+        vec3 flowField = vec3(
+                // The fourth value of the vec4 can be used to make the Simplex noise vary in time
+                simplexNoise4d(vec4(particle.xyz + 0.0, time)),
+                simplexNoise4d(vec4(particle.xyz + 1.0, time)),
+                simplexNoise4d(vec4(particle.xyz + 2.0, time))
+            );
+        flowField = normalize(flowField); // Normalize directions (most of the time)
+
+        // With high-frequency monitors, the particles may die faster.
+        // This is because the life is incremented by 0.1 on each frame, regardless of the framerate.
+        particle.xyz += flowField * uDeltaTime * 0.5;
+
+        // Use the alpha channel for the life of the particle. The life will decay.
+        // Starting from 0.0, it will increase with each frame.
+        // Once it reaches 1, it will reset itself to the initial position (0.0)
+
+        // Decay
+        particle.a += uDeltaTime * 0.3;
+    }
 
     gl_FragColor = particle;
 }
