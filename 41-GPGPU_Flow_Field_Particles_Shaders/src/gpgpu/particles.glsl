@@ -22,7 +22,14 @@ void main()
 
     // Dead particles
     if (particle.a >= 1.0) {
-        particle.a = 0.0;
+        // Fixing long frames
+        // Long frames happen when the computer freezes for a moment or leave the tab.
+        // This causes uDeltaTime to become large which triggers all particles to 'die', thus synchronizing them.
+        // deltaTime can be clamped (limit to 1/30 of second)
+        // OR
+        // use modulo 1 when resetting the 'a' channel. If 'a' goes beyond 1.0, it will simply loop back to
+        // 0 plus the remainder and never exceed 1.0.
+        particle.a = mod(particle.a, 1.0);
         particle.xyz = base.xyz;
     }
     // Living particles
