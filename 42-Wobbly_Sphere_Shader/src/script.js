@@ -3,6 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+import { mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
 import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 import GUI from "lil-gui";
 import wobbleVertexShader from "./shaders/wobble/vertex.glsl";
@@ -76,7 +77,10 @@ gui.add(material, "thickness", 0, 10, 0.001);
 gui.addColor(material, "color");
 
 // Geometry
-const geometry = new THREE.IcosahedronGeometry(2.5, 50);
+let geometry = new THREE.IcosahedronGeometry(2.5, 50);
+geometry = mergeVertices(geometry); // Merge vertices to generate an indexed geometry. The index is need for computing tangents.
+geometry.computeTangents();
+console.log(geometry.attributes);
 
 // Mesh
 const wobble = new THREE.Mesh(geometry, material);
