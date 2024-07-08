@@ -34,6 +34,10 @@ void main()
     }
     // Living particles
     else {
+        // Strength
+        float strength = simplexNoise4d(vec4(base.xyz * 0.2, time + 1.0));
+        strength = smoothstep(0.0, 1.0, strength); // Use smoothstep to convert value from -1.0 to 1.0, to 0.0 to 1.0
+
         // Flow field
         vec3 flowField = vec3(
                 // The fourth value of the vec4 can be used to make the Simplex noise vary in time
@@ -45,7 +49,7 @@ void main()
 
         // With high-frequency monitors, the particles may die faster.
         // This is because the life is incremented by 0.1 on each frame, regardless of the framerate.
-        particle.xyz += flowField * uDeltaTime * 0.5;
+        particle.xyz += flowField * uDeltaTime * strength * 0.5;
 
         // Use the alpha channel for the life of the particle. The life will decay.
         // Starting from 0.0, it will increase with each frame.
