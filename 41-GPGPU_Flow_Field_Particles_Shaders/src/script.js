@@ -135,7 +135,7 @@ const gltf = await gltfLoader.loadAsync("./model.glb");
  * Base Geometry
  */
 const baseGeometry = {};
-baseGeometry.instance = gltf.scene.children[0].geometry; // Create an instance of the sphere geometry
+baseGeometry.instance = gltf.scene.children[0].geometry;
 baseGeometry.count = baseGeometry.instance.attributes.position.count; // Number of vertices
 
 /**
@@ -242,6 +242,12 @@ particles.geometry.setDrawRange(0, baseGeometry.count); // Define the range of v
 particles.geometry.setAttribute(
     "aParticlesUv",
     new THREE.BufferAttribute(particlesUvArray, 2)
+);
+
+// The texture was baked into the vertex color. The color is stored in the model's geometry
+particles.geometry.setAttribute(
+    "aColor",
+    baseGeometry.instance.attributes.color
 );
 
 // Material
