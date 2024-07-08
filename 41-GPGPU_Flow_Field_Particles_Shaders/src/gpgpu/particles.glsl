@@ -5,6 +5,8 @@ uniform float uTime;
 uniform float uDeltaTime;
 uniform sampler2D uBase;
 uniform float uFlowFieldInfluence;
+uniform float uFlowFieldStrength;
+uniform float uFlowFieldFrequency;
 
 void main()
 {
@@ -45,15 +47,15 @@ void main()
         // Flow field
         vec3 flowField = vec3(
                 // The fourth value of the vec4 can be used to make the Simplex noise vary in time
-                simplexNoise4d(vec4(particle.xyz + 0.0, time)),
-                simplexNoise4d(vec4(particle.xyz + 1.0, time)),
-                simplexNoise4d(vec4(particle.xyz + 2.0, time))
+                simplexNoise4d(vec4(particle.xyz * uFlowFieldFrequency + 0.0, time)),
+                simplexNoise4d(vec4(particle.xyz * uFlowFieldFrequency + 1.0, time)),
+                simplexNoise4d(vec4(particle.xyz * uFlowFieldFrequency + 2.0, time))
             );
         flowField = normalize(flowField); // Normalize directions (most of the time)
 
         // With high-frequency monitors, the particles may die faster.
         // This is because the life is incremented by 0.1 on each frame, regardless of the framerate.
-        particle.xyz += flowField * uDeltaTime * strength * 0.5;
+        particle.xyz += flowField * uDeltaTime * strength * uFlowFieldStrength;
 
         // Use the alpha channel for the life of the particle. The life will decay.
         // Starting from 0.0, it will increase with each frame.
