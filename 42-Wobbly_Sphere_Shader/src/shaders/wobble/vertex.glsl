@@ -2,15 +2,32 @@ uniform float uTime;
 uniform float uPositionFrequency;
 uniform float uTimeFrequency;
 uniform float uStrength;
+uniform float uWarpPositionFrequency;
+uniform float uWarpTimeFrequency;
+uniform float uWarpStrength;
 
 attribute vec4 tangent;
 
 #include ../includes/simplexNoise4d.glsl
 
+/*
+ * To make the wobble more interesting you could combime multiple Simplex Noises
+ * with various frequencies, but that would look more like waves...
+ *
+ * Instead, 'warp' the position that is sent to the Simple Noise function using
+ * another Simplex Noise.
+ */
+
 float getWobble(vec3 position)
 {
+    vec3 warpedPosition = position;
+    warpedPosition += simplexNoise4d(vec4(
+                position * uWarpPositionFrequency,
+                uTime * uWarpTimeFrequency
+            )) * uWarpStrength;
+
     return simplexNoise4d(vec4(
-            position * uPositionFrequency, // xyz
+            warpedPosition * uPositionFrequency, // xyz
             uTime * uTimeFrequency
         )) * uStrength;
 }
