@@ -8,6 +8,8 @@ uniform float uWarpStrength;
 
 attribute vec4 tangent;
 
+varying float vWobble;
+
 #include ../includes/simplexNoise4d.glsl
 
 /*
@@ -55,4 +57,11 @@ void main()
     vec3 toA = normalize(positionA - csm_Position);
     vec3 toB = normalize(positionB - csm_Position);
     csm_Normal = cross(toA, toB);
+
+    // Varyings
+
+    // Remap wobble to its original range (before uStrength is applied) by
+    // dividing it by uStrength when assigning it to vWobble.
+    // If not, wobble's range won't be from -1 to 1 which will decrease color contrast.
+    vWobble = wobble / uStrength;
 }
