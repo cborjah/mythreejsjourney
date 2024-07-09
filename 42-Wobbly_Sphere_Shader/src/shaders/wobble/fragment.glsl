@@ -9,4 +9,8 @@ void main()
     // and use a smoothstep to smooth the value.
     float colorMix = smoothstep(-1.0, 1.0, vWobble);
     csm_DiffuseColor.rgb = mix(uColorA, uColorB, colorMix);
+
+    // Mirror step
+    csm_Metalness = step(0.25, vWobble); // If vWobble is below 0.25, it returns 0, else it returns 1.
+    csm_Roughness = 1.0 - csm_Metalness;
 }
