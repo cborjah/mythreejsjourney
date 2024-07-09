@@ -14,6 +14,9 @@ import wobbleFragmentShader from "./shaders/wobble/fragment.glsl";
  *
  * Injects shader code in the Three.js built-in material without needing to dig into the Three.js
  * shaders to understand where and how to inject the code.
+ *
+ * It makes modifying built-in materials trivial and allows you to focus on the effect
+ * more than the technique.
  */
 
 /**
