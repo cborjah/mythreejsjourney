@@ -146,20 +146,31 @@ gui.add(material, "ior", 0, 10, 0.001);
 gui.add(material, "thickness", 0, 10, 0.001);
 
 // Geometry
-let geometry = new THREE.IcosahedronGeometry(2.5, 50);
-geometry = mergeVertices(geometry); // Merge vertices to generate an indexed geometry. The index is need for computing tangents.
-geometry.computeTangents();
+// let geometry = new THREE.IcosahedronGeometry(2.5, 50);
+// geometry = mergeVertices(geometry); // Merge vertices to generate an indexed geometry. The index is need for computing tangents.
+// geometry.computeTangents();
 // console.log(geometry.attributes);
 
 // NOTE: Imported models can already have indexed geometries.
 // This can be achieved by smoothing the geometry.
 
 // Mesh
-const wobble = new THREE.Mesh(geometry, material);
-wobble.customDepthMaterial = depthMaterial;
-wobble.receiveShadow = true;
-wobble.castShadow = true;
-scene.add(wobble);
+// const wobble = new THREE.Mesh(geometry, material);
+// wobble.customDepthMaterial = depthMaterial;
+// wobble.receiveShadow = true;
+// wobble.castShadow = true;
+// scene.add(wobble);
+
+// Model
+gltfLoader.load("./suzanne.glb", (gltf) => {
+    const wobble = gltf.scene.children[0];
+    wobble.receiveShadow = true;
+    wobble.castShadow = true;
+    wobble.material = material;
+    wobble.customDepthMaterial = depthMaterial;
+
+    scene.add(wobble);
+});
 
 /**
  * Plane
