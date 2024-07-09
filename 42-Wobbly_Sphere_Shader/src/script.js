@@ -80,7 +80,10 @@ gui.addColor(material, "color");
 let geometry = new THREE.IcosahedronGeometry(2.5, 50);
 geometry = mergeVertices(geometry); // Merge vertices to generate an indexed geometry. The index is need for computing tangents.
 geometry.computeTangents();
-console.log(geometry.attributes);
+// console.log(geometry.attributes);
+
+// NOTE: Imported models can already have indexed geometries.
+// This can be achieved by smoothing the geometry.
 
 // Mesh
 const wobble = new THREE.Mesh(geometry, material);
