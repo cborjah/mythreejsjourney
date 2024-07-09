@@ -52,6 +52,14 @@ let model = null;
 
 gltfLoader.load("./gears.glb", (gltf) => {
     model = gltf.scene;
+
+    // Apply created material to model and all its children
+    model.traverse((child) => {
+        if (child.isMesh) {
+            child.material = material;
+        }
+    });
+
     scene.add(model);
 });
 
