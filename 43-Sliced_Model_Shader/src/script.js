@@ -57,6 +57,8 @@ gltfLoader.load("./gears.glb", (gltf) => {
     model.traverse((child) => {
         if (child.isMesh) {
             child.material = material;
+            child.castShadow = true;
+            child.receiveShadow = true;
         }
     });
 
