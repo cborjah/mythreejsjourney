@@ -17,6 +17,19 @@ import wobbleFragmentShader from "./shaders/wobble/fragment.glsl";
  */
 
 /**
+ * Shadows
+ *
+ * To handle shadows, Three.js renders the scene seen from the light in an off-screen texture
+ * with all the materials replaced by a MeshDepthMaterial.
+ *
+ * Using that render (FBO), Three.js determines if the surface is in the shade or not.
+ *
+ * In this case, you need to provide your own MeshDepthMaterial supporting the wobble.
+ * This can be done by enhancing the MeshDepthMaterial thanks to Custom Shader Material,
+ * which you assign the customDepthMaterial property of the Mesh.
+ */
+
+/**
  * Base
  */
 // Debug
@@ -68,6 +81,22 @@ const material = new CustomShaderMaterial({
     wireframe: false
 });
 
+const depthMaterial = new CustomShaderMaterial({
+    // Custom Shader Material
+    baseMaterial: THREE.MeshDepthMaterial,
+    vertexShader: wobbleVertexShader,
+    // fragmentShader: wobbleFragmentShader, // Since you don't want to change the fragment shader, remove this property.
+    silent: true, // Silences warnings
+
+    // MeshDepthMaterial
+
+    /**
+     * depthPacking is an algorithm used by Three.js to encode the depth in all
+     * 4 channels instead of a grayscale depth, to improve the precision.
+     */
+    depthPacking: THREE.RGBADepthPacking
+});
+
 // Tweaks
 gui.add(material, "metalness", 0, 1, 0.001);
 gui.add(material, "roughness", 0, 1, 0.001);
@@ -87,6 +116,7 @@ geometry.computeTangents();
 
 // Mesh
 const wobble = new THREE.Mesh(geometry, material);
+wobble.customDepthMaterial = depthMaterial;
 wobble.receiveShadow = true;
 wobble.castShadow = true;
 scene.add(wobble);
