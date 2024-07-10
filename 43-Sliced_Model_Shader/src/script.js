@@ -3,7 +3,10 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 import GUI from "lil-gui";
+import slicedVertexShader from "./shaders/sliced/vertex.glsl";
+import slicedFragmentShader from "./shaders/sliced/fragment.glsl";
 
 /**
  * Base
@@ -47,6 +50,21 @@ const material = new THREE.MeshStandardMaterial({
     color: "#858080"
 });
 
+// The CustomShaderMaterial will only be applied to the outer hull of the model (the part getting sliced away).
+const slicedMaterial = new CustomShaderMaterial({
+    // CSM
+    baseMaterial: THREE.MeshStandardMaterial,
+    vertexShader: slicedVertexShader,
+    fragmentShader: slicedFragmentShader,
+    silent: true, // Silence warning
+
+    // MeshStandardMaterial
+    metalness: 0.5,
+    roughness: 0.25,
+    envMapIntensity: 0.5,
+    color: "#858080"
+});
+
 // Model
 let model = null;
 
@@ -56,7 +74,11 @@ gltfLoader.load("./gears.glb", (gltf) => {
     // Apply created material to model and all its children
     model.traverse((child) => {
         if (child.isMesh) {
-            child.material = material;
+            if (child.name === "outerHull") {
+                child.material = slicedMaterial;
+            } else {
+                child.material = material;
+            }
             child.castShadow = true;
             child.receiveShadow = true;
         }
