@@ -1,10 +1,10 @@
+uniform float uSliceStart;
+uniform float uSliceArc;
+
 varying vec3 vPosition;
 
 void main()
 {
-    float uSliceStart = 1.0;
-    float uSliceArc = 1.5;
-
     // NOTE: The y coordinate must come before the x coordinate.
     float angle = atan(vPosition.y, vPosition.x);
 
