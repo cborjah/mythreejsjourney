@@ -75,7 +75,8 @@ const slicedMaterial = new CustomShaderMaterial({
     metalness: 0.5,
     roughness: 0.25,
     envMapIntensity: 0.5,
-    color: "#858080"
+    color: "#858080",
+    side: THREE.DoubleSide // Enable rendering of the back side (inside of model).
 });
 
 // Model

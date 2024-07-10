@@ -17,5 +17,11 @@ void main()
         discard;
     }
 
-    csm_FragColor = vec4(vec3(angle), 1.0);
+    // NOTE: Having csm_FragColor in the custom shader causes the gl_FragColor of the final shader
+    // to be overriden by csm_FragColor, and the default csm_FragColor is the color that is
+    // sent to the material in script.js.
+
+    if (!gl_FrontFacing) {
+        csm_FragColor = vec4(0.75, 0.15, 0.3, 1.0);
+    }
 }
