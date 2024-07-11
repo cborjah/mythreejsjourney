@@ -21,7 +21,8 @@ void main()
     // to be overriden by csm_FragColor, and the default csm_FragColor is the color that is
     // sent to the material in script.js.
 
-    if (!gl_FrontFacing) {
-        csm_FragColor = vec4(0.75, 0.15, 0.3, 1.0);
-    }
+    // csm_FragColor = vec4(0.75, 0.15, 0.3, 1.0);
+
+    // NOTE: Besides a float, you can use vec2 or vec3, or whatever you want.
+    float csm_Slice; // This is enough to activate the patch map.
 }
