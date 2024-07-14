@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 import { Brush, Evaluator, SUBTRACTION } from "three-bvh-csg";
+import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 import GUI from "lil-gui";
 
 /**
@@ -37,13 +38,30 @@ rgbeLoader.load("/spruit_sunrise.hdr", (environmentMap) => {
 });
 
 /**
- * Placeholder
+ * Terrain
  */
-const placeholder = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(2, 5),
-    new THREE.MeshPhysicalMaterial()
-);
-scene.add(placeholder);
+// Geometry
+const geometry = new THREE.PlaneGeometry(10, 10, 500, 500);
+geometry.rotateX(-Math.PI * 0.5);
+
+// Start from a MeshStandardMaterial and improve it using Custom Shader Material
+// Material
+const material = new CustomShaderMaterial({
+    // CSM
+    baseMaterial: THREE.MeshStandardMaterial,
+    silence: true,
+
+    // MeshStandardMaterial
+    metalness: 0,
+    roughness: 0.5,
+    color: "#85d534"
+});
+
+// Mesh
+const terrain = new THREE.Mesh(geometry, material);
+terrain.receiveShadow = true;
+terrain.castShadow = true;
+scene.add(terrain);
 
 /**
  * Board
