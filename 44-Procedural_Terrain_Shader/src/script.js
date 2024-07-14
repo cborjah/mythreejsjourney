@@ -5,6 +5,9 @@ import { Brush, Evaluator, SUBTRACTION } from "three-bvh-csg";
 import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 import GUI from "lil-gui";
 
+import terrainVertexShader from "./shaders/terrain/vertex.glsl";
+import terrainFragmentShader from "./shaders/terrain/fragment.glsl";
+
 /**
  * Brush inherits from Object3D and cna be transformed using the traditional
  * position, rotation, and scale.
@@ -42,6 +45,11 @@ rgbeLoader.load("/spruit_sunrise.hdr", (environmentMap) => {
  */
 // Geometry
 const geometry = new THREE.PlaneGeometry(10, 10, 500, 500);
+
+// Delete unused attributes to improve performance
+geometry.deleteAttribute("uv");
+geometry.deleteAttribute("normal");
+
 geometry.rotateX(-Math.PI * 0.5);
 
 // Start from a MeshStandardMaterial and improve it using Custom Shader Material
@@ -49,6 +57,8 @@ geometry.rotateX(-Math.PI * 0.5);
 const material = new CustomShaderMaterial({
     // CSM
     baseMaterial: THREE.MeshStandardMaterial,
+    vertexShader: terrainVertexShader,
+    fragmentShader: terrainFragmentShader,
     silence: true,
 
     // MeshStandardMaterial
