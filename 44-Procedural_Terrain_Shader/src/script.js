@@ -1,7 +1,13 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
+import { Brush, Evaluator, SUBTRACTION } from "three-bvh-csg";
 import GUI from "lil-gui";
+
+/**
+ * Brush inherits from Object3D and cna be transformed using the traditional
+ * position, rotation, and scale.
+ */
 
 /**
  * Base
@@ -38,6 +44,38 @@ const placeholder = new THREE.Mesh(
     new THREE.MeshPhysicalMaterial()
 );
 scene.add(placeholder);
+
+/**
+ * Board
+ */
+// Brushes
+const boardFill = new Brush(new THREE.BoxGeometry(11, 2, 11));
+const boardHole = new Brush(new THREE.BoxGeometry(10, 2.1, 10));
+
+/**
+ * NOTE: Even though you update the position of boardHole, the transform
+ * matrix (position, rotation, and scale), that Three.js uses
+ * hasn't been updated.
+ * Three.js updates those only when rendering.
+ */
+// boardHole.position.y = 0.2;
+// boardHole.updateMatrixWorld(); // Call this method to trigger the update
+
+/**
+ * The evaluate() method requires the two Brushes as the initial two
+ * parameters, but also the type of operation as the third parameter.
+ */
+
+// Evaluate
+const evaluator = new Evaluator();
+const board = evaluator.evaluate(boardFill, boardHole, SUBTRACTION);
+board.geometry.clearGroups(); // Remove uneeded groups and add material
+board.material = new THREE.MeshStandardMaterial({
+    color: "#ffffff",
+    metalness: 0,
+    roughness: 0.3
+});
+scene.add(board);
 
 /**
  * Lights
