@@ -75,6 +75,8 @@ board.material = new THREE.MeshStandardMaterial({
     metalness: 0,
     roughness: 0.3
 });
+board.castShadow = true;
+board.receiveShadow = true;
 scene.add(board);
 
 /**
