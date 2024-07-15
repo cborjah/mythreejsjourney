@@ -7,6 +7,8 @@ uniform vec3 uColorRock;
 
 varying vec3 vPosition;
 
+#include ../includes/simplexNoise2d.glsl
+
 // Add colors based on elevation
 void main()
 {
@@ -24,6 +26,12 @@ void main()
     // Grass
     float grassMix = step(-0.06, vPosition.y);
     color = mix(color, uColorGrass, grassMix);
+
+    // Snow
+    float snowThreshold = 0.45;
+    snowThreshold += simplexNoise2d(vPosition.xz * 15.0) * 0.1;
+    float snowMix = step(snowThreshold, vPosition.y);
+    color = mix(color, uColorSnow, snowMix);
 
     // Final color
     // NOTE: Update the csm_DiffuseColor, NOT the csm_FragColor.
