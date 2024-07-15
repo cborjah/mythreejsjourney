@@ -21,6 +21,10 @@ void main()
     float sandMix = step(-0.1, vPosition.y);
     color = mix(color, uColorSand, sandMix);
 
+    // Grass
+    float grassMix = step(-0.06, vPosition.y);
+    color = mix(color, uColorGrass, grassMix);
+
     // Final color
     // NOTE: Update the csm_DiffuseColor, NOT the csm_FragColor.
     // This way all the shading (shadows, relfections, etc.) will be applied.
