@@ -55,6 +55,7 @@ geometry.rotateX(-Math.PI * 0.5);
 // Start from a MeshStandardMaterial and improve it using Custom Shader Material
 // Material
 const uniforms = {
+    uTime: new THREE.Uniform(0),
     uPositionFrequency: new THREE.Uniform(0.2),
     uStrength: new THREE.Uniform(2.0),
     uWarpFrequency: new THREE.Uniform(5),
@@ -199,6 +200,9 @@ const clock = new THREE.Clock();
 
 const tick = () => {
     const elapsedTime = clock.getElapsedTime();
+
+    // Unifroms
+    uniforms.uTime.value = elapsedTime;
 
     // Update controls
     controls.update();
