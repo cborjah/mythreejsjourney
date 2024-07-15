@@ -83,8 +83,21 @@ const material = new CustomShaderMaterial({
     color: "#85d534"
 });
 
+const depthMaterial = new CustomShaderMaterial({
+    // CSM
+    baseMaterial: THREE.MeshDepthMaterial,
+    vertexShader: terrainVertexShader,
+    // NOTE: Don't apply fragment shader on the depth packing
+    uniforms: uniforms,
+    silence: true,
+
+    // MeshDepthMaterial
+    depthPacking: THREE.RGBADepthPacking
+});
+
 // Mesh
 const terrain = new THREE.Mesh(geometry, material);
+terrain.customDepthMaterial = depthMaterial;
 terrain.receiveShadow = true;
 terrain.castShadow = true;
 scene.add(terrain);
