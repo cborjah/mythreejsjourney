@@ -4,11 +4,18 @@ float getElevation(vec2 position)
 {
     float uPositionFrequency = 0.2;
     float uStrength = 2.0;
+    float uWarpFrequency = 5.0;
+    float uWarpStrength = 0.5;
+
+    vec2 warpedPosition = position;
+
+    // NOTE: Multiply the warpedPosition by the uPositionFrequency so that it follows the position frequency.
+    warpedPosition += simplexNoise2d(warpedPosition * uPositionFrequency * uWarpFrequency) * uWarpStrength;
 
     float elevation = 0.0;
-    elevation += simplexNoise2d(position * uPositionFrequency) / 2.0;
-    elevation += simplexNoise2d(position * uPositionFrequency * 2.0) / 4.0;
-    elevation += simplexNoise2d(position * uPositionFrequency * 4.0) / 8.0;
+    elevation += simplexNoise2d(warpedPosition * uPositionFrequency) / 2.0;
+    elevation += simplexNoise2d(warpedPosition * uPositionFrequency * 2.0) / 4.0;
+    elevation += simplexNoise2d(warpedPosition * uPositionFrequency * 4.0) / 8.0;
 
     // NOTE: The sign() function retuns -1.0 if x is less than 0.0,
     // 0.0 if x is equal to 0.0, and +1.0 if x is greater than 0.0.
