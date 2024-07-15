@@ -17,6 +17,10 @@ void main()
     float surfaceWaterMix = smoothstep(-1.0, -0.1, vPosition.y);
     color = mix(uColorWaterDeep, uColorWaterSurface, surfaceWaterMix);
 
+    // Sand
+    float sandMix = step(-0.1, vPosition.y);
+    color = mix(color, uColorSand, sandMix);
+
     // Final color
     // NOTE: Update the csm_DiffuseColor, NOT the csm_FragColor.
     // This way all the shading (shadows, relfections, etc.) will be applied.
