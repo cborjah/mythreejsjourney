@@ -9,6 +9,19 @@ float getElevation(vec2 position)
     elevation += simplexNoise2d(position * uPositionFrequency * 2.0) / 4.0;
     elevation += simplexNoise2d(position * uPositionFrequency * 4.0) / 8.0;
 
+    // NOTE: The sign() function retuns -1.0 if x is less than 0.0,
+    // 0.0 if x is equal to 0.0, and +1.0 if x is greater than 0.0.
+    // Use this to preserve negative values when using pow().
+    // Basically the sign() function preserves the sign of the value when used to multiply with.
+    float elevationSign = sign(elevation);
+    // NOTE: When a negative number is raised to an odd power and multiplied by its sign (-),
+    // you get a positive number. Use the abs() function on the negative value first, then
+    // apply the pow() function followed by the sign() function.
+    // This allows you to use even and odd powers, while preserving the values sign.
+    elevation = pow(abs(elevation), 2.0) * elevationSign; // Crush values using pow().
+
+    // elevation = pow(elevation, 2.0); // Doesn't work for this case, negative elevation is lost.
+
     return elevation;
 }
 
