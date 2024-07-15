@@ -14,6 +14,15 @@ import terrainFragmentShader from "./shaders/terrain/fragment.glsl";
  */
 
 /**
+ * Reflective water
+ *
+ * The water surface should refract what's below it, to blur it and reflect the
+ * environment map and the light.
+ *
+ * Use the MeshPhysicalMaterial and its transmission feature.
+ */
+
+/**
  * Base
  */
 // Debug
@@ -139,6 +148,20 @@ terrain.customDepthMaterial = depthMaterial;
 terrain.receiveShadow = true;
 terrain.castShadow = true;
 scene.add(terrain);
+
+/**
+ * Water
+ */
+const water = new THREE.Mesh(
+    new THREE.PlaneGeometry(10, 10, 1, 1),
+    new THREE.MeshPhysicalMaterial({
+        transmission: 1,
+        roughness: 0.3
+    })
+);
+water.rotation.x = -Math.PI * 0.5;
+water.position.y = -0.1;
+scene.add(water);
 
 /**
  * Board
