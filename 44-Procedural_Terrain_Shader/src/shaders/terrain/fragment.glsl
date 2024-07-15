@@ -6,6 +6,7 @@ uniform vec3 uColorSnow;
 uniform vec3 uColorRock;
 
 varying vec3 vPosition;
+varying float vUpDot;
 
 #include ../includes/simplexNoise2d.glsl
 
@@ -26,6 +27,13 @@ void main()
     // Grass
     float grassMix = step(-0.06, vPosition.y);
     color = mix(color, uColorGrass, grassMix);
+
+    // Rock
+    // The rock color is place BEFORE the snow because you want the snow to cover rock.
+    float rockMix = vUpDot;
+    rockMix = 1.0 - step(0.8, rockMix);
+    rockMix *= step(-0.06, vPosition.y); // Apply grassMix to rockMix to remove rocks from appearing below the grass theshold.
+    color = mix(color, uColorRock, rockMix);
 
     // Snow
     float snowThreshold = 0.45;
