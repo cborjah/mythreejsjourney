@@ -3,6 +3,7 @@
 float getElevation(vec2 position)
 {
     float uPositionFrequency = 0.2;
+    float uStrength = 2.0;
 
     float elevation = 0.0;
     elevation += simplexNoise2d(position * uPositionFrequency) / 2.0;
@@ -19,6 +20,7 @@ float getElevation(vec2 position)
     // apply the pow() function followed by the sign() function.
     // This allows you to use even and odd powers, while preserving the values sign.
     elevation = pow(abs(elevation), 2.0) * elevationSign; // Crush values using pow().
+    elevation *= uStrength;
 
     // elevation = pow(elevation, 2.0); // Doesn't work for this case, negative elevation is lost.
 
