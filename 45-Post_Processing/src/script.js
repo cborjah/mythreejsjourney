@@ -284,8 +284,10 @@ gui.add(tintPass.material.uniforms.uTint.value, "z")
 // Displacement pass
 const DisplacementShader = {
     uniforms: {
+        // NOTE: Since uniforms can be used multiple times with different
+        // textures, set them to null on instantiation and then change the values.
         tDiffuse: { value: null },
-        uTime: { value: null }
+        uNormalMap: { value: null }
     },
     vertexShader: `
         varying vec2 vUv;
@@ -300,20 +302,31 @@ const DisplacementShader = {
     `,
     fragmentShader: `
         uniform sampler2D tDiffuse;
-        uniform float uTime;
+        uniform sampler2D uNormalMap;
 
         varying vec2 vUv;
 
         void main()
         {
-            vec2 newUv = vec2(vUv.x, vUv.y + sin(vUv.x * 10.0 + uTime) * 0.1);
+            // Swizzle xyz values to get rgb
+            // Since RGB values go from 0 to 1, multiply by 2 and subtract 1 so values go from -1 to 1.
+            vec3 normalColor = texture2D(uNormalMap, vUv).xyz * 2.0 - 1.0; 
+
+            vec2 newUv = vUv + normalColor.xy * 0.1;
             vec4 color = texture2D(tDiffuse, newUv);
+
+            vec3 lightDirection = normalize(vec3(-1.0, 1.0, 0.0));
+            float lightness = clamp(dot(normalColor, lightDirection), 0.0, 1.0);
+            color.rgb += lightness * 2.0;
+
             gl_FragColor = color;
         }
     `
 };
 const displacementPass = new ShaderPass(DisplacementShader);
-displacementPass.material.uniforms.uTime.value = 0;
+displacementPass.material.uniforms.uNormalMap.value = textureLoader.load(
+    "/textures/interfaceNormalMap.png"
+);
 effectComposer.addPass(displacementPass);
 
 // Gamma Correction pass
@@ -335,9 +348,6 @@ const clock = new THREE.Clock();
 
 const tick = () => {
     const elapsedTime = clock.getElapsedTime();
-
-    // Update passes
-    displacementPass.material.uniforms.uTime.value = elapsedTime;
 
     // Update controls
     controls.update();
