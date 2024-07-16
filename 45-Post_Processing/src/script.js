@@ -11,6 +11,7 @@ import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectio
 import { SMAAPass } from "three/examples/jsm/postprocessing/SMAAPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import GUI from "lil-gui";
+import { uniforms } from "three/examples/jsm/nodes/Nodes";
 
 /**
  * Post-Processing
@@ -218,12 +219,67 @@ const unrealBloomPass = new UnrealBloomPass();
 unrealBloomPass.strength = 0.3;
 unrealBloomPass.radius = 1;
 unrealBloomPass.threshold = 0.6;
+// unrealBloomPass.enabled = false;
 effectComposer.addPass(unrealBloomPass);
 
 gui.add(unrealBloomPass, "enabled");
 gui.add(unrealBloomPass, "strength", 0, 2).step(0.001);
 gui.add(unrealBloomPass, "radius", 0, 2).step(0.001);
 gui.add(unrealBloomPass, "threshold", 0, 2).step(0.001);
+
+// Tint pass
+const TintShader = {
+    uniforms: {
+        // NOTE: The texture from the previous pass is needed. Setting tDiffuse
+        // to null will trigger the EffectComposer to add the pass automatically
+        // as the tDiffuse uniform.
+        tDiffuse: { value: null },
+        uTint: { value: null }
+    },
+    vertexShader: `
+        varying vec2 vUv;
+
+        void main()
+        {
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+
+            // Varyings
+            vUv = uv;
+        }
+    `,
+    fragmentShader: `
+        uniform sampler2D tDiffuse;
+        uniform vec3 uTint;
+
+        varying vec2 vUv;
+
+        void main()
+        {
+            vec4 color = texture2D(tDiffuse, vUv);
+            color.rgb += uTint;
+            gl_FragColor = color;
+        }
+    `
+};
+const tintPass = new ShaderPass(TintShader);
+tintPass.material.uniforms.uTint.value = new THREE.Vector3();
+effectComposer.addPass(tintPass);
+
+gui.add(tintPass.material.uniforms.uTint.value, "x")
+    .min(-1)
+    .max(1)
+    .step(0.001)
+    .name("red");
+gui.add(tintPass.material.uniforms.uTint.value, "y")
+    .min(-1)
+    .max(1)
+    .step(0.001)
+    .name("green");
+gui.add(tintPass.material.uniforms.uTint.value, "z")
+    .min(-1)
+    .max(1)
+    .step(0.001)
+    .name("blue");
 
 // Gamma Correction pass
 const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
