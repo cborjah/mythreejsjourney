@@ -279,7 +279,39 @@ gui.add(tintPass.material.uniforms.uTint.value, "z")
     .min(-1)
     .max(1)
     .step(0.001)
-    .name("blue");
+    .name("red");
+
+// Displacement pass
+const DisplacementShader = {
+    uniforms: {
+        tDiffuse: { value: null }
+    },
+    vertexShader: `
+        varying vec2 vUv;
+
+        void main()
+        {
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+
+            // Varyings
+            vUv = uv;
+        }
+    `,
+    fragmentShader: `
+        uniform sampler2D tDiffuse;
+
+        varying vec2 vUv;
+
+        void main()
+        {
+            vec2 newUv = vec2(vUv.x, vUv.y + sin(vUv.x * 10.0) * 0.1);
+            vec4 color = texture2D(tDiffuse, newUv);
+            gl_FragColor = color;
+        }
+    `
+};
+const displacementPass = new ShaderPass(DisplacementShader);
+effectComposer.addPass(displacementPass);
 
 // Gamma Correction pass
 const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
