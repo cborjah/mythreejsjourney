@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import Stats from "stats.js";
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
 /**
  * Stats
@@ -198,6 +199,29 @@ tick();
 // Three.js will try to fix the resolution by resizing the image to the closest
 // power of 2 resolution.
 
+// NOTE: Materials
+//
+// Use cheap materials.
+// Materials like MeshStandardMaterial or MeshPhysicalMaterial need more resources
+// than materials like MeshBasicMaterial, MeshLambertMaterial, or MeshPhongMaterial.
+
+// NOTE: Defines
+//
+// Use defines instead of uniforms that do NOT change.
+//
+// If using ShaderMaterial (NOT RawShaderMaterial), the defines will be injected automatically.
+//
+// uniforms: { uDisplacementStrength: { value: displacementTexture } },
+// defines: { DISPLACEMENT_STRENGTH: 1.5 }
+
+// NOTE: Do Calculations in the Vertex Shader
+//
+// Do calculations in the vertex shader and send the results to the fragment shader
+// using varyings.
+// You can perform color calculations in the vertex shader.
+//
+// Most of the time there are less VERTICES than FRAGMENTS.
+
 // // Tip 4
 // NOTE: Renderer Information
 //
@@ -258,12 +282,15 @@ tick();
 // renderer.shadowMap.needsUpdate = true
 
 // // Tip 18
+// NOTE: Merging Geometries
+//
+//  Reuse geometries when possible!
+//  const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5)
+//
 // for(let i = 0; i < 50; i++)
 // {
-//     const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5)
-
 //     const material = new THREE.MeshNormalMaterial()
-
+//
 //     const mesh = new THREE.Mesh(geometry, material)
 //     mesh.position.x = (Math.random() - 0.5) * 10
 //     mesh.position.y = (Math.random() - 0.5) * 10
@@ -273,6 +300,30 @@ tick();
 
 //     scene.add(mesh)
 // }
+//
+//
+//  const geometries = [];
+//
+// for(let i = 0; i < 50; i++)
+// {
+//     const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5)
+//
+//     geometry.translate(
+//        (Math.random() - 0.5) * 10,
+//        (Math.random() - 0.5) * 10,
+//        (Math.random() - 0.5) * 10
+//     )
+//
+//     geometries.push(geometry);
+// }
+//
+//     const mergedGeometry = BufferGeometryUtils.mergeGeometries(geometries);
+//     console.log(mergedGeometry);
+//
+//     const material = new THREE.MeshNormalMaterial()
+//     const mesh = new THREE.Mesh(mergedGeometry, material)
+//
+//     scene.add(mesh)
 
 // // Tip 19
 // for(let i = 0; i < 50; i++)
@@ -292,25 +343,10 @@ tick();
 // }
 
 // // Tip 20
+//
+// NOTE: Mutualize Materials
+//
 // const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5)
-
-// for(let i = 0; i < 50; i++)
-// {
-//     const material = new THREE.MeshNormalMaterial()
-
-//     const mesh = new THREE.Mesh(geometry, material)
-//     mesh.position.x = (Math.random() - 0.5) * 10
-//     mesh.position.y = (Math.random() - 0.5) * 10
-//     mesh.position.z = (Math.random() - 0.5) * 10
-//     mesh.rotation.x = (Math.random() - 0.5) * Math.PI * 2
-//     mesh.rotation.y = (Math.random() - 0.5) * Math.PI * 2
-
-//     scene.add(mesh)
-// }
-
-// // Tip 22
-// const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5)
-
 // const material = new THREE.MeshNormalMaterial()
 
 // for(let i = 0; i < 50; i++)
@@ -323,6 +359,47 @@ tick();
 //     mesh.rotation.y = (Math.random() - 0.5) * Math.PI * 2
 
 //     scene.add(mesh)
+// }
+
+// // Tip 22
+// NOTE: Use InstancedMesh
+//
+// It's like a mesh, but you create only one InstancedMesh, and
+// provide a transformation matrix for each "instance" of that
+// mesh.
+//
+// The matrix has to be a Matrix4, and you can apply any transformation
+// by using the various available methods.
+//
+// const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5)
+
+// const material = new THREE.MeshNormalMaterial()
+//
+// If you intend to change these matrices in the tick function,
+// add the following to the InstancedMesh.
+// mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
+//
+// const mesh = new THREE.InstancedMesh(geometry, material, 50)
+// scene.add(mesh)
+//
+// for(let i = 0; i < 50; i++)
+// {
+//     const quaternion = new THREE.Quaternion()
+//     quaternion.setFromEuler(
+//        new THREE.Euler(Math.random() - 0.5) * Math.PI * 2,
+//        new THREE.Euler(Math.random() - 0.5) * Math.PI * 2,
+//        0
+//     )
+//     const matrix = new THREE.Matrix4()
+//     matrix.makeRotationFromQuaternion(quaternion)
+//     mesh.setMatrixAt(i, matrix)
+//
+//     const mesh = new THREE.Mesh(geometry, material)
+//     mesh.position.x = (Math.random() - 0.5) * 10
+//     mesh.position.y = (Math.random() - 0.5) * 10
+//     mesh.position.z = (Math.random() - 0.5) * 10
+//     mesh.rotation.x = (Math.random() - 0.5) * Math.PI * 2
+//     mesh.rotation.y = (Math.random() - 0.5) * Math.PI * 2
 // }
 
 // // Tip 29
