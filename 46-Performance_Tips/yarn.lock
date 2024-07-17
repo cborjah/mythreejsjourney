@@ -1242,6 +1242,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"stats.js@npm:^0.17.0":
+  version: 0.17.0
+  resolution: "stats.js@npm:0.17.0"
+  checksum: 62d55d9e28e701f5638eac312ab45f66da8cc14b43d4eba4d3ab5a26f444a91d3e0dd1f52e8fc182b03cae955dae4af471d54f1975525cc1e47dfa89a54a47c6
+  languageName: node
+  linkType: hard
+
 "string-width-cjs@npm:string-width@^4.2.0, string-width@npm:^4.1.0":
   version: 4.2.3
   resolution: "string-width@npm:4.2.3"
@@ -1308,6 +1315,7 @@ __metadata:
   resolution: "threejs-journey-exercise@workspace:."
   dependencies:
     lil-gui: ^0.19.2
+    stats.js: ^0.17.0
     three: ^0.166.1
     vite: ^5.3.3
     vite-plugin-restart: ^0.4.1
