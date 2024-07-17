@@ -157,26 +157,85 @@ tick();
  * Tips
  */
 
-// // Tip 4
-// console.log(renderer.info)
+// NOTE: Draw Calls
+//
+// Draw calls are actions of drawing by the GPU.
+// The less draw calls, the better.
+// Spector.js is a Chrome extension that measures this.
 
-// // Tip 6
+// NOTE: FPS Limit
+//
+// Disable the FPS limit on Chrome to check if the FPS goes above 60.
+// If FPS is close to 60 on a performant computer, you need to optimize.
+// FPS in that case should ideally be in the 200+ range.
+
+// NOTE: Lights
+//
+// Avoid Three.js lights if possible.
+// Use baked lights or cheap lights (AmbientLight, DirectionalLight, HemisphereLight)
+//
+// Avoid adding or removing lights from the scene. All the materials supporting the
+// lights will have to be recompiled!
+// Move them or use tricks instead.
+
+// NOTE: Shadows
+//
+// Avoid Threee.js shadows.
+// If possible, use baked shadows.
+
+// NOTE: Textures
+//
+// Textures take a lot of space in the GPU memory especially with the mipmaps.
+// The texture file weight has nothing to do with that, and only the resolution
+// matters.
+// Try to reduce the resolution to the minimum while keeping a decent result.
+// If you are using MipMapping (the default behavior of textures), you will
+// have bigger textures.
+// Always resize your texture as small as possible.
+// Once you notice the texture starts to look bad, stop down sizing.
+// Always keep a power of 2 for the resolution.
+// The resolution does NOT have to be a square.
+// Three.js will try to fix the resolution by resizing the image to the closest
+// power of 2 resolution.
+
+// // Tip 4
+// NOTE: Renderer Information
+//
+// console.log(renderer.info);
+
+// Tip 6
+// NOTE: Dispose Things
+//
+// Once you are absolutely sure that you don't need a resource, like a geometry or a material
+// dispose of it.
+//
 // scene.remove(cube)
 // cube.geometry.dispose()
 // cube.material.dispose()
 
 // // Tip 10
+// NOTE: Optimize shadow maps
+//
+// For each light supporting a shadow, add a CamerHelper.
+// Make sure the shadow maps fit perfectly with the scene.
+// Reduce the light shadow map to fit right in the scene.
+//
 // directionalLight.shadow.camera.top = 3
 // directionalLight.shadow.camera.right = 6
 // directionalLight.shadow.camera.left = - 6
 // directionalLight.shadow.camera.bottom = - 3
 // directionalLight.shadow.camera.far = 10
+// NOTE: Try to use the smallest map size possible.
 // directionalLight.shadow.mapSize.set(1024, 1024)
 
 // const cameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
 // scene.add(cameraHelper)
 
 // // Tip 11
+// NOTE: Use CastShadow and ReceiveShadow wisely
+//
+// Only cast/receive shadow when necessary.
+//
 // cube.castShadow = true
 // cube.receiveShadow = false
 
@@ -190,6 +249,11 @@ tick();
 // floor.receiveShadow = true
 
 // // Tip 12
+// NOTE: Deactivate Shadow Auto Update
+//
+// In the case you can't see the shadow, you just need to update
+// it once at the beginning and NOT on every frame.
+//
 // renderer.shadowMap.autoUpdate = false
 // renderer.shadowMap.needsUpdate = true
 
