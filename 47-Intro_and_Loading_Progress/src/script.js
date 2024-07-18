@@ -6,15 +6,30 @@ import { gsap } from "gsap";
 /**
  * Loaders
  */
+const loadingBarElement = document.querySelector(".loading-bar");
 const loadingManager = new THREE.LoadingManager(
     // Loaded
     () => {
-        gsap.to(overlayMaterial.uniforms.uAlpha, { duration: 3, value: 0 });
+        /**
+         * It takes time to render the elements on the scene for the first time which
+         * causes the computer to freeze for a moment. Second, a 0.5s transition was
+         * added to the loading bar. When the 'loaded' function is triggered, the bar
+         * didn't finish it's transition to the end.
+         *
+         * Use a delay to fix this issue.
+         * Can also use the setTimeout() function.
+         */
+        gsap.delayedCall(0.5, () => {
+            gsap.to(overlayMaterial.uniforms.uAlpha, { duration: 3, value: 0 });
+            loadingBarElement.classList.add("ended");
+            loadingBarElement.style.transform = ""; // Remove the 'transform' style in JS to prevent it from overriding the 'transform' in CSS.        window.setTimeout(() => {
+        });
     },
 
     // Progress
-    () => {
-        console.log("progress");
+    (itemUrl, itemsLoaded, itemsTotal) => {
+        const progressRatio = itemsLoaded / itemsTotal;
+        loadingBarElement.style.transform = `scaleX(${progressRatio})`;
     }
 );
 const gltfLoader = new GLTFLoader(loadingManager);
