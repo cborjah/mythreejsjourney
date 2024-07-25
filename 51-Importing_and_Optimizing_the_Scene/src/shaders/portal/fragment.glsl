@@ -97,6 +97,9 @@ void main()
     float outerGlow = distance(vUv, vec2(0.5)) * 5.0 - 1.4;
     strength += outerGlow;
 
+    // Apply step function
+    strength += step(-0.2, strength) * 0.8;
+
     gl_FragColor = vec4(strength, strength, strength, 1.0);
 
     #include <colorspace_fragment>
