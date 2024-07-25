@@ -86,16 +86,23 @@ gltfLoader.load("portal_scene.glb", (gltf) => {
 const firefliesGeometry = new THREE.BufferGeometry();
 const firefliesCount = 30;
 const positionArray = new Float32Array(firefliesCount * 3);
+const scaleArray = new Float32Array(firefliesCount);
 
 for (let i = 0; i < firefliesCount; i++) {
     positionArray[i * 3 + 0] = (Math.random() - 0.5) * 4;
     positionArray[i * 3 + 1] = Math.random() * 3;
     positionArray[i * 3 + 2] = (Math.random() - 0.5) * 4;
+
+    scaleArray[i] = Math.random();
 }
 
 firefliesGeometry.setAttribute(
     "position",
     new THREE.BufferAttribute(positionArray, 3)
+);
+firefliesGeometry.setAttribute(
+    "aScale",
+    new THREE.BufferAttribute(scaleArray, 1)
 );
 
 // Material
