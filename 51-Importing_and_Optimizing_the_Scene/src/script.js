@@ -114,7 +114,8 @@ const firefliesMaterial = new THREE.ShaderMaterial({
     vertexShader: firefliesVertexShader,
     fragmentShader: firefliesFragmentShader,
     transparent: true,
-    blending: THREE.AdditiveBlending
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
 });
 
 gui.add(firefliesMaterial.uniforms.uSize, "value")
