@@ -87,7 +87,11 @@ float cnoise(vec3 P)
 
 void main()
 {
-    float strength = cnoise(vec3(vUv * 6.0, uTime * 0.3));
+    // Displace UV to add more randomness
+    vec2 displacedUv = vUv + cnoise(vec3(vUv * 6.0, uTime * 0.1));
+
+    // Perlin noise
+    float strength = cnoise(vec3(displacedUv * 5.0, uTime * 0.3));
 
     gl_FragColor = vec4(strength, strength, strength, 1.0);
 
