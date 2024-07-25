@@ -102,6 +102,9 @@ void main()
     // Apply step function
     strength += step(-0.2, strength) * 0.8;
 
+    // Clamp the strength value between 0 and 1 to fix color accuracy.
+    strength = clamp(strength, 0.0, 1.0);
+
     // Final color
     vec3 color = mix(uColorStart, uColorEnd, strength);
 
