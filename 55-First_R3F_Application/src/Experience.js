@@ -1,7 +1,17 @@
 import { useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useThree, extend, useFrame } from "@react-three/fiber";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
+/**
+ * OrbitControls is NOT part of the default Three.js classes (in the THREE variable).
+ * It can NOT be declared like a <orbitControls>.
+ *
+ * Import it and 'convert' it to a declarative version.
+ */
+extend({ OrbitControls }); // No need to use camelCase, R3F will handle that automatically.
 
 export default function Experience() {
+    const { camera, gl } = useThree(); // The useThree hook returns the same data as the 'state' in the useFrame hook.
     const cubeRef = useRef();
     const groupRef = useRef();
 
@@ -28,6 +38,8 @@ export default function Experience() {
 
     return (
         <>
+            <orbitControls args={[camera, gl.domElement]} />
+
             <group ref={groupRef}>
                 <mesh position-x={-2}>
                     <sphereGeometry />
