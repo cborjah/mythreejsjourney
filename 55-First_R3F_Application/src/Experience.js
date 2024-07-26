@@ -3,11 +3,14 @@ import { useFrame } from "@react-three/fiber";
 
 export default function Experience() {
     const cubeRef = useRef();
+    const groupRef = useRef();
 
-    // useFrame will be called on each frame BEFORE rendering the scene regardless of current frame rat regardless of current frame rate.
+    // useFrame will be called on each frame BEFORE rendering the scene regardless of
+    // current frame rate regardless of current frame rate.
     useFrame((state, delta) => {
         // delta is how much time has passed since the last frame
         cubeRef.current.rotation.y += delta;
+        // groupRef.current.rotation.y += delta;
     });
 
     /**
@@ -25,20 +28,22 @@ export default function Experience() {
 
     return (
         <>
-            <mesh position-x={-2}>
-                <sphereGeometry />
-                <meshBasicMaterial color="orange" />
-            </mesh>
+            <group ref={groupRef}>
+                <mesh position-x={-2}>
+                    <sphereGeometry />
+                    <meshBasicMaterial color="orange" />
+                </mesh>
 
-            <mesh
-                ref={cubeRef}
-                rotation-y={Math.PI * 0.25}
-                position-x={2}
-                scale={1.5}
-            >
-                <boxGeometry scale={1.5} />
-                <meshBasicMaterial color="mediumpurple" />
-            </mesh>
+                <mesh
+                    ref={cubeRef}
+                    rotation-y={Math.PI * 0.25}
+                    position-x={2}
+                    scale={1.5}
+                >
+                    <boxGeometry scale={1.5} />
+                    <meshBasicMaterial color="mediumpurple" />
+                </mesh>
+            </group>
 
             <mesh position-y={-1} rotation-x={-Math.PI * 0.5} scale={10}>
                 <planeGeometry />
