@@ -1,6 +1,7 @@
 import "./style.css";
 import ReactDOM from "react-dom/client";
 import { Canvas } from "@react-three/fiber";
+import * as THREE from "three";
 
 import Experience from "./Experience";
 
@@ -8,7 +9,8 @@ const root = ReactDOM.createRoot(document.querySelector("#root"));
 
 root.render(
     <Canvas
-        gl={{ antialias: true }}
+        // flat // Setting this property to true results in no tone mapping.
+        gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}
         camera={{
             fov: 45,
             near: 0.1,
