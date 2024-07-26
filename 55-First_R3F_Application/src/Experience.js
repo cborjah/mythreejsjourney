@@ -19,9 +19,14 @@ export default function Experience() {
     // useFrame will be called on each frame BEFORE rendering the scene regardless of
     // current frame rate regardless of current frame rate.
     useFrame((state, delta) => {
+        // Animate camera
+        // const angle = state.clock.elapsedTime;
+        // state.camera.position.x = Math.sin(angle) * 8;
+        // state.camera.position.z = Math.cos(angle) * 8;
+        // state.camera.lookAt(0, 0, 0);
+
         // delta is how much time has passed since the last frame
         cubeRef.current.rotation.y += delta;
-        // groupRef.current.rotation.y += delta;
     });
 
     /**
