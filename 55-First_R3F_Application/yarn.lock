@@ -487,21 +487,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-three/fiber@npm:8.8":
-  version: 8.8.11
-  resolution: "@react-three/fiber@npm:8.8.11"
+"@react-three/fiber@npm:8.16":
+  version: 8.16.8
+  resolution: "@react-three/fiber@npm:8.16.8"
   dependencies:
     "@babel/runtime": ^7.17.8
     "@types/react-reconciler": ^0.26.7
+    "@types/webxr": "*"
+    base64-js: ^1.5.1
+    buffer: ^6.0.3
     its-fine: ^1.0.6
     react-reconciler: ^0.27.0
     react-use-measure: ^2.1.1
     scheduler: ^0.21.0
-    suspend-react: ^0.0.8
+    suspend-react: ^0.1.3
     zustand: ^3.7.1
   peerDependencies:
     expo: ">=43.0"
     expo-asset: ">=8.4"
+    expo-file-system: ">=11.0"
     expo-gl: ">=11.0"
     react: ">=18.0"
     react-dom: ">=18.0"
@@ -512,13 +516,15 @@ __metadata:
       optional: true
     expo-asset:
       optional: true
+    expo-file-system:
+      optional: true
     expo-gl:
       optional: true
     react-dom:
       optional: true
     react-native:
       optional: true
-  checksum: 207d6e1d2de341ab0e83323549d3f5726fe4c03b142cd7f094883f68f5a27f3baeac71d6bb444b0ad07ecd8bbb05c56d393c22938ecade2471664c337ae7c6dd
+  checksum: eb675bdb6af8ef6d7d60d34d755e03ee0b4458f5d45b6f4445e55dc9f80873e3156ce7ce87eb31379e2a7a7625530a9a0742d741daef53a35b106318791c4b51
   languageName: node
   linkType: hard
 
@@ -717,6 +723,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/webxr@npm:*":
+  version: 0.5.19
+  resolution: "@types/webxr@npm:0.5.19"
+  checksum: aed3e799d66084923ab7238129ad9e1876d4c9b1f26d3f4351fb82733107842f0e53a29b5d43d8460228bf51ef75daa578922a64ef6c15265ba3fc43e23972cb
+  languageName: node
+  linkType: hard
+
 "@vitejs/plugin-react@npm:4.3":
   version: 4.3.1
   resolution: "@vitejs/plugin-react@npm:4.3.1"
@@ -804,6 +817,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "base64-js@npm:1.5.1"
+  checksum: 669632eb3745404c2f822a18fc3a0122d2f9a7a13f7fb8b5823ee19d1d2ff9ee5b52c53367176ea4ad093c332fd5ab4bd0ebae5a8e27917a4105a4cfc86b1005
+  languageName: node
+  linkType: hard
+
 "brace-expansion@npm:^2.0.1":
   version: 2.0.1
   resolution: "brace-expansion@npm:2.0.1"
@@ -833,6 +853,16 @@ __metadata:
   bin:
     browserslist: cli.js
   checksum: 8212af37f6ca6355da191cf2d4ad49bd0b82854888b9a7e103638fada70d38cbe36d28feeeaa98344cb15d9128f9f74bcc8ce1bfc9011b5fd14381c1c6fb542c
+  languageName: node
+  linkType: hard
+
+"buffer@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "buffer@npm:6.0.3"
+  dependencies:
+    base64-js: ^1.3.1
+    ieee754: ^1.2.1
+  checksum: 5ad23293d9a731e4318e420025800b42bf0d264004c0286c8cc010af7a270c7a0f6522e84f54b9ad65cbd6db20b8badbfd8d2ebf4f80fa03dab093b89e68c3f9
   languageName: node
   linkType: hard
 
@@ -1249,6 +1279,13 @@ __metadata:
   dependencies:
     safer-buffer: ">= 2.1.2 < 3.0.0"
   checksum: 3f60d47a5c8fc3313317edfd29a00a692cc87a19cac0159e2ce711d0ebc9019064108323b5e493625e25594f11c6236647d8e256fbe7a58f4a3b33b89e6d30bf
+  languageName: node
+  linkType: hard
+
+"ieee754@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "ieee754@npm:1.2.1"
+  checksum: 5144c0c9815e54ada181d80a0b810221a253562422e7c6c3a60b1901154184f49326ec239d618c416c1c5945a2e197107aee8d986a3dd836b53dffefd99b5e7e
   languageName: node
   linkType: hard
 
@@ -1957,12 +1994,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"suspend-react@npm:^0.0.8":
-  version: 0.0.8
-  resolution: "suspend-react@npm:0.0.8"
+"suspend-react@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "suspend-react@npm:0.1.3"
   peerDependencies:
     react: ">=17.0"
-  checksum: 173a56c8df8f401098697b640567f80d756849bbee02928a5283f25b94e9aef74fa58c48c974a073e3a57f6f5c0d51dcf19f410bfe0a81cc70c232d759f25c93
+  checksum: 280de571d33ffe825bb28fab25e81272b396c3295d91f50ac48b6a3777830035fa40909015dfaef17e34b9ad4ce15fcb4d73cc59530d4bc82490471322f7dbbe
   languageName: node
   linkType: hard
 
@@ -1980,10 +2017,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three@npm:0.145":
-  version: 0.145.0
-  resolution: "three@npm:0.145.0"
-  checksum: 1469a5994666a8e76ee7fffda93bde9a5d1c0dfcc831377b1a6ce3579f2933b57e8a8004a3ff7b36529b68484b9fa58eec8f136e1ac9ec02413cdfc360300ec4
+"three@npm:0.166":
+  version: 0.166.1
+  resolution: "three@npm:0.166.1"
+  checksum: 6de80d6e5f990db559d87e05cbddd850d17051267360254254de11c0f5a9fd625a3217419e7de2b66542cb5ddcdd816c2d26ba36bb33a2e3b3e1656a046941d3
   languageName: node
   linkType: hard
 
@@ -1991,11 +2028,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "threejs-journey-exercise@workspace:."
   dependencies:
-    "@react-three/fiber": 8.8
+    "@react-three/fiber": 8.16
     "@vitejs/plugin-react": 4.3
     react: 18.3
     react-dom: 18.3
-    three: 0.145
+    three: 0.166
     vite: ^5.3.3
     vite-plugin-restart: ^0.4.1
   languageName: unknown
