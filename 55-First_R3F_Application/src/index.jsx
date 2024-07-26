@@ -10,7 +10,11 @@ const root = ReactDOM.createRoot(document.querySelector("#root"));
 root.render(
     <Canvas
         // flat // Setting this property to true results in no tone mapping.
-        gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}
+        gl={{
+            antialias: true,
+            toneMapping: THREE.ACESFilmicToneMapping
+            // outputColorSpace: THREE.LinearSRGBColorSpace
+        }}
         camera={{
             fov: 45,
             near: 0.1,
