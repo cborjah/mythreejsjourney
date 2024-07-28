@@ -4,7 +4,8 @@ import {
     OrbitControls,
     TransformControls,
     PivotControls,
-    Text
+    Text,
+    Float
 } from "@react-three/drei";
 
 /**
@@ -69,17 +70,18 @@ export default function Experience() {
                 <planeGeometry />
                 <meshStandardMaterial color="greenyellow" />
             </mesh>
-
-            <Text
-                font="./bangers-v20-latin-regular.woff"
-                fontSize={1}
-                color="red"
-                position-y={2}
-                maxWidth={2}
-                textAlign="center"
-            >
-                I lOVE R3f
-            </Text>
+            <Float speed={5} floatIntensity={2}>
+                <Text
+                    font="./bangers-v20-latin-regular.woff"
+                    fontSize={1}
+                    color="red"
+                    position-y={2}
+                    maxWidth={2}
+                    textAlign="center"
+                >
+                    I lOVE R3f
+                </Text>
+            </Float>
         </>
     );
 }
