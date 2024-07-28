@@ -3,7 +3,8 @@ import {
     Html,
     OrbitControls,
     TransformControls,
-    PivotControls
+    PivotControls,
+    Text
 } from "@react-three/drei";
 
 /**
@@ -68,6 +69,17 @@ export default function Experience() {
                 <planeGeometry />
                 <meshStandardMaterial color="greenyellow" />
             </mesh>
+
+            <Text
+                font="./bangers-v20-latin-regular.woff"
+                fontSize={1}
+                color="red"
+                position-y={2}
+                maxWidth={2}
+                textAlign="center"
+            >
+                I lOVE R3f
+            </Text>
         </>
     );
 }
