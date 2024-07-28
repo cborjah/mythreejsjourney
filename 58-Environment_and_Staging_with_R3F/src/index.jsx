@@ -22,9 +22,6 @@ root.render(
         }}
         // onCreated={created}
     >
-        {/* Another way to add a background color. It must be attached for it to work.
-        can also be placed inside Experience.jsx */}
-        <color args={["ivory"]} attach="background" />
         <Experience />
     </Canvas>
 );

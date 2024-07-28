@@ -12,6 +12,9 @@ export default function Experience() {
 
     return (
         <>
+            {/* Another way to add a background color. It must be attached for it to work. */}
+            <color args={["ivory"]} attach="background" />
+
             <Perf position="top-left" />
 
             <OrbitControls makeDefault />
