@@ -8,7 +8,8 @@ import {
     // RandomizedLight,
     ContactShadows,
     // Sky,
-    Environment
+    Environment,
+    Lightformer
 } from "@react-three/drei";
 import { useRef, useEffect } from "react";
 import { Perf } from "r3f-perf";
@@ -90,8 +91,21 @@ export default function Experience() {
             <Environment
                 background={true}
                 // files={"./environmentMaps/the_sky_is_on_fire_2k.hdr"}
-                preset={"sunset"} // Comes with a list of hdr's for immediate use.
-            />
+                // preset={"sunset"} // Comes with a list of hdr's for immediate use.
+            >
+                <color args={["black"]} attach="background" />
+                <Lightformer
+                    position-z={-5}
+                    scale={10}
+                    color="red"
+                    intensity={10}
+                    form="ring"
+                />
+                {/* <mesh position-z={-5} scale={10}>
+                    <planeGeometry />
+                    <meshBasicMaterial color={[10, 0, 0]} />
+                </mesh> */}
+            </Environment>
 
             {/*<BakeShadows />*/}
             {/*<SoftShadows size={25} samples={17} focus={0.25} />*/}
