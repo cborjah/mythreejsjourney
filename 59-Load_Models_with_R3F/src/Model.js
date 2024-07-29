@@ -1,17 +1,12 @@
-import { useLoader } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+import { useGLTF } from "@react-three/drei";
+
+/**
+ * NOTE: useGLTF will take care of everything.
+ * No need to provide the DRACO decoder in the public folder!
+ */
 
 export default function Model() {
-    const model = useLoader(
-        GLTFLoader,
-        "./FlightHelmet/glTF/FlightHelmet.gltf",
-        (loader) => {
-            const dracoLoader = new DRACOLoader();
-            dracoLoader.setDecoderPath("./draco/");
-            loader.setDRACOLoader(dracoLoader);
-        }
-    );
+    const model = useGLTF("./hamburger-draco.glb");
 
-    return <primitive object={model.scene} scale={5} position-y={-1} />;
+    return <primitive object={model.scene} scale={0.35} position-y={-1} />;
 }
