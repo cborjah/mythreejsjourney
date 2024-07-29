@@ -11,6 +11,7 @@ import {
 import { useRef } from "react";
 import { Perf } from "r3f-perf";
 import * as THREE from "three";
+import { useControls } from "leva";
 
 /**
  * Percent Closer Soft Shadows (PCSS)
@@ -51,6 +52,12 @@ export default function Experience() {
         cube.current.rotation.y += delta * 0.2;
     });
 
+    const { color, opacity, blur } = useControls("contact shadows", {
+        color: "#1d8f75",
+        opacity: { value: 0.4, min: 0, max: 1 },
+        blur: { value: 2.8, min: 0, max: 10 }
+    });
+
     return (
         <>
             {/*<BakeShadows />*/}
@@ -89,6 +96,9 @@ export default function Experience() {
                 scale={10}
                 resolution={512}
                 far={5}
+                color={color}
+                opacity={opacity}
+                blur={blur}
             />
 
             <directionalLight
