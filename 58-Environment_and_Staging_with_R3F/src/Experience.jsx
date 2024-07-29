@@ -2,10 +2,11 @@ import { useFrame } from "@react-three/fiber";
 import {
     OrbitControls,
     useHelper,
-    BakeShadows,
-    SoftShadows,
-    AccumulativeShadows,
-    RandomizedLight
+    // BakeShadows,
+    // SoftShadows,
+    // AccumulativeShadows,
+    // RandomizedLight,
+    ContactShadows
 } from "@react-three/drei";
 import { useRef } from "react";
 import { Perf } from "r3f-perf";
@@ -28,6 +29,15 @@ import * as THREE from "three";
  *       Make sure to remove any existing shadows on the plane.
  *       Make sure to place it slightly above the plane to prevent z-fighting.
  *       Requires its own lights!
+ *
+ *
+ *  Contact Shadows
+ *
+ *  Renders the whole scene similar to how the directional light does,
+ *  but with the camera taking place of the floor instead of the light.
+ *  It'll then blur the shadow map to make it look better.
+ *
+ *  NOTE: Works without a light and ONLY on a plane.
  */
 
 export default function Experience() {
@@ -35,7 +45,7 @@ export default function Experience() {
 
     const directionalLight = useRef();
 
-    // useHelper(directionalLight, THREE.DirectionalLightHelper, 1); // NOTE: Can cause artifacts when using with AccumulativeShadows
+    useHelper(directionalLight, THREE.DirectionalLightHelper, 1); // NOTE: Can cause artifacts when using with AccumulativeShadows
 
     useFrame((state, delta) => {
         cube.current.rotation.y += delta * 0.2;
@@ -53,24 +63,33 @@ export default function Experience() {
 
             <OrbitControls makeDefault />
 
-            <AccumulativeShadows
+            {/*
+                <AccumulativeShadows
+                    position={[0, -0.99, 0]}
+                    scale={10}
+                    color="#316d39"
+                    opacity={0.8}
+                    frames={Infinity}
+                    temporal={true}
+                    blend={100}
+                >
+                    <RandomizedLight
+                        position={[1, 2, 3]}
+                        amount={8}
+                        radius={1}
+                        ambient={0.5}
+                        intensity={3}
+                        bias={0.001}
+                    />
+                </AccumulativeShadows>
+           */}
+
+            <ContactShadows
                 position={[0, -0.99, 0]}
                 scale={10}
-                color="#316d39"
-                opacity={0.8}
-                frames={Infinity}
-                temporal={true}
-                blend={100}
-            >
-                <RandomizedLight
-                    position={[1, 2, 3]}
-                    amount={8}
-                    radius={1}
-                    ambient={0.5}
-                    intensity={3}
-                    bias={0.001}
-                />
-            </AccumulativeShadows>
+                resolution={512}
+                far={5}
+            />
 
             <directionalLight
                 ref={directionalLight}
