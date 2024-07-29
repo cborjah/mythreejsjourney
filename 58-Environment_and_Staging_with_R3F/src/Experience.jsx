@@ -1,8 +1,21 @@
 import { useFrame } from "@react-three/fiber";
-import { OrbitControls, useHelper, BakeShadows } from "@react-three/drei";
+import {
+    OrbitControls,
+    useHelper,
+    BakeShadows,
+    SoftShadows
+} from "@react-three/drei";
 import { useRef } from "react";
 import { Perf } from "r3f-perf";
 import * as THREE from "three";
+
+/**
+ * Percent Closer Soft Shadows (PCSS)
+ *
+ * Makes shadows look blurry by picking the shadow map texture at an offset
+ * position according to the distance between the surface casting the shadow
+ * and the surface receiving the shadow.
+ */
 
 export default function Experience() {
     const cube = useRef();
@@ -16,7 +29,8 @@ export default function Experience() {
 
     return (
         <>
-            <BakeShadows />
+            {/*<BakeShadows />*/}
+            <SoftShadows size={25} samples={17} focus={0.5} />
 
             {/* Another way to add a background color. It must be attached for it to work. */}
             <color args={["ivory"]} attach="background" />
