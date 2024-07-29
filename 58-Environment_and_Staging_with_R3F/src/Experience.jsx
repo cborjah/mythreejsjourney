@@ -39,6 +39,10 @@ import { useControls } from "leva";
  *  It'll then blur the shadow map to make it look better.
  *
  *  NOTE: Works without a light and ONLY on a plane.
+ *        Shadows always come from the front of the plane.
+ *        Not physically accurate.
+ *        Blurs the shadow regardless of distance from objects.
+ *        Impacts performance.
  */
 
 export default function Experience() {
