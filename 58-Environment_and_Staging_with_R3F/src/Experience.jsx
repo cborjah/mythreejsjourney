@@ -1,4 +1,4 @@
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import {
     OrbitControls,
     useHelper,
@@ -7,9 +7,10 @@ import {
     // AccumulativeShadows,
     // RandomizedLight,
     ContactShadows,
-    Sky
+    // Sky,
+    Environment
 } from "@react-three/drei";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Perf } from "r3f-perf";
 import * as THREE from "three";
 import { useControls } from "leva";
@@ -72,8 +73,31 @@ export default function Experience() {
         sunPosition: { value: [1, 2, 3] }
     });
 
+    const { envMapIntensity } = useControls("environment map", {
+        envMapIntensity: { value: 3.5, min: 0, max: 12 }
+    });
+
+    // Update the envMapIntensity of ALL the materials without having to set
+    // it manually on each one by updating the scene's envMapIntensity.
+    useEffect(() => {
+        scene.environmentIntensity = envMapIntensity;
+    }, [envMapIntensity]);
+
+    const scene = useThree((state) => state.scene);
+
     return (
         <>
+            <Environment
+                files={[
+                    "./environmentMaps/2/px.jpg",
+                    "./environmentMaps/2/nx.jpg",
+                    "./environmentMaps/2/py.jpg",
+                    "./environmentMaps/2/ny.jpg",
+                    "./environmentMaps/2/pz.jpg",
+                    "./environmentMaps/2/nz.jpg"
+                ]}
+            />
+
             {/*<BakeShadows />*/}
             {/*<SoftShadows size={25} samples={17} focus={0.25} />*/}
 
@@ -116,7 +140,7 @@ export default function Experience() {
                 frames={1}
             />
 
-            <directionalLight
+            {/*<directionalLight
                 ref={directionalLight}
                 position={sunPosition}
                 intensity={4.5}
@@ -128,10 +152,10 @@ export default function Experience() {
                 shadow-camera-right={5}
                 shadow-camera-bottom={-5}
                 shadow-camera-left={-5}
-            />
-            <ambientLight intensity={1.5} />
+            /> */}
+            {/* <ambientLight intensity={1.5} /> */}
 
-            <Sky sunPosition={sunPosition} />
+            {/* <Sky sunPosition={sunPosition} /> */}
 
             <mesh position-x={-2} castShadow={true}>
                 <sphereGeometry />
