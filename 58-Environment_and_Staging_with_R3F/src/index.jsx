@@ -21,6 +21,7 @@ root.render(
             position: [-4, 3, 6]
         }}
         // onCreated={created}
+        shadows={true}
     >
         <Experience />
     </Canvas>
