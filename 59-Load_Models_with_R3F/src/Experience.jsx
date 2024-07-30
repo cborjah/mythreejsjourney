@@ -4,6 +4,7 @@ import { Perf } from "r3f-perf";
 // import Model from "./Model";
 import Placeholder from "./Placeholder";
 import Hamburger from "./Hamburger";
+import Fox from "./Fox";
 
 /*
  * Lazy Loading using <Suspense> is tricky because it needs
@@ -49,6 +50,8 @@ export default function Experience() {
             >
                 <Hamburger scale={0.35} />
             </Suspense>
+
+            <Fox />
         </>
     );
 }
