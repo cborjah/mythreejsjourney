@@ -11,6 +11,12 @@ import Hamburger from "./Hamburger";
  *
  * You can set a fallback to display something while the
  * component is loading.
+ *
+ *
+ * Shadow Acne
+ *
+ * When an object casts shadows on itself due to precision
+ * inaccuracies. Set the 'shadow-normalBias' to fix this.
  */
 
 export default function Experience() {
@@ -20,7 +26,12 @@ export default function Experience() {
 
             <OrbitControls makeDefault />
 
-            <directionalLight castShadow position={[1, 2, 3]} intensity={4.5} />
+            <directionalLight
+                castShadow
+                position={[1, 2, 3]}
+                intensity={4.5}
+                shadow-normalBias={0.04}
+            />
             <ambientLight intensity={1.5} />
 
             <mesh
