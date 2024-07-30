@@ -18,7 +18,7 @@ const torusGeometry = new THREE.TorusGeometry();
 const material = new THREE.MeshMatcapMaterial();
 
 export default function Experience() {
-    const donutsGroup = useRef();
+    const donuts = useRef([]);
 
     // Second parameter is the desired width if its available (64, 128, 256, 1024).
     // NOTE: 256 is more than enough (use the smallest possible).
@@ -42,7 +42,7 @@ export default function Experience() {
     }, []);
 
     useFrame((state, delta) => {
-        for (const donut of donutsGroup.current.children) {
+        for (const donut of donuts.current) {
             donut.rotation.y += 0.1;
         }
     });
@@ -70,26 +70,28 @@ export default function Experience() {
                 </Text3D>
             </Center>
 
-            <group ref={donutsGroup}>
-                {[...Array(100)].map((_, index) => (
-                    <mesh
-                        key={index}
-                        geometry={torusGeometry}
-                        material={material}
-                        position={[
-                            (Math.random() - 0.5) * 10,
-                            (Math.random() - 0.5) * 10,
-                            (Math.random() - 0.5) * 10
-                        ]}
-                        scale={0.2 + Math.random() * 0.2}
-                        rotation={[
-                            Math.random() * Math.PI,
-                            Math.random() * Math.PI,
-                            0
-                        ]}
-                    />
-                ))}
-            </group>
+            {[...Array(100)].map((_, index) => (
+                <mesh
+                    ref={(element) => {
+                        // NOTE: Don't push elements into donuts. It will push duplicate donuts into the array on each rerender!
+                        donuts.current[index] = element;
+                    }}
+                    key={index}
+                    geometry={torusGeometry}
+                    material={material}
+                    position={[
+                        (Math.random() - 0.5) * 10,
+                        (Math.random() - 0.5) * 10,
+                        (Math.random() - 0.5) * 10
+                    ]}
+                    scale={0.2 + Math.random() * 0.2}
+                    rotation={[
+                        Math.random() * Math.PI,
+                        Math.random() * Math.PI,
+                        0
+                    ]}
+                />
+            ))}
         </>
     );
 }
