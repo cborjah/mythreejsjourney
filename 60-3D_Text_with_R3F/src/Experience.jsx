@@ -1,18 +1,18 @@
-import { OrbitControls } from '@react-three/drei'
-import { Perf } from 'r3f-perf'
+import { Center, Text3D, OrbitControls } from "@react-three/drei";
+import { Perf } from "r3f-perf";
 
-export default function Experience()
-{
-    return <>
+export default function Experience() {
+    return (
+        <>
+            <Perf position="top-left" />
 
-        <Perf position="top-left" />
-
-        <OrbitControls makeDefault />
-
-        <mesh scale={ 1.5 }>
-            <boxGeometry />
-            <meshNormalMaterial />
-        </mesh>
-
-    </>
+            <OrbitControls makeDefault />
+            <Center>
+                <Text3D font="./fonts/helvetiker_regular.typeface.json">
+                    HELLO R3F
+                    <meshNormalMaterial />
+                </Text3D>
+            </Center>
+        </>
+    );
 }
