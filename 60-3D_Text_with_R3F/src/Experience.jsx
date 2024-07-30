@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     useMatcapTexture,
     Center,
@@ -6,7 +7,14 @@ import {
 } from "@react-three/drei";
 import { Perf } from "r3f-perf";
 
+/**
+ * By providing the setter (setTorusGeometry) to the ref,
+ * React will call that function with the component as the parameter.
+ */
+
 export default function Experience() {
+    const [torusGeometry, setTorusGeometry] = useState();
+
     // Second parameter is the desired width if its available (64, 128, 256, 1024).
     // NOTE: 256 is more than enough (use the smallest possible).
     const [matcapTexture] = useMatcapTexture(
@@ -25,6 +33,9 @@ export default function Experience() {
             <Perf position="top-left" />
 
             <OrbitControls makeDefault />
+
+            <torusGeometry ref={setTorusGeometry} />
+
             <Center>
                 <Text3D
                     font="./fonts/helvetiker_regular.typeface.json"
@@ -45,6 +56,7 @@ export default function Experience() {
             {[...Array(100)].map((_, index) => (
                 <mesh
                     key={index}
+                    geometry={torusGeometry}
                     position={[
                         (Math.random() - 0.5) * 10,
                         (Math.random() - 0.5) * 10,
@@ -57,7 +69,6 @@ export default function Experience() {
                         0
                     ]}
                 >
-                    <torusGeometry />
                     <meshMatcapMaterial matcap={matcapTexture} />
                 </mesh>
             ))}
