@@ -15,6 +15,11 @@ export default function Experience() {
     );
     // console.log(matcapTexture);
 
+    // NOTE: Array(100) creates an EMPTY array with a lenth of 100.
+    //       Use the spread operator to create an array filled with undefined.
+    const tempArray = [...Array(100)];
+    tempArray.map(() => {});
+
     return (
         <>
             <Perf position="top-left" />
@@ -37,10 +42,25 @@ export default function Experience() {
                 </Text3D>
             </Center>
 
-            <mesh>
-                <torusGeometry />
-                <meshMatcapMaterial matcap={matcapTexture} />
-            </mesh>
+            {[...Array(100)].map((_, index) => (
+                <mesh
+                    key={index}
+                    position={[
+                        (Math.random() - 0.5) * 10,
+                        (Math.random() - 0.5) * 10,
+                        (Math.random() - 0.5) * 10
+                    ]}
+                    scale={0.2 + Math.random() * 0.2}
+                    rotation={[
+                        Math.random() * Math.PI,
+                        Math.random() * Math.PI,
+                        0
+                    ]}
+                >
+                    <torusGeometry />
+                    <meshMatcapMaterial matcap={matcapTexture} />
+                </mesh>
+            ))}
         </>
     );
 }
