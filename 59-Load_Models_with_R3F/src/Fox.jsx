@@ -8,6 +8,11 @@ export default function Fox() {
     useEffect(() => {
         const action = animations.actions.Run;
         action.play();
+
+        setTimeout(() => {
+            animations.actions.Walk.play();
+            animations.actions.Walk.crossFadeFrom(animations.actions.Run, 1);
+        }, 2000);
     }, []);
 
     return (
