@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { OrbitControls } from "@react-three/drei";
 import { Perf } from "r3f-perf";
-import Model from "./Model";
+// import Model from "./Model";
 import Placeholder from "./Placeholder";
 import Hamburger from "./Hamburger";
 
