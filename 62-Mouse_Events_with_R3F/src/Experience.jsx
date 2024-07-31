@@ -1,6 +1,17 @@
 import { useFrame } from "@react-three/fiber";
-import { OrbitControls, useGLTF } from "@react-three/drei";
+import { OrbitControls, useGLTF, meshBounds } from "@react-three/drei";
 import { useRef } from "react";
+
+/**
+ * 'meshBounds' will create a theoretical sphere around a mesh(called
+ * a bounding sphere) and the pointer events will be tested on that sphere
+ * instead of testing the geometry of the mesh.
+ *
+ * This is a way to optimize pointer events used on complex geometries.
+ *
+ * NOTE: 'meshBounds' can only be used on SINGLE meshes, which is why it
+ * can't be used on the hamburger in this case.
+ */
 
 export default function Experience() {
     const cube = useRef();
@@ -31,6 +42,7 @@ export default function Experience() {
 
             <mesh
                 ref={cube}
+                raycast={meshBounds}
                 position-x={2}
                 scale={1.5}
                 onClick={eventHandler}
