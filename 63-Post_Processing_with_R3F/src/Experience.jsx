@@ -99,7 +99,11 @@ export default function Experience() {
                     focalLength={0.025}
                     bokehScale={6}
                 /> */}
-                <Drunk ref={drunkRef} {...drunkProps} />
+                <Drunk
+                    ref={drunkRef}
+                    {...drunkProps}
+                    blendFunction={BlendFunction.DARKEN}
+                />
             </EffectComposer>
 
             <Perf position="top-left" />
