@@ -5,7 +5,8 @@ import {
     Glitch,
     ToneMapping,
     Vignette,
-    Noise
+    Noise,
+    Bloom
 } from "@react-three/postprocessing";
 import { ToneMappingMode, BlendFunction, GlitchMode } from "postprocessing";
 // console.log(ToneMappingMode);
@@ -42,15 +43,28 @@ import { ToneMappingMode, BlendFunction, GlitchMode } from "postprocessing";
  *
  * 'premultiply' will multiply the noise with the input color before applying the
  * blending. It usually results in a darker render, but it blends better with the image.
+ *
+ *
+ * Bloom
+ *
+ * By default, bloom makes objects glow only when their color channels go beyond
+ * the 1 threshold.
+ *
+ * NOTE: Bloom doesn't work when placed AFTER <ToneMapping />.
+ *
+ * The mipmap blur will use the same mipmapping used for textures.
+ * Smallers resolutions of the render will be combined into a bloom texture
+ * that is then added to the initial render.
+ * It looks great with good performance.
  */
 
 export default function Experience() {
     return (
         <>
-            <color args={["#fffff"]} attach="background" />
+            <color args={["#000000"]} attach="background" />
 
             <EffectComposer>
-                <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
+                {/* <ToneMapping mode={ToneMappingMode.ACES_FILMIC} /> */}
                 {/* <Vignette
                     offset={0.3}
                     darkness={0.9}
@@ -62,7 +76,8 @@ export default function Experience() {
                     strength={[0.2, 0.4]}
                     mode={GlitchMode.CONSTANT_MILD}
                 /> */}
-                <Noise blendFunction={BlendFunction.SOFT_LIGHT} premultiply />
+                {/* <Noise blendFunction={BlendFunction.SOFT_LIGHT} premultiply /> */}
+                <Bloom luminanceThreshold={1.1} mipmapBlur />
             </EffectComposer>
 
             <Perf position="top-left" />
@@ -79,7 +94,7 @@ export default function Experience() {
 
             <mesh castShadow position-x={2} scale={1.5}>
                 <boxGeometry />
-                <meshStandardMaterial color="mediumpurple" />
+                <meshStandardMaterial color={[5, 2, 1]} />
             </mesh>
 
             <mesh
