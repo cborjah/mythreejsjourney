@@ -51,6 +51,11 @@ import { ToneMappingMode, BlendFunction, GlitchMode } from "postprocessing";
  * the 1 threshold.
  *
  * NOTE: Bloom doesn't work when placed AFTER <ToneMapping />.
+ *       meshStandardMaterial is worse for performances than meshBasicMaterial.
+ *       If you want a material that just glows, use a meshBasicMaterial.
+ *       If you want a slight blur everywhere in the scene,
+ *       set intensity to a low value (0.1) and luminanceThreshold to 0.
+ *       When you want an object to bloom more, just multiply its color values to increase them.
  *
  * The mipmap blur will use the same mipmapping used for textures.
  * Smallers resolutions of the render will be combined into a bloom texture
@@ -77,7 +82,7 @@ export default function Experience() {
                     mode={GlitchMode.CONSTANT_MILD}
                 /> */}
                 {/* <Noise blendFunction={BlendFunction.SOFT_LIGHT} premultiply /> */}
-                <Bloom luminanceThreshold={1.1} mipmapBlur />
+                <Bloom luminanceThreshold={1.1} mipmapBlur intensity={0.5} />
             </EffectComposer>
 
             <Perf position="top-left" />
@@ -94,11 +99,7 @@ export default function Experience() {
 
             <mesh castShadow position-x={2} scale={1.5}>
                 <boxGeometry />
-                <meshStandardMaterial
-                    color="white"
-                    emissive={"orange"}
-                    emissiveIntensity={2}
-                />
+                <meshBasicMaterial color={[1.5, 1, 4]} />
             </mesh>
 
             <mesh
