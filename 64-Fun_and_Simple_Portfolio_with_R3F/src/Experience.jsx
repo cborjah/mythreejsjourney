@@ -1,4 +1,4 @@
-import { Environment, useGLTF, OrbitControls } from "@react-three/drei";
+import { Float, Environment, useGLTF, OrbitControls } from "@react-three/drei";
 
 // const computer =
 
@@ -15,7 +15,9 @@ export default function Experience() {
 
             <OrbitControls makeDefault />
 
-            <primitive object={computer.scene} />
+            <Float>
+                <primitive object={computer.scene} position-y={-1.2} />
+            </Float>
         </>
     );
 }
