@@ -11,6 +11,7 @@ import {
 } from "@react-three/postprocessing";
 import { ToneMappingMode, BlendFunction, GlitchMode } from "postprocessing";
 // console.log(ToneMappingMode);
+import Drunk from "./Drunk";
 
 /**
  * In previous lessons, post-processing was done by adding passes where
@@ -84,11 +85,12 @@ export default function Experience() {
                 /> */}
                 {/* <Noise blendFunction={BlendFunction.SOFT_LIGHT} premultiply /> */}
                 {/* <Bloom luminanceThreshold={1.1} mipmapBlur intensity={0.5} /> */}
-                <DepthOfField
+                {/* <DepthOfField
                     focusDistance={0.025}
                     focalLength={0.025}
                     bokehScale={6}
-                />
+                /> */}
+                <Drunk />
             </EffectComposer>
 
             <Perf position="top-left" />
