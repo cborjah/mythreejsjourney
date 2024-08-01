@@ -38,6 +38,8 @@ import { ToneMappingMode, BlendFunction } from "postprocessing";
 export default function Experience() {
     return (
         <>
+            <color args={["#fffff"]} attach="background" />
+
             <EffectComposer>
                 <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
                 <Vignette
