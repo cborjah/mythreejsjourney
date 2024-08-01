@@ -12,6 +12,7 @@ import {
 import { ToneMappingMode, BlendFunction, GlitchMode } from "postprocessing";
 // console.log(ToneMappingMode);
 import Drunk from "./Drunk";
+import { useRef } from "react";
 
 /**
  * In previous lessons, post-processing was done by adding passes where
@@ -66,6 +67,8 @@ import Drunk from "./Drunk";
  */
 
 export default function Experience() {
+    const drunkRef = useRef();
+
     return (
         <>
             <color args={["#ffffff"]} attach="background" />
@@ -90,7 +93,7 @@ export default function Experience() {
                     focalLength={0.025}
                     bokehScale={6}
                 /> */}
-                <Drunk />
+                <Drunk ref={drunkRef} frequency={2} amplitude={0.1} />
             </EffectComposer>
 
             <Perf position="top-left" />
