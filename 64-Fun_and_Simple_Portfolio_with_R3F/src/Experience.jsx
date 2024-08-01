@@ -27,7 +27,7 @@ export default function Experience() {
 
             <color args={["#241a1a"]} attach="background" />
 
-            <PresentationControls global>
+            <PresentationControls global rotation={[0.13, 0.1, 0]}>
                 <Float rotationIntensity={0.4}>
                     <primitive object={computer.scene} position-y={-1.2} />
                 </Float>
