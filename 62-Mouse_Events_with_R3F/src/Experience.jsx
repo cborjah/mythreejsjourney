@@ -11,6 +11,16 @@ import { useRef } from "react";
  *
  * NOTE: 'meshBounds' can only be used on SINGLE meshes, which is why it
  * can't be used on the hamburger in this case.
+ *
+ * If you have very complex geometries and you still need pointer events to
+ * be accurate, you can use the BVH (Bounding Volume Hierarchy).
+ *
+ * This isn't just for raycasting and pointer events, it can be used for
+ * physics, etc.
+ *
+ * NOTE: In this case, wrap the <Experience /> in index.jsx with <Bvh>.
+ * That's all it takes for an immediate performance boost when
+ * raycasting!
  */
 
 export default function Experience() {
