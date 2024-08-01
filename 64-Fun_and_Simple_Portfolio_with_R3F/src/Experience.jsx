@@ -7,6 +7,13 @@ import {
 
 /*
  * PresentationControls let you manipulate the model instead of the camera.
+ * It uses 'use-gesture', a library to interact with elements using natural
+ * gestures.
+ *
+ * NOTE: This library recommends adding the CSS property 'touch-action' to
+ *       'none' in order to fix weird behavior on mobile when swiping.
+ *       Ex: Accidentally triggering 'swipe down to refresh'.
+ *       Documentation: https://use-gesture.netlify.app/docs/extras/#touch-action
  */
 
 export default function Experience() {
