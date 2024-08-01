@@ -38,7 +38,7 @@ export default class DrunkEffect extends Effect {
         }); // Calls the constructor method of the parent class (Effect in this case)
     }
 
-    update() {
-        this.uniforms.get("offset").value += 0.02;
+    update(renderer, inputBuffer, deltaTime) {
+        this.uniforms.get("offset").value += deltaTime;
     }
 }
