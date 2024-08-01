@@ -1,15 +1,14 @@
-import { OrbitControls } from '@react-three/drei'
+import { OrbitControls } from "@react-three/drei";
 
-export default function Experience()
-{
-    return <>
+export default function Experience() {
+    return (
+        <>
+            <OrbitControls makeDefault />
 
-        <OrbitControls makeDefault />
-        
-        <mesh>
-            <boxGeometry />
-            <meshNormalMaterial />
-        </mesh>
-
-    </>
+            <mesh>
+                <boxGeometry />
+                <meshNormalMaterial />
+            </mesh>
+        </>
+    );
 }
