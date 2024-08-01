@@ -2074,6 +2074,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"postprocessing@npm:6.35":
+  version: 6.35.6
+  resolution: "postprocessing@npm:6.35.6"
+  peerDependencies:
+    three: ">= 0.152.0 < 0.167.0"
+  checksum: 500cc5e9a1d0011245fe683854fd1e42f0ed3f0eb620f27b7105fd5e02a9586a8a6e2d0827fa85cbf644656c94ffa0f4c7448b9525690e9b3da110a1f0cba846
+  languageName: node
+  linkType: hard
+
 "postprocessing@npm:^6.32.1":
   version: 6.36.0
   resolution: "postprocessing@npm:6.36.0"
@@ -2552,6 +2561,7 @@ __metadata:
     "@react-three/fiber": ^8.16.8
     "@react-three/postprocessing": 2.16
     "@vitejs/plugin-react": 4.3
+    postprocessing: 6.35
     r3f-perf: ^7.2.1
     react: 18.3
     react-dom: 18.3
