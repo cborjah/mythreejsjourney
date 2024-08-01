@@ -1,6 +1,13 @@
-import { Float, Environment, useGLTF, OrbitControls } from "@react-three/drei";
+import {
+    PresentationControls,
+    Float,
+    Environment,
+    useGLTF
+} from "@react-three/drei";
 
-// const computer =
+/*
+ * PresentationControls let you manipulate the model instead of the camera.
+ */
 
 export default function Experience() {
     const computer = useGLTF(
@@ -13,11 +20,11 @@ export default function Experience() {
 
             <color args={["#241a1a"]} attach="background" />
 
-            <OrbitControls makeDefault />
-
-            <Float rotationIntensity={0.4}>
-                <primitive object={computer.scene} position-y={-1.2} />
-            </Float>
+            <PresentationControls>
+                <Float rotationIntensity={0.4}>
+                    <primitive object={computer.scene} position-y={-1.2} />
+                </Float>
+            </PresentationControls>
         </>
     );
 }
