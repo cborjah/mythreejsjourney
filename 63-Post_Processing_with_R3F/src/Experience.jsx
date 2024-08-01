@@ -4,7 +4,8 @@ import {
     EffectComposer,
     Glitch,
     ToneMapping,
-    Vignette
+    Vignette,
+    Noise
 } from "@react-three/postprocessing";
 import { ToneMappingMode, BlendFunction, GlitchMode } from "postprocessing";
 // console.log(ToneMappingMode);
@@ -33,7 +34,14 @@ import { ToneMappingMode, BlendFunction, GlitchMode } from "postprocessing";
  *
  * NOTE: Keep <ToneMapping /> at the TOP inside of the <EffectComposer>!
  *
+ *
  * Multi-sampling is used to prevent the aliasing effect (stairs effect).
+ *
+ *
+ * Noise
+ *
+ * 'premultiply' will multiply the noise with the input color before applying the
+ * blending. It usually results in a darker render, but it blends better with the image.
  */
 
 export default function Experience() {
@@ -48,12 +56,13 @@ export default function Experience() {
                     darkness={0.9}
                     blendFunction={BlendFunction.NORMAL}
                 /> */}
-                <Glitch
+                {/* <Glitch
                     delay={[0.5, 1]}
                     duration={[0.1, 0.3]}
                     strength={[0.2, 0.4]}
                     mode={GlitchMode.CONSTANT_MILD}
-                />
+                /> */}
+                <Noise blendFunction={BlendFunction.SOFT_LIGHT} premultiply />
             </EffectComposer>
 
             <Perf position="top-left" />
