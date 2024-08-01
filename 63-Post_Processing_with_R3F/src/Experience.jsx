@@ -6,7 +6,8 @@ import {
     ToneMapping,
     Vignette,
     Noise,
-    Bloom
+    Bloom,
+    DepthOfField
 } from "@react-three/postprocessing";
 import { ToneMappingMode, BlendFunction, GlitchMode } from "postprocessing";
 // console.log(ToneMappingMode);
@@ -66,10 +67,10 @@ import { ToneMappingMode, BlendFunction, GlitchMode } from "postprocessing";
 export default function Experience() {
     return (
         <>
-            <color args={["#000000"]} attach="background" />
+            <color args={["#ffffff"]} attach="background" />
 
             <EffectComposer>
-                {/* <ToneMapping mode={ToneMappingMode.ACES_FILMIC} /> */}
+                <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
                 {/* <Vignette
                     offset={0.3}
                     darkness={0.9}
@@ -82,7 +83,12 @@ export default function Experience() {
                     mode={GlitchMode.CONSTANT_MILD}
                 /> */}
                 {/* <Noise blendFunction={BlendFunction.SOFT_LIGHT} premultiply /> */}
-                <Bloom luminanceThreshold={1.1} mipmapBlur intensity={0.5} />
+                {/* <Bloom luminanceThreshold={1.1} mipmapBlur intensity={0.5} /> */}
+                <DepthOfField
+                    focusDistance={0.025}
+                    focalLength={0.025}
+                    bokehScale={6}
+                />
             </EffectComposer>
 
             <Perf position="top-left" />
@@ -99,7 +105,7 @@ export default function Experience() {
 
             <mesh castShadow position-x={2} scale={1.5}>
                 <boxGeometry />
-                <meshBasicMaterial color={[1.5, 1, 4]} />
+                <meshStandardMaterial color="mediumpurple" />
             </mesh>
 
             <mesh
