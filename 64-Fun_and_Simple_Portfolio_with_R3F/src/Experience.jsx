@@ -38,6 +38,14 @@ export default function Experience() {
                 snap={{ mass: 4, tension: 400 }}
             >
                 <Float rotationIntensity={0.4}>
+                    <rectAreaLight
+                        width={2.5}
+                        height={1.65}
+                        intensity={65}
+                        color={"#ff6900"}
+                        rotation={[0.1, Math.PI, 0]}
+                        position={[0, 0.55, -1.15]}
+                    />
                     <primitive object={computer.scene} position-y={-1.2}>
                         <Html
                             transform
