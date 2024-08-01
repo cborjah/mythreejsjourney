@@ -15,7 +15,7 @@ export default function Experience() {
 
             <OrbitControls makeDefault />
 
-            <Float>
+            <Float rotationIntensity={0.4}>
                 <primitive object={computer.scene} position-y={-1.2} />
             </Float>
         </>
