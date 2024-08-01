@@ -1,6 +1,10 @@
 import { OrbitControls } from "@react-three/drei";
 import { Perf } from "r3f-perf";
-import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
+import {
+    EffectComposer,
+    ToneMapping,
+    Vignette
+} from "@react-three/postprocessing";
 import { ToneMappingMode } from "postprocessing";
 // console.log(ToneMappingMode);
 
@@ -27,6 +31,8 @@ import { ToneMappingMode } from "postprocessing";
  *       it manually.
  *
  * NOTE: Keep <ToneMapping /> at the TOP inside of the <EffectComposer>!
+ *
+ * Multi-sampling is used to prevent the aliasing effect (stairs effect).
  */
 
 export default function Experience() {
@@ -34,6 +40,7 @@ export default function Experience() {
         <>
             <EffectComposer>
                 <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
+                <Vignette offset={0.3} darkness={0.9} />
             </EffectComposer>
 
             <Perf position="top-left" />
