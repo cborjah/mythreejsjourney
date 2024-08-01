@@ -1,4 +1,5 @@
 import { Effect } from "postprocessing";
+import { Uniform } from "three";
 
 /**
  * WebGL2 syntax
@@ -8,6 +9,13 @@ import { Effect } from "postprocessing";
  * out: changing this value will change the variable sent when calling the function
  */
 const fragmentShader = `
+    uniform float frequency;
+    uniform float amplitude;
+
+    void mainUv(inout vec2 uv) {
+        uv.y += sin(uv.x * frequency) * amplitude;
+    }
+
     void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
         vec4 color = inputColor;
         color.rgb *= vec3(0.8, 1.0, 0.5);
@@ -16,7 +24,12 @@ const fragmentShader = `
 `;
 
 export default class DrunkEffect extends Effect {
-    constructor() {
-        super("DrunkEffect", fragmentShader, {}); // Calls the constructor method of the parent class (Effect in this case)
+    constructor({ frequency, amplitude }) {
+        super("DrunkEffect", fragmentShader, {
+            uniforms: new Map([
+                ["frequency", new Uniform(frequency)],
+                ["amplitude", new Uniform(amplitude)]
+            ])
+        }); // Calls the constructor method of the parent class (Effect in this case)
     }
 }
