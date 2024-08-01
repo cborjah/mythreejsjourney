@@ -664,6 +664,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-three/postprocessing@npm:2.16":
+  version: 2.16.2
+  resolution: "@react-three/postprocessing@npm:2.16.2"
+  dependencies:
+    buffer: ^6.0.3
+    maath: ^0.6.0
+    n8ao: ^1.6.6
+    postprocessing: ^6.32.1
+    three-stdlib: ^2.23.4
+  peerDependencies:
+    "@react-three/fiber": ">=8.0"
+    react: ">=18.0"
+    three: ">= 0.138.0"
+  checksum: b3b2396c9cfcf95f3ae7e4473b98b446ac5cabce070675e1264a26d8ff15c543c1148919b447b620c3d30be594e5f89dd618e5b32ec05e24b8f5370af7438009
+  languageName: node
+  linkType: hard
+
 "@rollup/rollup-android-arm-eabi@npm:4.19.1":
   version: 4.19.1
   resolution: "@rollup/rollup-android-arm-eabi@npm:4.19.1"
@@ -1763,6 +1780,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"maath@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "maath@npm:0.6.0"
+  peerDependencies:
+    "@types/three": ">=0.144.0"
+    three: ">=0.144.0"
+  checksum: 6b8da7789f5607f77030bac5cdc50697fe81ac3bd0939883430f33340768ccf0e5528465b039d8328181bfb9e966d2ad60f694c45825b7d6be944f3f735c5023
+  languageName: node
+  linkType: hard
+
 "make-fetch-happen@npm:^13.0.0":
   version: 13.0.1
   resolution: "make-fetch-happen@npm:13.0.1"
@@ -1918,6 +1945,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"n8ao@npm:^1.6.6":
+  version: 1.8.3
+  resolution: "n8ao@npm:1.8.3"
+  peerDependencies:
+    postprocessing: ">=6.30.0"
+    three: ">=0.137"
+  checksum: ac203045f543de85b7e6d111312f2e59d756c06ce551f726354000d47af00f520acac4ea95b88a099eb8370ce97a160e1472f010ec09bef600ce2e12c2464291
+  languageName: node
+  linkType: hard
+
 "nanoid@npm:^3.3.7":
   version: 3.3.7
   resolution: "nanoid@npm:3.3.7"
@@ -2034,6 +2071,15 @@ __metadata:
     picocolors: ^1.0.1
     source-map-js: ^1.2.0
   checksum: afd0cc49d2169dcd96c0f17e155c5d75de048956306a3017f1cfa6a7d66b941592245bed20f7796ceeccb2d8967749b623be2c7b010a74f67ea10fb5bdb8ba28
+  languageName: node
+  linkType: hard
+
+"postprocessing@npm:^6.32.1":
+  version: 6.36.0
+  resolution: "postprocessing@npm:6.36.0"
+  peerDependencies:
+    three: ">= 0.157.0 < 0.168.0"
+  checksum: d5619313a053ddb2512f9768aa372f06c9a9cef4a7b28c4427e61e7f724115a9d90f2ae3d107662e48501b8d1309ae5a0553a523098e1df9067591ad65b02a18
   languageName: node
   linkType: hard
 
@@ -2475,7 +2521,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three-stdlib@npm:^2.29.9":
+"three-stdlib@npm:^2.23.4, three-stdlib@npm:^2.29.9":
   version: 2.30.5
   resolution: "three-stdlib@npm:2.30.5"
   dependencies:
@@ -2504,6 +2550,7 @@ __metadata:
   dependencies:
     "@react-three/drei": ^9.108.1
     "@react-three/fiber": ^8.16.8
+    "@react-three/postprocessing": 2.16
     "@vitejs/plugin-react": 4.3
     r3f-perf: ^7.2.1
     react: 18.3
