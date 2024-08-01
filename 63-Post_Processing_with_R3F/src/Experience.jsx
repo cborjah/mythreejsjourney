@@ -1,6 +1,8 @@
 import { OrbitControls } from "@react-three/drei";
 import { Perf } from "r3f-perf";
 import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
+import { ToneMappingMode } from "postprocessing";
+// console.log(ToneMappingMode);
 
 /**
  * In previous lessons, post-processing was done by adding passes where
@@ -18,13 +20,20 @@ import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
  * colors and then apply tone mapping.
  *
  * R3F by default applies tone mapping, which is the ACES Filmic tone mapping.
+ * The default tone mapping applied by ToneMapping is AgX.
+ *
+ * NOTE: It is possible to import things from postprocessing directly thanks to
+ *       @react-three/postprocessing, but it's considered good practice to add
+ *       it manually.
+ *
+ * NOTE: Keep <ToneMapping /> at the TOP inside of the <EffectComposer>!
  */
 
 export default function Experience() {
     return (
         <>
             <EffectComposer>
-                <ToneMapping />
+                <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
             </EffectComposer>
 
             <Perf position="top-left" />
