@@ -94,7 +94,11 @@ export default function Experience() {
 
             <mesh castShadow position-x={2} scale={1.5}>
                 <boxGeometry />
-                <meshStandardMaterial color={[5, 2, 1]} />
+                <meshStandardMaterial
+                    color="white"
+                    emissive={"orange"}
+                    emissiveIntensity={2}
+                />
             </mesh>
 
             <mesh
