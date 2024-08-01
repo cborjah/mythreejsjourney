@@ -1,4 +1,5 @@
 import {
+    Html,
     ContactShadows,
     PresentationControls,
     Float,
@@ -37,7 +38,15 @@ export default function Experience() {
                 snap={{ mass: 4, tension: 400 }}
             >
                 <Float rotationIntensity={0.4}>
-                    <primitive object={computer.scene} position-y={-1.2} />
+                    <primitive object={computer.scene} position-y={-1.2}>
+                        <Html
+                            transform
+                            wrapperClass="htmlScreen"
+                            distanceFactor={1.17}
+                        >
+                            <iframe src="https://bruno-simon.com/html" />
+                        </Html>
+                    </primitive>
                 </Float>
             </PresentationControls>
 
