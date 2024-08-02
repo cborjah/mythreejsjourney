@@ -9,7 +9,7 @@ import {
     Physics,
     RigidBody
 } from "@react-three/rapier";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 
 /**
@@ -89,6 +89,30 @@ export default function Experience() {
 
     const hamburger = useGLTF("./hamburger.glb");
 
+    const cubesCount = 3;
+    const cubes = useRef();
+
+    useEffect(() => {
+        for (let i = 0; i < cubesCount; i++) {
+            /*
+             * Matrix4 is a combination of position, rotation, and scale.
+             * They are used to move the vertices according to the object
+             * transformation.
+             *
+             * When you change the position, rotation, or scale of an object,
+             * Three.js will calculate the Matrix4 automatically before
+             * rendering it.
+             */
+            const matrix = new THREE.Matrix4();
+            matrix.compose(
+                new THREE.Vector3(i * 2, 0, 0),
+                new THREE.Quaternion(),
+                new THREE.Vector3(1, 1, 1)
+            );
+            cubes.current.setMatrixAt(i, matrix);
+        }
+    }, []);
+
     return (
         <>
             <Perf position="top-left" />
@@ -148,6 +172,31 @@ export default function Experience() {
                     <primitive object={hamburger.scene} scale={0.25} />
                     <CylinderCollider args={[0.5, 1.25]} />
                 </RigidBody>
+
+                <RigidBody type="fixed">
+                    <CuboidCollider args={[5, 2, 0.5]} position={[0, 1, 5.5]} />
+                    <CuboidCollider
+                        args={[5, 2, 0.5]}
+                        position={[0, 1, -5.5]}
+                    />
+                    <CuboidCollider
+                        args={[0.5, 2, 5]}
+                        position={[5.25, 1, 0]}
+                    />
+                    <CuboidCollider
+                        args={[0.5, 2, 5]}
+                        position={[-5.25, 1, 0]}
+                    />
+                </RigidBody>
+
+                <instancedMesh
+                    ref={cubes}
+                    args={[null, null, cubesCount]}
+                    castShadow
+                >
+                    <boxGeometry />
+                    <meshStandardMaterial color="tomato" />
+                </instancedMesh>
             </Physics>
         </>
     );
