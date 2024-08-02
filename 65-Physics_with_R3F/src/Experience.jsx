@@ -1,7 +1,8 @@
 import * as THREE from "three";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 import { Perf } from "r3f-perf";
 import {
+    CylinderCollider,
     CuboidCollider,
     // BallCollider,
     // CuboidCollider,
@@ -86,6 +87,8 @@ export default function Experience() {
         hitSound.play(); */
     };
 
+    const hamburger = useGLTF("./hamburger.glb");
+
     return (
         <>
             <Perf position="top-left" />
@@ -139,6 +142,11 @@ export default function Experience() {
                         <boxGeometry />
                         <meshStandardMaterial color="red" />
                     </mesh>
+                </RigidBody>
+
+                <RigidBody position={[0, 4, 0]} colliders={false}>
+                    <primitive object={hamburger.scene} scale={0.25} />
+                    <CylinderCollider args={[0.5, 1.25]} />
                 </RigidBody>
             </Physics>
         </>
