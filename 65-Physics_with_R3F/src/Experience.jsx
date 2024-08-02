@@ -28,6 +28,9 @@ import { useRef } from "react";
  *       Doing so will make collision detection more complicated
  *       and prone to bugs. Ex: A fast object might get through
  *       the trimesh or end up stuck on its surface.
+ *
+ *
+ * Restitution controls the bounciness of an object.
  */
 
 export default function Experience() {
@@ -47,7 +50,7 @@ export default function Experience() {
             <directionalLight castShadow position={[1, 2, 3]} intensity={4.5} />
             <ambientLight intensity={1.5} />
 
-            <Physics debug gravity={[0, -1.6, 0]}>
+            <Physics debug>
                 <RigidBody colliders="ball">
                     <mesh castShadow position={[-1.5, 2, 0]}>
                         <sphereGeometry />
@@ -55,7 +58,12 @@ export default function Experience() {
                     </mesh>
                 </RigidBody>
 
-                <RigidBody ref={cube} position={[1.5, 2, 0]} gravityScale={1}>
+                <RigidBody
+                    ref={cube}
+                    position={[1.5, 2, 0]}
+                    gravityScale={1}
+                    restitution={0.5}
+                >
                     <mesh castShadow onClick={cubeJump}>
                         <boxGeometry />
                         <meshStandardMaterial color="mediumpurple" />
