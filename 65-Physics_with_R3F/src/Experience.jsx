@@ -1,6 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { Perf } from "r3f-perf";
-import { Physics, RigidBody } from "@react-three/rapier";
+import { CuboidCollider, Physics, RigidBody } from "@react-three/rapier";
 
 /**
  * Rapier
@@ -18,7 +18,10 @@ import { Physics, RigidBody } from "@react-three/rapier";
  *
  *
  * Colliders are the shapes that make up the RigidBodies.
- *
+ * NOTE: Avoid using trimesh colliders with dynamic RigidBodies!
+ *       Doing so will make collision detection more complicated
+ *       and prone to bugs. Ex: A fast object might get through
+ *       the trimesh or end up stuck on its surface.
  */
 
 export default function Experience() {
@@ -39,12 +42,13 @@ export default function Experience() {
                     </mesh>
                 </RigidBody>
 
-                <RigidBody colliders="trimesh">
-                    <mesh
-                        castShadow
-                        position={[0, 1, 0]}
-                        rotation={[Math.PI * 0.5, 0, 0]}
-                    >
+                <RigidBody
+                    colliders={false}
+                    position={[0, 1, 0]}
+                    rotation={[Math.PI * 0.5, 0, 0]}
+                >
+                    <CuboidCollider args={[1.5, 1.5, 0.5]} />
+                    <mesh castShadow>
                         <torusGeometry args={[1, 0.5, 16, 32]} />
                         <meshStandardMaterial color="mediumpurple" />
                     </mesh>
