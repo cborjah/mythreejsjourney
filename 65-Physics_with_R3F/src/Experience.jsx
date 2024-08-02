@@ -1,6 +1,7 @@
 import { OrbitControls } from "@react-three/drei";
 import { Perf } from "r3f-perf";
 import {
+    CuboidCollider,
     // BallCollider,
     // CuboidCollider,
     Physics,
@@ -31,13 +32,17 @@ import { useRef } from "react";
  *
  *
  * Restitution controls the bounciness of an object.
+ *
+ *
+ * NOTE: In order to set an object's mass, you need to use a custom collider.
  */
 
 export default function Experience() {
     const cube = useRef();
 
     const cubeJump = () => {
-        cube.current.applyImpulse({ x: 0, y: 5, z: 0 });
+        const mass = cube.current.mass();
+        cube.current.applyImpulse({ x: 0, y: 5 * mass, z: 0 });
         cube.current.applyTorqueImpulse({ x: 0, y: Math.random() - 0.5, z: 0 });
     };
 
@@ -64,11 +69,13 @@ export default function Experience() {
                     gravityScale={1}
                     restitution={0}
                     friction={0.7}
+                    colliders={false}
                 >
                     <mesh castShadow onClick={cubeJump}>
                         <boxGeometry />
                         <meshStandardMaterial color="mediumpurple" />
                     </mesh>
+                    <CuboidCollider args={[0.5, 0.5, 0.5]} mass={2} />
                 </RigidBody>
 
                 <RigidBody type="fixed" friction={0.7}>
