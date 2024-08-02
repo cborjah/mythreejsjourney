@@ -8,7 +8,7 @@ import {
     Physics,
     RigidBody
 } from "@react-three/rapier";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 
 /**
@@ -46,9 +46,17 @@ import { useFrame } from "@react-three/fiber";
  *
  * Kinematic objects will only move if a force is applied on them, not by other
  * objects hitting them.
+ *
+ *
+ * When an object stops moving for a moment, Rapier will consider it as sleeping
+ * and won't update it unless it collides with something else or a function like
+ * applyImpulse is called on it.
  */
 
 export default function Experience() {
+    const [hitSound] = useState(() => {
+        return new Audio("./hit.mp3");
+    }); // The hit sound is created using useState to prevent it from being created on each rerender.
     const cube = useRef();
     const twister = useRef();
 
@@ -71,6 +79,12 @@ export default function Experience() {
         const z = Math.sin(angle) * 2;
         twister.current.setNextKinematicTranslation({ x: x, y: -0.8, z: z });
     });
+
+    const collisionEnter = () => {
+        /* hitSound.currentTime = 0;
+        hitSound.volume = Math.random();
+        hitSound.play(); */
+    };
 
     return (
         <>
@@ -96,6 +110,10 @@ export default function Experience() {
                     restitution={0}
                     friction={0.7}
                     colliders={false}
+                    onCollisionEnter={collisionEnter}
+                    onCollisionExit={() => {}}
+                    onSleep={() => {}}
+                    onWake={() => {}}
                 >
                     <mesh castShadow onClick={cubeJump}>
                         <boxGeometry />
