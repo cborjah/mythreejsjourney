@@ -7,9 +7,10 @@ import {
     // BallCollider,
     // CuboidCollider,
     Physics,
-    RigidBody
+    RigidBody,
+    InstancedRigidBodies
 } from "@react-three/rapier";
-import { useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 
 /**
@@ -89,28 +90,23 @@ export default function Experience() {
 
     const hamburger = useGLTF("./hamburger.glb");
 
-    const cubesCount = 3;
-    const cubes = useRef();
+    const cubesCount = 100;
+    const instances = useMemo(() => {
+        const instances = [];
 
-    useEffect(() => {
         for (let i = 0; i < cubesCount; i++) {
-            /*
-             * Matrix4 is a combination of position, rotation, and scale.
-             * They are used to move the vertices according to the object
-             * transformation.
-             *
-             * When you change the position, rotation, or scale of an object,
-             * Three.js will calculate the Matrix4 automatically before
-             * rendering it.
-             */
-            const matrix = new THREE.Matrix4();
-            matrix.compose(
-                new THREE.Vector3(i * 2, 0, 0),
-                new THREE.Quaternion(),
-                new THREE.Vector3(1, 1, 1)
-            );
-            cubes.current.setMatrixAt(i, matrix);
+            instances.push({
+                key: "instance_" + i,
+                position: [
+                    (Math.random() - 0.5) * 8,
+                    6 + i * 0.2,
+                    (Math.random() - 0.5) * 8
+                ],
+                rotation: [Math.random(), Math.random(), Math.random()]
+            });
         }
+
+        return instances;
     }, []);
 
     return (
@@ -122,7 +118,7 @@ export default function Experience() {
             <directionalLight castShadow position={[1, 2, 3]} intensity={4.5} />
             <ambientLight intensity={1.5} />
 
-            <Physics debug>
+            <Physics debug={false}>
                 <RigidBody colliders="ball">
                     <mesh castShadow position={[-1.5, 2, 0]}>
                         <sphereGeometry />
@@ -189,14 +185,12 @@ export default function Experience() {
                     />
                 </RigidBody>
 
-                <instancedMesh
-                    ref={cubes}
-                    args={[null, null, cubesCount]}
-                    castShadow
-                >
-                    <boxGeometry />
-                    <meshStandardMaterial color="tomato" />
-                </instancedMesh>
+                <InstancedRigidBodies instances={instances}>
+                    <instancedMesh args={[null, null, cubesCount]} castShadow>
+                        <boxGeometry />
+                        <meshStandardMaterial color="tomato" />
+                    </instancedMesh>
+                </InstancedRigidBodies>
             </Physics>
         </>
     );
