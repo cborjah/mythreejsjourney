@@ -16,6 +16,9 @@ import { Physics, RigidBody } from "@react-three/rapier";
  * React Three Fiber already implements Rapier as React Three Rapier thanks to the
  * PMDRS team!
  *
+ *
+ * Colliders are the shapes that make up the RigidBodies.
+ *
  */
 
 export default function Experience() {
@@ -29,17 +32,19 @@ export default function Experience() {
             <ambientLight intensity={1.5} />
 
             <Physics debug>
-                <RigidBody>
+                <RigidBody colliders="ball">
                     <mesh castShadow position={[-2, 2, 0]}>
                         <sphereGeometry />
                         <meshStandardMaterial color="orange" />
                     </mesh>
                 </RigidBody>
 
-                <mesh castShadow position={[2, 2, 0]}>
-                    <boxGeometry />
-                    <meshStandardMaterial color="mediumpurple" />
-                </mesh>
+                <RigidBody>
+                    <mesh castShadow position={[2, 2, 0]}>
+                        <boxGeometry />
+                        <meshStandardMaterial color="mediumpurple" />
+                    </mesh>
+                </RigidBody>
 
                 <RigidBody type="fixed">
                     <mesh receiveShadow position-y={-1.25}>
