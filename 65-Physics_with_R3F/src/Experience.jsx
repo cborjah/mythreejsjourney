@@ -62,7 +62,8 @@ export default function Experience() {
                     ref={cube}
                     position={[1.5, 2, 0]}
                     gravityScale={1}
-                    restitution={0.5}
+                    restitution={0}
+                    friction={0.7}
                 >
                     <mesh castShadow onClick={cubeJump}>
                         <boxGeometry />
@@ -70,7 +71,7 @@ export default function Experience() {
                     </mesh>
                 </RigidBody>
 
-                <RigidBody type="fixed">
+                <RigidBody type="fixed" friction={0.7}>
                     <mesh receiveShadow position-y={-1.25}>
                         <boxGeometry args={[10, 0.5, 10]} />
                         <meshStandardMaterial color="greenyellow" />
