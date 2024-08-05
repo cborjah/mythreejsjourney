@@ -41,7 +41,7 @@ export default function Player() {
     };
 
     useEffect(() => {
-        subscribeKeys(
+        const unsubscribeJump = subscribeKeys(
             // Selector function
             (state) => state.jump,
 
@@ -52,6 +52,8 @@ export default function Player() {
                 }
             }
         );
+
+        return unsubscribeJump;
     }, []);
 
     useFrame((state, delta) => {
