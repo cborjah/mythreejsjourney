@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { RigidBody } from "@react-three/rapier";
+import { RigidBody, useRapier } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
 
@@ -13,9 +13,31 @@ import { useKeyboardControls } from "@react-three/drei";
 export default function Player() {
     const body = useRef();
     const [subscribeKeys, getKeys] = useKeyboardControls();
+    const { rapier, world } = useRapier();
 
     const jump = () => {
-        body.current.applyImpulse({ x: 0, y: 0.5, z: 0 });
+        // Get ball's position
+        const origin = body.current.translation();
+
+        // NOTE: Move ball's origin from its center PAST its bottom surface so
+        //       the ray doesn't collide with the ball itself.
+        origin.y -= 0.31;
+
+        const direction = { x: 0, y: -1, z: 0 };
+        const ray = new rapier.Ray(origin, direction);
+
+        // 10 is the max distance of the ray
+        // true sets the world to be considered 'solid'. This prevents the ray from starting
+        // from INSIDE the floor in this case.
+        const hit = world.castRay(ray, 10, true);
+        // console.log(hit.timeOfImpact);
+
+        // Use ray to test distance from entire world
+        // NOTE: 0.15 is used so the player can still jump after the ball bounces
+        //       off the floor.
+        if (hit.timeOfImpact < 0.15) {
+            body.current.applyImpulse({ x: 0, y: 0.5, z: 0 });
+        }
     };
 
     useEffect(() => {
