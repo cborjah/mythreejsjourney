@@ -60,6 +60,8 @@ export default function Player() {
             colliders="ball"
             restitution={0.2}
             friction={1}
+            linearDamping={0.5}
+            angularDamping={0.5}
             canSleep={false}
         >
             <mesh castShadow>
