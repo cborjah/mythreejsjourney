@@ -182,6 +182,37 @@ export function BlockAxe({ position = [0, 0, 0] }) {
     );
 }
 
+// Walls
+function Bounds({ length = 1 }) {
+    return (
+        <>
+            <RigidBody type="fixed" restitution={0.2} friction={0}>
+                <mesh
+                    position={[2.15, 0.75, -(length * 2) + 2]}
+                    geometry={boxGeometry}
+                    material={wallMaterial}
+                    scale={[0.3, 1.5, 4 * length]}
+                    castShadow
+                />
+                <mesh
+                    position={[-2.15, 0.75, -(length * 2) + 2]}
+                    geometry={boxGeometry}
+                    material={wallMaterial}
+                    scale={[0.3, 1.5, 4 * length]}
+                    receiveShadow
+                />
+                <mesh
+                    position={[0, 0.75, -(length * 4) + 2]}
+                    geometry={boxGeometry}
+                    material={wallMaterial}
+                    scale={[4, 1.5, 0.3]}
+                    receiveShadow
+                />
+            </RigidBody>
+        </>
+    );
+}
+
 export function Level({
     count = 5,
     types = [BlockSpinner, BlockLimbo, BlockAxe]
@@ -204,6 +235,7 @@ export function Level({
                 <Block key={index} position={[0, 0, -(index + 1) * 4]} />
             ))}
             <BlockEnd position={[0, 0, -(count + 1) * 4]} />
+            <Bounds length={count + 2} />
         </>
     );
 }
