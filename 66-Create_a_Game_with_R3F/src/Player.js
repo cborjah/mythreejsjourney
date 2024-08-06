@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { RigidBody, useRapier } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
@@ -15,6 +15,16 @@ export default function Player() {
     const body = useRef();
     const [subscribeKeys, getKeys] = useKeyboardControls();
     const { rapier, world } = useRapier();
+
+    /**
+     * The following two vectors are created OUTSIDE of the useFrame function
+     * because they will contain the position and target of the camera
+     * through time.
+     *
+     * These values will be preserved for the instance of this component.
+     */
+    const [smoothedCameraPosition] = useState(() => new THREE.Vector3());
+    const [smoothedCameraTarget] = useState(() => new THREE.Vector3());
 
     const jump = () => {
         // Get ball's position
@@ -111,8 +121,24 @@ export default function Player() {
         cameraTarget.copy(bodyPosition);
         cameraPosition.y += 0.25;
 
-        state.camera.position.copy(cameraPosition);
-        state.camera.lookAt(cameraTarget);
+        /*
+         * Lerping (linear interpolation)
+         *
+         * Lerping is used to smooth out the camera animation
+         * as it follows the player.
+         *
+         * The second arg is how close the value will get to the
+         * destination. These smoothed coordinates are then copied
+         * to the camera. Initially it was set to 0.1 (1/10), but
+         * to account for the frame rate, it is multiplied by the
+         * delta time. 0.1 was increased to 5 due to the value being
+         * too small after its multiplied with delta.
+         */
+        smoothedCameraPosition.lerp(cameraPosition, 5 * delta);
+        smoothedCameraTarget.lerp(cameraTarget, 5 * delta);
+
+        state.camera.position.copy(smoothedCameraPosition);
+        state.camera.lookAt(smoothedCameraTarget);
     });
 
     return (
