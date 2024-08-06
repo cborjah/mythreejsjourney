@@ -8,18 +8,30 @@ export default create((set) => {
         phase: "ready",
 
         start: () => {
-            set(() => {
-                return { phase: "playing" };
+            set((state) => {
+                if (state.phase === "ready") {
+                    return { phase: "playing" };
+                }
+
+                return {};
             });
         },
         restart: () => {
-            set(() => {
-                return { phase: "ready" };
+            set((state) => {
+                if (state.phase === "playing" || state.phase === "ended") {
+                    return { phase: "ready" };
+                }
+
+                return {};
             });
         },
         end: () => {
-            set(() => {
-                return { phase: "ended" };
+            set((state) => {
+                if (state.phase === "playing") {
+                    return { phase: "ended" };
+                }
+
+                return {};
             });
         }
     };
