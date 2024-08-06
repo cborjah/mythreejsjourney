@@ -30,6 +30,8 @@ export default function Player() {
     const [smoothedCameraTarget] = useState(() => new THREE.Vector3());
 
     const start = useGame((state) => state.start);
+    const end = useGame((state) => state.end);
+    const blocksCount = useGame((state) => state.blocksCount);
 
     const jump = () => {
         // Get ball's position
@@ -155,6 +157,13 @@ export default function Player() {
 
         state.camera.position.copy(smoothedCameraPosition);
         state.camera.lookAt(smoothedCameraTarget);
+
+        /*
+         * Phases
+         */
+        if (bodyPosition.z < -(blocksCount * 4 + 2)) {
+            end();
+        }
     });
 
     return (
