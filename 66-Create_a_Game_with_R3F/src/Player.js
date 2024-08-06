@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { RigidBody, useRapier } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
-import { useGame } from "./stores/useGame.js";
+import useGame from "./stores/useGame.js";
 
 /**
  * NOTE: A RigidBody falls asleep after a few seconds of inaction.
@@ -31,6 +31,7 @@ export default function Player() {
 
     const start = useGame((state) => state.start);
     const end = useGame((state) => state.end);
+    const restart = useGame((state) => state.restart);
     const blocksCount = useGame((state) => state.blocksCount);
 
     const jump = () => {
@@ -163,6 +164,10 @@ export default function Player() {
          */
         if (bodyPosition.z < -(blocksCount * 4 + 2)) {
             end();
+        }
+
+        if (bodyPosition.y < -4) {
+            restart();
         }
     });
 
