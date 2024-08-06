@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { RigidBody, useRapier } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
+import { useGame } from "./stores/useGame.js";
 
 /**
  * NOTE: A RigidBody falls asleep after a few seconds of inaction.
@@ -27,6 +28,8 @@ export default function Player() {
         () => new THREE.Vector3(10, 10, 10)
     );
     const [smoothedCameraTarget] = useState(() => new THREE.Vector3());
+
+    const start = useGame((state) => state.start);
 
     const jump = () => {
         // Get ball's position
@@ -66,7 +69,18 @@ export default function Player() {
             }
         );
 
-        return unsubscribeJump;
+        /*
+         * NOTE: To subscribe to ANY key, use the same instruction, but only send
+         * the function to execute WITHOUT a selector.
+         */
+        const unsubscribeAny = subscribeKeys(() => {
+            start();
+        });
+
+        return () => {
+            unsubscribeJump();
+            unsubscribeAny();
+        };
     }, []);
 
     useFrame((state, delta) => {
