@@ -59,7 +59,22 @@ export default function Player() {
         }
     };
 
+    const reset = () => {
+        body.current.setTranslation({ x: 0, y: 1, z: 0 }); // Reset position
+        body.current.setLinvel({ x: 0, y: 0, z: 0 }); // Reset linear velocity
+        body.current.setAngvel({ x: 0, y: 0, z: 0 }); // Reset angular velocity
+    };
+
     useEffect(() => {
+        const unsubscribeReset = useGame.subscribe(
+            (state) => state.phase,
+            (phase) => {
+                if (phase === "ready") {
+                    reset();
+                }
+            }
+        );
+
         const unsubscribeJump = subscribeKeys(
             // Selector function
             (state) => state.jump,
@@ -83,6 +98,7 @@ export default function Player() {
         return () => {
             unsubscribeJump();
             unsubscribeAny();
+            unsubscribeReset();
         };
     }, []);
 
